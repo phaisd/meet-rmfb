@@ -25,9 +25,12 @@ export default function CreateRoom() {
   //   const [serviceUse, setSserviceUse] = useState("");
   //   const [statusUse, setStatusUse] = useState("");
   //   const [subjectUse, setSubjectUse] = useState("");
+  //   const [startTime, setstartTime] = useState("");
   //   const [toTime, setToTime] = useState("");
+
   //   const [coordinator, useCoordinator] = useState("");
   //   const [operation, useOperation] = useState("");
+  //   const [resultOperation, setresultOperation] = useState("");
 
   //   const [title, setTitle] = useState("");
   //   const [choices, setChoices] = useState([]);

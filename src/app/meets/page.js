@@ -42,11 +42,12 @@ export default function MeetsPage() {
                     src={`/images/meets/${meetsItem.forUse}.png`}
                     alt={meetsItem.forUse}
                   />
-                  <span>{meetsItem.agencyUse}</span>
+                  <span>ส่วนงาน : {meetsItem.agencyUse}</span>
+                  <span>วันที่ : {meetsItem.dateUse}</span>
                   <span>
-                    {meetsItem.dateUse} {meetsItem.toTime}-{meetsItem.toTime}
+                    เวลา : {meetsItem.beginTime}-{meetsItem.toTime} ขอใช้ห้อง :{" "}
+                    {meetsItem.resultText}
                   </span>
-                  <span> : {meetsItem.resultText}</span>
                 </Link>
               </li>
             ))
