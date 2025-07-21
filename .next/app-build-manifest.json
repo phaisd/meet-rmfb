@@ -12,15 +12,15 @@
       "static/css/app/page.css",
       "static/chunks/app/page.js"
     ],
-    "/meeting/page": [
+    "/meets/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/meeting/page.js"
+      "static/chunks/app/meets/page.js"
     ],
-    "/meeting/[meetId]/page": [
+    "/meets/[meetsId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/meeting/[meetId]/page.js"
+      "static/chunks/app/meets/[meetsId]/page.js"
     ]
   }
 }

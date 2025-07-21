@@ -2,13 +2,15 @@ import Link from "next/link";
 
 export default function MainHeader() {
   return (
-    <header>
-      <nav>
-        <ul>
-          <Link href="/">Home</Link>
-          <Link href="/meeting">Meeting</Link>
-        </ul>
-      </nav>
-    </header>
-  );
+    <>
+      <header id="main-header">
+        <div id="logo"><Link href="/">FbMeetsRoom</Link></div>
+        <nav>
+          <ul>
+            <li><Link href="/meets">Meeting</Link></li>
+          </ul>
+        </nav>
+      </header>
+    </>
+  )
 }

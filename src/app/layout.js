@@ -1,29 +1,19 @@
-// import { Geist, Geist_Mono } from "next/font/google";
-import MainHeader from "@/components/mainheader";
+import MainHeader from "@/components/MainHeader";
 import "./globals.css";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
 export const metadata = {
-  title: "FB Meetings Rooms",
-  description: "FB Meeting Room next app",
+  title: "FB_Meet_Room",
+  description: "Use FB Consultation Room",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      {/* <body className={`${geistSans.variable} ${geistMono.variable}`}> */}
+    <html lang="th">
       <body>
-        <MainHeader />
-        {children}
+        <div id="page">
+          <MainHeader />
+          {children}
+        </div>
       </body>
     </html>
   );
