@@ -1,13 +1,14 @@
 import { db } from "@/lib/firebaseConfig";
 import { ref, get } from "firebase/database";
 import { notFound } from "next/navigation";
+import MeetsNotFound from "./not-found";
 
 export default async function MeetRoomPage({ params }) {
-  const meetsId = await params.meetsId;
+  const { meetsId } = await params;
 
   const snapshot = await get(ref(db, `Request_Meeting/${meetsId}`));
   if (!snapshot.exists()) {
-    return <div>Meetint not found</div>;
+    MeetsNotFound();
   }
   const meetItem = snapshot.val();
 
@@ -31,7 +32,7 @@ export default async function MeetRoomPage({ params }) {
           <p>ตำแหน่ง : {meetItem.statusUse}</p>
           <p>หน่วยงานที่ใช้ : {meetItem.agencyUse}</p>
           <p>จำนวนผู้ใช้ : {meetItem.amountUse || "11"} รูป/คน</p>
-          <p>เบอร์ติดต่อ : XXX-xxx-xxxx</p>
+          {/* <p>เบอร์ติดต่อ : XXX-xxx-xxxx</p> */}
           <p>วันที่ใช้ : {meetItem.dateUse}</p>
           <p>
             เวลาเริ่มใช้ : {meetItem.beginTime} | เวลาสิ้นสุด :{" "}
