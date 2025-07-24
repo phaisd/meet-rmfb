@@ -12,28 +12,33 @@ const AUTO_ADVANCE_INTERVAL = 10000; // 10 วินาที
 export default function MeetsPage() {
   const [meetsList, setMeetsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [autoAdvance, setAutoAdvance] = useState(true); // ✅ ควบคุมการเลื่อนอัตโนมัติ
+  const [autoAdvance, setAutoAdvance] = useState(true);
 
   // โหลดข้อมูล
   useEffect(() => {
     const meetsRef = ref(db, "Request_Meeting");
-    onValue(meetsRef, (snapshot) => {
+    const unsubscribe = onValue(meetsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const sorted = Object.entries(data)
-          .sort(([idA], [idB]) => idB.localeCompare(idA)) // ใหม่ → เก่า
+          // .sort(([idA], [idB]) => idB.localeCompare(idA))
           .map(([id, item]) => ({ id, ...item }));
         setMeetsList(sorted);
+
+        // เริ่มต้นที่หน้าสุดท้าย
+        //   const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+        //   setCurrentPage(totalPages - 1);
       } else {
         setMeetsList([]);
       }
     });
+    return () => unsubscribe();
   }, []);
 
   // เลื่อนหน้าอัตโนมัติ
   useEffect(() => {
     if (!autoAdvance) return;
-    const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE) || 1;
     const timer = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages);
     }, AUTO_ADVANCE_INTERVAL);
@@ -41,12 +46,10 @@ export default function MeetsPage() {
     return () => clearInterval(timer);
   }, [meetsList, autoAdvance]);
 
-  // Pagination logic
-  const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE) || 1;
   const startIndex = currentPage * ITEMS_PER_PAGE;
   const currentItems = meetsList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // เมื่อคลิก เปลี่ยนหน้า → หยุด auto
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     setAutoAdvance(false);
@@ -67,7 +70,7 @@ export default function MeetsPage() {
                 <Link href={`/meets/${meetsItem.id}`}>
                   <img
                     src={`/images/meets/${meetsItem.forUse}.png`}
-                    alt={meetsItem.forUse}
+                    alt={meetsItem.dateUse}
                   />
                   <div className="card-body">
                     <span>ส่วนงาน : {meetsItem.agencyUse}</span>

@@ -5,7 +5,7 @@ import {
   getMeetsForYearAndMonth,
 } from "@/lib/meets";
 import MeetsList from "@/components/MeetsList";
-
+import "@/app/globals.css"; // Import CSS for styling
 export default async function ArchiveFilterPage({ params }) {
   const { filter } = await params;
 
@@ -70,9 +70,9 @@ export default async function ArchiveFilterPage({ params }) {
       <header id="archive-header">
         <div>
           <h1>Archive Filter Page</h1>
-          <ul>
+          <ul className="archive-header ul">
             {links.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="archive-filter-links">
                 <a href={link.href}>{link.label}</a>
               </li>
             ))}
