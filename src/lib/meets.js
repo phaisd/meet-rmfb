@@ -17,6 +17,22 @@ const thaiMonths = [
   "ธันวาคม",
 ];
 
+// // แผนที่ชื่อเดือนภาษาอังกฤษ → เลขเดือน 2 หลัก
+// const monthOrder = {
+//   January: "01",
+//   February: "02",
+//   March: "03",
+//   April: "04",
+//   May: "05",
+//   June: "06",
+//   July: "07",
+//   August: "08",
+//   September: "09",
+//   October: "10",
+//   November: "11",
+//   December: "12",
+// };
+
 export async function getAllNews() {
   const meetsRef = ref(db, "Request_Meeting");
   const snapshot = await get(meetsRef);
@@ -35,25 +51,26 @@ export async function getAllNews() {
   return meetsArray;
 }
 
-export async function getMeetsItem(meetsId) {
-  const snapshot = await get(ref(db, `Request_Meeting/${meetsId}`));
-  if (!snapshot.exists()) return null;
+// export async function getMeetsItem(meetsId) {
+//   const snapshot = await get(ref(db, `Request_Meeting/${meetsId}`));
+//   if (!snapshot.exists()) return null;
 
-  return { id: meetsId, ...snapshot.val() };
-}
+//   return { id: meetsId, ...snapshot.val() };
+// }
 
 export async function getLatestMeets() {
-  const meetsRef = query(
+  const newsRef = query(
     ref(db, "Request_Meeting"),
     orderByChild("dateUse"),
     limitToLast(3)
   );
-  const snapshot = await get(meetsRef);
+  const snapshot = await get(newsRef);
   if (!snapshot.exists()) return [];
 
+  // แปลงข้อมูลเป็น array และเรียงจากใหม่ไปเก่า
   return Object.entries(snapshot.val())
     .map(([id, value]) => ({ id, ...value }))
-    .reverse(); // Firebase orders oldest → newest
+    .sort((a, b) => new Date(b.dateUse) - new Date(a.dateUse));
 }
 
 export async function getAvailableMeetsYears() {
@@ -64,14 +81,22 @@ export async function getAvailableMeetsYears() {
   const yearsSet = new Set();
 
   Object.values(rawData).forEach((item) => {
-    if (item.date) {
-      const year = item.date.substring(0, 4); // Extract year from "YYYY-MM-DD"
-      yearsSet.add(year);
+    if (item.dateUse) {
+      // ตัวอย่าง dateUse: "23-July-2025"
+      const parts = item.dateUse.split("-");
+      if (parts.length === 3) {
+        const year = parts[2]; // index 2 คือ year
+        if (year.match(/^\d{4}$/)) {
+          yearsSet.add(year);
+        }
+      }
     }
   });
-  return Array.from(yearsSet).sort();
+
+  return Array.from(yearsSet).sort(); // เรียงปีจากน้อย → มาก
 }
 
+// ยังไม่ได้
 export async function getAvailableMeetsMonths(year) {
   const snapshot = await get(ref(db, "Request_Meeting"));
   if (!snapshot.exists()) return [];
@@ -80,17 +105,52 @@ export async function getAvailableMeetsMonths(year) {
   const monthsSet = new Set();
 
   Object.values(rawData).forEach((item) => {
-    if (item.date && item.date.startsWith(year)) {
-      const month = item.date.substring(5, 7); // positions 5-6 = month in "YYYY-MM-DD"
-      monthsSet.add(month);
+    if (item.dateUse) {
+      const parts = item.dateUse.split("-"); // ["dd", "MMMM", "yyyy"]
+      if (parts.length === 3) {
+        const [day, monthName, yearStr] = parts;
+        if (yearStr === year) {
+          monthsSet.add(monthName);
+        }
+      }
     }
   });
 
-  // return Array.from(monthsSet).sort(); // e.g. ["01", "03", "07"]
-  // เรียงตามลำดับเดือน และแปลงเป็นชื่อเดือนภาษาไทย
+  // เรียงลำดับเดือน (January → December)
+  const monthOrder = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  // const thaiMonths = [
+  //   "มกราคม",
+  //   "กุมภาพันธ์",
+  //   "มีนาคม",
+  //   "เมษายน",
+  //   "พฤษภาคม",
+  //   "มิถุนายน",
+  //   "กรกฎาคม",
+  //   "สิงหาคม",
+  //   "กันยายน",
+  //   "ตุลาคม",
+  //   "พฤศจิกายน",
+  //   "ธันวาคม",
+  // ];
   return Array.from(monthsSet)
-    .sort((a, b) => a - b)
-    .map((m) => thaiMonths[m - 1]); // index เริ่มที่ 0
+    .sort
+    // (a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b)
+    // (a, b) => thaiMonths.indexOf(a) - thaiMonths.indexOf(b)
+    ();
 }
 
 export async function getMeetsForYear(year) {
@@ -98,30 +158,82 @@ export async function getMeetsForYear(year) {
   if (!snapshot.exists()) return [];
 
   const rawData = snapshot.val();
+  const newsArray = Object.entries(rawData).map(([id, value]) => ({
+    id,
+    ...value,
+  }));
 
-  const filtered = Object.entries(rawData)
-    .filter(([_, value]) => value.date?.startsWith(year))
-    .map(([id, value]) => ({ id, ...value }))
-    .sort((a, b) => (a.date < b.date ? 1 : -1)); // DESC by date
+  const parseEnglishDate = (dateStr) => {
+    // เช่น "23-July-2025"
+    const parts = dateStr.split("-");
+    if (parts.length === 3) {
+      // Convert to ISO format: yyyy-mm-dd
+      const [day, monthName, yearStr] = parts;
+      const monthOrder = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const monthIndex = monthOrder.indexOf(monthName);
+      if (monthIndex !== -1) {
+        // Pad month and day
+        const mm = String(monthIndex + 1).padStart(2, "0");
+        const dd = String(day).padStart(2, "0");
+        return new Date(`${yearStr}-${mm}-${dd}`);
+      }
+    }
+    return new Date(0); // fallback ถ้าแปลงไม่สำเร็จ
+  };
 
-  return filtered;
+  const filteredNews = newsArray
+    .filter((item) => {
+      if (!item.dateUse) return false;
+      const parts = item.dateUse.split("-");
+      return parts.length === 3 && parts[2] === year;
+    })
+    .sort((a, b) => parseEnglishDate(b.dateUse) - parseEnglishDate(a.dateUse));
+
+  return filteredNews;
 }
 
+//ยังใช่ไม่ได้
 export async function getMeetsForYearAndMonth(year, month) {
   const snapshot = await get(ref(db, "Request_Meeting"));
   if (!snapshot.exists()) return [];
 
   const rawData = snapshot.val();
+  const newsArray = Object.entries(rawData).map(([id, value]) => ({
+    id,
+    ...value,
+  }));
 
-  const filtered = Object.entries(rawData)
-    .filter(([_, value]) => {
-      const date = value.date;
-      return typeof date === "string" && date.startsWith(`${year}-${month}`);
+  // กรองข้อมูลตามปีและเดือน (month เป็นชื่อเต็มภาษาอังกฤษ เช่น "July")
+  const filteredNews = newsArray
+    .filter((item) => {
+      if (!item.dateUse) return false;
+      const parts = item.dateUse.split("-"); // ["dd", "MMMM", "yyyy"]
+      if (parts.length !== 3) return false;
+
+      const [day, monthName, yearStr] = parts;
+      return yearStr === year && monthName === month;
     })
-    .map(([id, value]) => ({ id, ...value }))
-    .sort((a, b) => (a.date < b.date ? 1 : -1)); // DESC by date
+    .sort((a, b) => {
+      // เรียงตามวันที่ใหม่ไปเก่า
+      const dateA = new Date(a.dateUse);
+      const dateB = new Date(b.dateUse);
+      return dateB - dateA;
+    });
 
-  return filtered;
+  return filteredNews;
 }
 
 // export async function addNews(news, image) {

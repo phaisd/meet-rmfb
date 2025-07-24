@@ -106,6 +106,7 @@ ul {
 }
 
 .meets-list {
+  border-radius: 0.8rem;
   display: grid;
   grid-gap: 1rem;
   gap: 1rem;
@@ -121,7 +122,8 @@ ul {
   text-decoration: none;
   border-radius: 8px;
   font-size: 0.8rem;
-  padding: 0 0 1rem 0;
+  padding: 0 0 0.2rem 0;
+  background-color: #2d2d2b;
 }
 
 .meets-list a img {
@@ -132,14 +134,14 @@ ul {
 }
 
 .meets-list a:hover {
-  background-color: #2d2d2b;
+  background-color: #666664;
 }
 
 .meets-list a span {
   padding: 0 0 0 0.4rem;
 }
 
-.modal-backdrop {
+/* .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -149,7 +151,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .meets-article {
   display: flex;
@@ -182,7 +184,7 @@ h2 {
   color: #cccccc;
 }
 
-.modal {
+/* .modal {
   background-color: #bababa;
   padding: 2rem;
   border-radius: 4px;
@@ -195,7 +197,7 @@ h2 {
 .modal h2,
 .modal h1 {
   margin: 0;
-}
+} */
 
 #archive-header ul {
   display: flex;
@@ -211,5 +213,32 @@ h2 {
 .error {
   text-align: center;
   margin-top: 3rem;
+}
+
+/* status budge */
+.status-badge {
+  padding: 4px 12px;
+  margin-left: 8px;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #f0f0f0; /* พื้นหลังเทาอ่อน */
+  font-weight: bold;
+  display: inline-block;
+}
+
+.status-badge.อนุมัติ {
+  color: #2e7d32; /* เขียว */
+}
+
+.status-badge.รอดำเนินการ {
+  color: #757575; /* เทา */
+}
+
+.status-badge.กำลังดำเนินการ {
+  color: #ef6c00; /* ส้ม */
+}
+
+.status-badge.ห้องไม่ว่าง {
+  color: #c62828; /* แดง */
 }
 

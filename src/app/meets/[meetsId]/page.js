@@ -38,6 +38,7 @@ export default async function MeetRoomPage({ params }) {
             เวลาเริ่มใช้ : {meetItem.beginTime} | เวลาสิ้นสุด :{" "}
             {meetItem.toTime}
           </p>
+          <p>ขอใช้บริการ : {meetItem.serviceUse} </p>
           <p>ผู้ประสานงาน : {meetItem.coordinator || "ไม่มีผู้ประสานงาน"} </p>
           <p>การขอใช้ห้อง : {meetItem.resultText}</p>
           <p>การดำเนินการ : {meetItem.operation || "ไม่ใช้งานในวันที่ขอใช้"}</p>
