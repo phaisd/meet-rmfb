@@ -2,7 +2,7 @@
 // import Image from "next/image";
 import Link from "next/link";
 // import styles from "./page.module.css";
-import CreateRoom from "./room/create/page";
+import CreateRoom from "./00room/create/page";
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";

@@ -1,54 +1,11 @@
 import { db } from "@/lib/firebaseConfig";
-import { ref, get, query, orderByChild, limitToLast } from "firebase/database";
+import { ref, get, query, orderByChild, limitToLast, push, update, remove } from "firebase/database";
 
-// รายชื่อเดือนภาษาไทยแบบเรียงตามเลขเดือน (01–12)
-const thaiMonths = [
-  "มกราคม",
-  "กุมภาพันธ์",
-  "มีนาคม",
-  "เมษายน",
-  "พฤษภาคม",
-  "มิถุนายน",
-  "กรกฎาคม",
-  "สิงหาคม",
-  "กันยายน",
-  "ตุลาคม",
-  "พฤศจิกายน",
-  "ธันวาคม",
-];
-
-// // แผนที่ชื่อเดือนภาษาอังกฤษ → เลขเดือน 2 หลัก
-// const monthOrder = {
-//   January: "01",
-//   February: "02",
-//   March: "03",
-//   April: "04",
-//   May: "05",
-//   June: "06",
-//   July: "07",
-//   August: "08",
-//   September: "09",
-//   October: "10",
-//   November: "11",
-//   December: "12",
-// };
-
-export async function getAllNews() {
-  const meetsRef = ref(db, "Request_Meeting");
-  const snapshot = await get(meetsRef);
-
-  if (!snapshot.exists()) {
-    return [];
-  }
-
-  const data = snapshot.val();
-  // Convert object to array
-  const meetsArray = Object.entries(data).map(([id, value]) => ({
-    id,
-    ...value,
-  }));
-
-  return meetsArray;
+export async function getAllMeets() {
+  const snapshot = await get(ref(db, "Request_Meeting"));
+  const data = snapshot.exists() ? snapshot.val() : {};
+  // แปลง object → array พร้อม id
+  return Object.entries(data).map(([id, value]) => ({ id, ...value }));
 }
 
 // export async function getMeetsItem(meetsId) {
@@ -58,21 +15,42 @@ export async function getAllNews() {
 //   return { id: meetsId, ...snapshot.val() };
 // }
 
+//03
 export async function getLatestMeets() {
-  const newsRef = query(
-    ref(db, "Request_Meeting"),
-    orderByChild("dateUse"),
-    limitToLast(3)
-  );
-  const snapshot = await get(newsRef);
-  if (!snapshot.exists()) return [];
+  try {
+    const meetsRef = ref(db, "Request_Meeting");
 
-  // แปลงข้อมูลเป็น array และเรียงจากใหม่ไปเก่า
-  return Object.entries(snapshot.val())
-    .map(([id, value]) => ({ id, ...value }))
-    .sort((a, b) => new Date(b.dateUse) - new Date(a.dateUse));
+    // Query: เรียงตาม dateUse และดึงล่าสุด 4 รายการ
+    const meetsQuery = query(meetsRef, orderByChild("dateUse"), limitToLast(4));
+
+    const snapshot = await get(meetsQuery);
+
+    if (!snapshot.exists()) {
+      return [];
+    }
+
+    const data = snapshot.val();
+
+    // แปลง object => array และจัดเรียงจากใหม่ -> เก่า
+    const meetsArray = Object.entries(data).map(([id, value]) => ({
+      id,
+      ...value,
+    }));
+
+    meetsArray.sort((a, b) => {
+      const dateA = new Date(a.dateUse);
+      const dateB = new Date(b.dateUse);
+      return dateB - dateA;
+    });
+
+    return meetsArray;
+  } catch (error) {
+    console.error("getLatestMeets error:", error);
+    return [];
+  }
 }
 
+//
 export async function getAvailableMeetsYears() {
   const snapshot = await get(ref(db, "Request_Meeting"));
   if (!snapshot.exists()) return [];
@@ -148,9 +126,9 @@ export async function getAvailableMeetsMonths(year) {
   // ];
   return Array.from(monthsSet)
     .sort
-    // (a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b)
-    // (a, b) => thaiMonths.indexOf(a) - thaiMonths.indexOf(b)
-    ();
+    ((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
+  // (a, b) => thaiMonths.indexOf(a) - thaiMonths.indexOf(b)
+  // ();
 }
 
 export async function getMeetsForYear(year) {
@@ -236,53 +214,49 @@ export async function getMeetsForYearAndMonth(year, month) {
   return filteredNews;
 }
 
-// export async function addNews(news, image) {
-//   const { slug, title, content, date } = news;
-//   const insert = db.prepare(
-//     "INSERT INTO news (slug,title,content,date,image) VALUES(?,?,?,?,?)"
-//   );
+// เพิ่มข้อมูลลง Firebase พร้อมสร้าง currentTime และ id อัตโนมัติ
+export async function addMeets(meetsItem) {
+  const currentTime = Date.now();
 
-//   const result = insert.run(slug, title, content, date, "");
-//   const id = result.lastInsertRowid;
-//   const imageFile = `news-${id}.${image.name.split(".").pop()}`;
+  const data = {
+    ...meetsItem,
+    currentTime,
+  };
 
-//   if (image) {
-//     await fs.writeFile(
-//       `@/../public/images/news/${imageFile}`,
-//       Buffer.from(await image.arrayBuffer())
-//     );
-//     db.prepare("UPDATE news SET image = ? WHERE id = ?").run(imageFile, id);
-//   }
-//   return { id, slug, title, content, date, image: imageFile };
-// }
+  try {
+    const meetsRef = ref(db, "Request_Meeting");
+    const newRef = await push(meetsRef, data);
+    return { success: true, id: newRef.key };
+  } catch (error) {
+    console.error("Firebase Add Error:", error);
+    return { success: false, error: error.message };
+  }
+}
 
-// export async function updateNews(news, file) {
-//   console.log(news);
+//update02
+export async function updateMeets(Id, meetData) {
+  try {
+    const meetRef = ref(db, `Request_Meeting/${Id}`);
+    await update(meetRef, meetData);
+    return { success: true };
+  } catch (error) {
+    console.error("Firebase update error:", error);
+    return { success: false, error: error.message };
+  }
+}
 
-//   const { id, slug, title, content, date } = news;
-//   if (file.size > 0) {
-//     let { image } = db.prepare("SELECT image FROM news WHERE id = ?").get(id);
-//     await fs.unlink(`@/../public/images/news/${image}`).catch(() => {});
-//     const imageFile = `news-${id}.${file.name.split(".").pop()}`;
-//     await fs.writeFile(
-//       `@/../public/images/news/${imageFile}`,
-//       Buffer.from(await file.arrayBuffer())
-//     );
-//     db.prepare(
-//       "UPDATE news SET slug = ?, title = ? , content = ?,date = ?,image = ? WHERE id = ?"
-//     ).run(slug, title, content, date, imageFile, id);
+export async function deleteMeets(Id) {
+  if (!Id) {
+    return { success: false, error: "Missing ID" };
+  }
 
-//     return { ...news, image: imageFile };
-//   } else {
-//     db.prepare(
-//       "UPDATE news SET slug = ?, title = ?, content = ?, date = ? WHERE id = ?"
-//     ).run(slug, title, content, date, id);
-//     return news;
-//   }
-// }
+  const meetRef = ref(db, `Request_Meeting/${Id}`);
 
-// export async function deleteNews(id) {
-//   const { image } = db.prepare("SELECT * FROM news WHERE id = ?").get(id);
-//   db.prepare("DELETE FROM news WHERE id = ?").run(id);
-//   await fs.unlink(`@/../public/images/news/${image}`).catch(() => {});
-// }
+  try {
+    await remove(meetRef);
+    return { success: true };
+  } catch (error) {
+    console.error("Delete error:", error);
+    return { success: false, error: error.message };
+  }
+}

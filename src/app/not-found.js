@@ -1,8 +1,8 @@
-export default function NotFoundPage() {
+export default function NotfoundPage() {
   return (
-    <div id="error">
-      <h1>Not Found</h1>
-      <p>The requested resource could not be found!!</p>
-    </div>
-  );
+    <section id="home">
+      <h1>Page Not Found!!</h1>
+      <p>The page you're looking for does not exits.</p>
+    </section>
+  )
 }

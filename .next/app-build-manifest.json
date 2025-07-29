@@ -11,58 +11,69 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/page": [
+    "/(meeting)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/page.css",
-      "static/chunks/app/page.js"
+      "static/chunks/app/(meeting)/layout.js"
     ],
-    "/archive/layout": [
+    "/(meeting)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/archive/layout.js"
+      "static/chunks/app/(meeting)/page.js"
     ],
-    "/archive/@archive/[[...filter]]/error": [
+    "/(content)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/archive/@archive/[[...filter]]/error.js"
+      "static/chunks/app/(content)/layout.js"
     ],
-    "/archive/@archive/[[...filter]]/page": [
+    "/(content)/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/archive/@archive/[[...filter]]/page.js"
+      "static/chunks/app/(content)/not-found.js"
     ],
-    "/archive/@latest/default": [
+    "/(content)/meets/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/archive/@latest/default.js"
+      "static/css/app/(content)/meets/page.css",
+      "static/chunks/app/(content)/meets/page.js"
     ],
-    "/_not-found/page": [
+    "/(content)/useMeets/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/(content)/useMeets/layout.js"
     ],
-    "/meets/page": [
+    "/(content)/useMeets/@meetToday/[[...filter]]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/meets/page.css",
-      "static/chunks/app/meets/page.js"
+      "static/css/app/(content)/useMeets/@meetToday/[[...filter]]/page.css",
+      "static/chunks/app/(content)/useMeets/@meetToday/[[...filter]]/page.js"
     ],
-    "/useMeets/layout": [
+    "/(content)/useMeets/@meetsAll/default": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/useMeets/layout.js"
+      "static/css/app/(content)/useMeets/@meetsAll/default.css",
+      "static/chunks/app/(content)/useMeets/@meetsAll/default.js"
     ],
-    "/useMeets/@meetAll/[[...filter]]/page": [
+    "/api/meets/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/useMeets/@meetAll/[[...filter]]/page.js"
+      "static/chunks/app/api/meets/route.js"
     ],
-    "/useMeets/@meetToday/default": [
+    "/api/meets/[id]/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/useMeets/@meetToday/default.css",
-      "static/chunks/app/useMeets/@meetToday/default.js"
+      "static/chunks/app/api/meets/[id]/route.js"
+    ],
+    "/(content)/admin/error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(content)/admin/error.js"
+    ],
+    "/(content)/admin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(content)/admin/page.css",
+      "static/chunks/app/(content)/admin/page.js"
     ]
   }
 }
