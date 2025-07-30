@@ -10,6 +10,7 @@ import "./meetsroom.css";
 export default function MeetsPage() {
   const [todayMeets, setTodayMeets] = useState([]);
   const [todayStr, setTodayStr] = useState("");
+  const [nextMeetInfo, setNextMeetInfo] = useState(null);
 
   useEffect(() => {
     const today = new Date();
@@ -60,7 +61,7 @@ export default function MeetsPage() {
           const beginMs = timeToMs(item.beginTime);
           const toMs = timeToMs(item.toTime);
           const tenMinAfterEnd = toMs + 10 * 60 * 1000;
-          const thirtyMinBeforeStart = beginMs - 30 * 60 * 1000;
+          const thirtyMinBeforeStart = beginMs - 60 * 60 * 1000;
 
           // ✅ แสดงรายการแรกของวันตั้งแต่ต้นวัน
           if (index === 0) return true;
@@ -73,6 +74,43 @@ export default function MeetsPage() {
         });
 
         setTodayMeets(upcomingMeets);
+
+        setTodayMeets(upcomingMeets);
+
+        // ✅ หา "วันถัดไป" ที่มีข้อมูลการจอง
+        if (upcomingMeets.length === 0) {
+          const futureMeets = meetsArray
+            .filter((item) => {
+              const parts = item.dateUse.split("-");
+              const itemDate = new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
+              return itemDate > today;
+            })
+            .sort((a, b) => {
+              const [da, ma, ya] = a.dateUse.split("-");
+              const [db, mb, yb] = b.dateUse.split("-");
+              return (
+                new Date(`${ma} ${da}, ${ya}`) - new Date(`${mb} ${db}, ${yb}`)
+              );
+            });
+
+          if (futureMeets.length > 0) {
+            const nextMeet = futureMeets[0];
+            const [day, month, year] = nextMeet.dateUse.split("-");
+            const nextDate = new Date(`${month} ${day}, ${year}`);
+            const diffDays = Math.ceil(
+              (nextDate - today) / (1000 * 60 * 60 * 24)
+            );
+            setNextMeetInfo({
+              days: diffDays,
+              agency: nextMeet.agencyUse,
+              date: nextMeet.dateUse,
+            });
+          } else {
+            setNextMeetInfo(null);
+          }
+        } else {
+          setNextMeetInfo(null);
+        }
       } else {
         setTodayMeets([]);
       }
@@ -139,7 +177,18 @@ export default function MeetsPage() {
               </li>
             ))
           ) : (
-            <h2>วันนี้ : ไม่มีการใช้ห้องประชุม</h2>
+            <div>
+              <h2>วันนี้ : ไม่มีการใช้ห้องประชุม</h2>
+              {nextMeetInfo ? (
+                <p>
+                  🗓️ อีก {nextMeetInfo.days} วัน จะมีการใช้ห้องประชุมโดย{" "}
+                  <strong>{nextMeetInfo.agency}</strong> (วันที่:{" "}
+                  {nextMeetInfo.date})
+                </p>
+              ) : (
+                <p>📅 ยังไม่พบการใช้ห้องประชุมในวันถัดไป</p>
+              )}
+            </div>
           )}
         </ul>
       </div>

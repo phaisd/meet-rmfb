@@ -60,7 +60,7 @@ export default function MeetsPage() {
           const beginMs = timeToMs(item.beginTime);
           const toMs = timeToMs(item.toTime);
           const tenMinAfterEnd = toMs + 10 * 60 * 1000;
-          const thirtyMinBeforeStart = beginMs - 30 * 60 * 1000;
+          const thirtyMinBeforeStart = beginMs - 60 * 60 * 1000;
 
           // ✅ แสดงรายการแรกของวันตั้งแต่ต้นวัน
           if (index === 0) return true;
@@ -107,14 +107,9 @@ export default function MeetsPage() {
                     className="card-title-style"
                     style={{ marginBottom: "2px" }}
                   >
-                    ส่วนงาน : {meetsItem.agencyUse}
+                    ส่วนงาน : {meetsItem.agencyUse} <br />
+                    เรื่อง : {meetsItem.subjectUse || "ประชุมภายใน"}
                   </h3>
-                  <h4
-                    className="card-title-style"
-                    style={{ marginBottom: "2px" }}
-                  >
-                    เรื่อง : {meetsItem.subjectUse || "ไม่มีหัวข้อ"}
-                  </h4>
                   <span className="card-text-style">
                     จำนวนผู้ใช้ : {meetsItem.amountUse || "11"} รูป/คน | เวลา :{" "}
                     {meetsItem.beginTime} - {meetsItem.toTime}

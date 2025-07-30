@@ -81,10 +81,13 @@ export default function MeetsAllPage() {
                       เวลา : {meetsItem.beginTime}-{meetsItem.toTime}
                     </span>
                     <br />
-                    <p className={`status-badge ${meetsItem.resultText}`}>
+                    <span className={`status-badge ${meetsItem.resultText}`}>
                       ห้อง: {meetsItem.resultText}
-                    </p>
-                    <span className={`re-operete-badge ${meetsItem.resultOperation}`}>
+                    </span>
+                    <br />
+                    <span
+                      className={`re-operete-badge ${meetsItem.resultOperation}`}
+                    >
                       ผลบริการ : {meetsItem.resultOperation}
                     </span>
                   </div>

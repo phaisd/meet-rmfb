@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ['/meets/:path*', '/api/:path*', '/useMeets/:path*']
-}
+  matcher: ["/meets/:path*", "/api/:path*", "/useMeets/:path*"],
+};
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -14,13 +14,12 @@ export function middleware(request) {
   // }
 
   //Block delete meets ถ้าไม่ได้ส้ง header x-admin=true
-  if (pathname.startsWith('/api/meets') && request.method === 'DELETE') {
-    const isAdminfb = request.headers.get('x-adminfb') === 'true';
+  if (pathname.startsWith("/api/meets") && request.method === "DELETE") {
+    const isAdminfb = request.headers.get("x-adminfb") === "true";
     if (!isAdminfb) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
   }
 
   return NextResponse.next();
-
 }

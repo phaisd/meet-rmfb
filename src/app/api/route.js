@@ -57,14 +57,12 @@ import { ref, get, push, set, update, remove } from "firebase/database";
 //   }
 // }
 
-
 // put
 export async function PUT(request, { params }) {
   const body = await request.json();
   await set(ref(db, `Request_Meeting/${params.id}`), body); // Replace all fields
   return Response.json({ message: "Data replaced" });
 }
-
 
 //patch เพิ่มเติมข้อมูลจากของเก่า
 export async function PATCH(request, { params }) {
