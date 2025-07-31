@@ -11,6 +11,16 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
+    "/(meeting)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(meeting)/layout.js"
+    ],
+    "/(meeting)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(meeting)/page.js"
+    ],
     "/(content)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,31 +31,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(content)/not-found.js"
     ],
-    "/(content)/admin/error": [
+    "/(content)/meets/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(content)/admin/error.js"
-    ],
-    "/(content)/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/admin/page.css",
-      "static/chunks/app/(content)/admin/page.js"
-    ],
-    "/api/meets/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/route.js"
-    ],
-    "/_not-found/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
-    ],
-    "/api/meets/[id]/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/[id]/route.js"
+      "static/css/app/(content)/meets/page.css",
+      "static/chunks/app/(content)/meets/page.js"
     ],
     "/(content)/useMeets/layout": [
       "static/chunks/webpack.js",
@@ -63,12 +53,6 @@
       "static/chunks/main-app.js",
       "static/css/app/(content)/useMeets/@meetsAll/default.css",
       "static/chunks/app/(content)/useMeets/@meetsAll/default.js"
-    ],
-    "/(content)/meets/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/meets/page.css",
-      "static/chunks/app/(content)/meets/page.js"
     ]
   }
 }
