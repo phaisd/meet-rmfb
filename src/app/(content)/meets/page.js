@@ -75,19 +75,36 @@ export default function MeetsPage() {
 
         setTodayMeets(upcomingMeets);
 
-        setTodayMeets(upcomingMeets);
-
         // ✅ หา "วันถัดไป" ที่มีข้อมูลการจอง
         if (upcomingMeets.length === 0) {
+          // const futureMeets = meetsArray
+          //   .filter((item) => {
+          //     const parts = item.dateUse.split("-");
+          //     const itemDate = new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
+          //     return itemDate > today;
+          //   })
+          //   .sort((a, b) => {
+          //     const [da, ma, ya] = a.dateUse.split("-");
+          //     const [db, mb, yb] = b.dateUse.split("-");
+          //     return (
+          //       new Date(`${ma} ${da}, ${ya}`) - new Date(`${mb} ${db}, ${yb}`)
+          //     );
+          //   });
           const futureMeets = meetsArray
             .filter((item) => {
+              if (!item.dateUse || typeof item.dateUse !== "string")
+                return false;
               const parts = item.dateUse.split("-");
+              if (parts.length !== 3) return false;
+
               const itemDate = new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
               return itemDate > today;
             })
             .sort((a, b) => {
-              const [da, ma, ya] = a.dateUse.split("-");
-              const [db, mb, yb] = b.dateUse.split("-");
+              const [da, ma, ya] = a.dateUse?.split("-") || [];
+              const [db, mb, yb] = b.dateUse?.split("-") || [];
+              if (!(da && ma && ya && db && mb && yb)) return 0;
+
               return (
                 new Date(`${ma} ${da}, ${ya}`) - new Date(`${mb} ${db}, ${yb}`)
               );
@@ -178,15 +195,19 @@ export default function MeetsPage() {
             ))
           ) : (
             <div>
-              <h2>วันนี้ : ไม่มีการใช้ห้องประชุม</h2>
+              <h2 className="card-title-nomeet">
+                วันนี้ : ไม่มีการใช้ห้องประชุม
+              </h2>
               {nextMeetInfo ? (
-                <p>
+                <p className="card-title-nomeet">
                   🗓️ อีก {nextMeetInfo.days} วัน จะมีการใช้ห้องประชุมโดย{" "}
-                  <strong>{nextMeetInfo.agency}</strong> (วันที่:{" "}
-                  {nextMeetInfo.date})
+                  <strong>{nextMeetInfo.agency}</strong>
+                  <br /> (วันที่: {nextMeetInfo.date})
                 </p>
               ) : (
-                <p>📅 ยังไม่พบการใช้ห้องประชุมในวันถัดไป</p>
+                <p className="card-title-nomeet">
+                  📅 ยังไม่พบการใช้ห้องประชุมในวันถัดไป
+                </p>
               )}
             </div>
           )}

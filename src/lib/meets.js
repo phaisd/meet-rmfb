@@ -1,5 +1,14 @@
 import { db } from "@/lib/firebaseConfig";
-import { ref, get, query, orderByChild, limitToLast, push, update, remove } from "firebase/database";
+import {
+  ref,
+  get,
+  query,
+  orderByChild,
+  limitToLast,
+  push,
+  update,
+  remove,
+} from "firebase/database";
 
 export async function getAllMeets() {
   const snapshot = await get(ref(db, "Request_Meeting"));
@@ -124,9 +133,9 @@ export async function getAvailableMeetsMonths(year) {
   //   "พฤศจิกายน",
   //   "ธันวาคม",
   // ];
-  return Array.from(monthsSet)
-    .sort
-    ((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
+  return Array.from(monthsSet).sort(
+    (a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b)
+  );
   // (a, b) => thaiMonths.indexOf(a) - thaiMonths.indexOf(b)
   // ();
 }
@@ -245,6 +254,17 @@ export async function updateMeets(Id, meetData) {
   }
 }
 
+// export async function updateMeets(id, updatedData) {
+//   try {
+//     const updateRef = ref(db, `Request_Meeting/${id}`);
+//     await update(updateRef, updatedData);
+//     return { success: true };
+//   } catch (error) {
+//     console.error("updateMeets Error:", error);
+//     return { success: false, error: error.message };
+//   }
+// }
+
 export async function deleteMeets(Id) {
   if (!Id) {
     return { success: false, error: "Missing ID" };
@@ -260,3 +280,35 @@ export async function deleteMeets(Id) {
     return { success: false, error: error.message };
   }
 }
+
+// === [Helper: Convert date string "27-July-2025" to "2025-07-27"] ===
+// export function parseDateUseToInput(dateStr) {
+//   const parts = dateStr.split("-");
+//   if (parts.length !== 3) return "";
+
+//   const [day, monthName, year] = parts;
+//   const monthIndex = [
+//     "January",
+//     "February",
+//     "March",
+//     "April",
+//     "May",
+//     "June",
+//     "July",
+//     "August",
+//     "September",
+//     "October",
+//     "November",
+//     "December",
+//   ].indexOf(monthName);
+
+//   if (monthIndex === -1) return "";
+//   return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${day}`;
+// }
+
+// === [Helper: Convert time string "13:00 pm" → "13:00"] ===
+// export function parseTimeToInput(timeStr) {
+//   if (!timeStr) return "";
+//   const [time] = timeStr.split(" "); // "13:00 pm" → "13:00"
+//   return time;
+// }

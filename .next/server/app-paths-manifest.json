@@ -1,6 +1,8 @@
 {
-  "/icon.png/route": "app/icon.png/route.js",
   "/api/meets/route": "app/api/meets/route.js",
-  "/(meeting)/page": "app/(meeting)/page.js",
-  "/(content)/admin/page": "app/(content)/admin/page.js"
+  "/icon.png/route": "app/icon.png/route.js",
+  "/api/meets/[id]/route": "app/api/meets/[id]/route.js",
+  "/(content)/admin/page": "app/(content)/admin/page.js",
+  "/(content)/meets/page": "app/(content)/meets/page.js",
+  "/(content)/useMeets/@meetToday/[[...filter]]/page": "app/(content)/useMeets/@meetToday/[[...filter]]/page.js"
 }

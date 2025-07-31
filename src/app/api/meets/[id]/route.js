@@ -12,20 +12,15 @@ export async function GET(_, { params }) {
   const snapshot = await get(ref(db, `Request_Meeting/${id}`));
 
   if (!snapshot.exists()) {
-    return Response.json({ error: `No meeting found with ID ${id}` }, { status: 404 });
+    return Response.json(
+      { error: `No meeting found with ID ${id}` },
+      { status: 404 }
+    );
   }
 
   const data = snapshot.val();
   return Response.json(data, { status: 200 });
 }
-
-//แบบสั้น Get id
-// export async function GET(_, { params }) {
-//   const snapshot = await get(ref(db, `Request_Meeting/${params.Id}`));
-//   return snapshot.exists()
-//     ? Response.json(snapshot.val())
-//     : Response.json({ error: "Not found" }, { status: 404 });
-// }
 
 // ฟังก์ชัน PUT สำหรับอัปเดตข้อมูล
 export async function PUT(request, { params }) {
@@ -37,12 +32,23 @@ export async function PUT(request, { params }) {
 
     // ตรวจสอบ field ว่าครบไหม
     const requiredFields = [
-      "agencyUse", "amountUse", "beginTime", "contactUse", "dateUse",
-      "forUse", "nameUse", "resultText", "serviceUse", "subjectUse",
-      "statusUse", "beginTime", "toTime", "coordinator"
+      "agencyUse",
+      "amountUse",
+      "beginTime",
+      "contactUse",
+      "dateUse",
+      "forUse",
+      "nameUse",
+      "resultText",
+      "serviceUse",
+      "subjectUse",
+      "statusUse",
+      "beginTime",
+      "toTime",
+      "coordinator",
     ];
 
-    const missingFields = requiredFields.filter(field => !body[field]);
+    const missingFields = requiredFields.filter((field) => !body[field]);
     if (missingFields.length > 0) {
       return Response.json(
         { error: `Missing fields: ${missingFields.join(", ")}` },
@@ -70,19 +76,18 @@ export async function PUT(request, { params }) {
       );
     }
 
-
     // เพิ่ม approvedDate เป็นวันปัจจุบัน
     const approvedDate = new Date().toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
-      year: "numeric"
+      year: "numeric",
     });
 
     const updatedData = {
       ...body,
       approvedDate,
       resultText: body.resultText || "กำลังดำเนินการ",
-      operation: body.operation || "ไม่ถึงวันขอใช้",            // กำหนด default ถ้าไม่มี
+      operation: body.operation || "ไม่ถึงวันขอใช้", // กำหนด default ถ้าไม่มี
       resultOperation: body.resultOperation || "ยังไม่ให้บริการ", // เช่น "สำเร็จ" หรือ "ล้มเหลว"
       dateChange: formattedDateUse, //  แทนที่ค่าที่แปลงแล้ว
     };
@@ -92,7 +97,10 @@ export async function PUT(request, { params }) {
     if (result.success) {
       return Response.json({ message: `Meets ${id} updated successfully.` });
     } else {
-      return Response.json({ error: result.error || "Update failed" }, { status: 500 });
+      return Response.json(
+        { error: result.error || "Update failed" },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error("PUT Error:", error);
@@ -100,16 +108,106 @@ export async function PUT(request, { params }) {
   }
 }
 
+//01
+// export async function PUT(request, { params }) {
+//   try {
+//     const body = await request.json();
+//     const id = params?.id;
+
+//     if (!id) {
+//       return Response.json({ error: "Missing ID in params" }, { status: 400 });
+//     }
+
+//     // ตรวจสอบ field ที่จำเป็น
+//     const requiredFields = [
+//       "agencyUse",
+//       "amountUse",
+//       "beginTime",
+//       "contactUse",
+//       "dateUse",
+//       "forUse",
+//       "nameUse",
+//       "resultText",
+//       "serviceUse",
+//       "subjectUse",
+//       "statusUse",
+//       "toTime",
+//       "coordinator",
+//     ];
+
+//     const missingFields = requiredFields.filter((field) => !body[field]);
+//     if (missingFields.length > 0) {
+//       return Response.json(
+//         {
+//           error: `Missing fields: ${missingFields.join(", ")}`,
+//         },
+//         { status: 400 }
+//       );
+//     }
+
+//     // ✅ แปลง dateUse: "27-May-2025" → "2025-05-27"
+//     const convertToISODate = (inputDate) => {
+//       const parts = inputDate.split("-");
+//       if (parts.length !== 3) return null;
+
+//       const [day, monthStr, year] = parts;
+//       const month = new Date(`${monthStr} 1, 2000`).getMonth(); // แปลงชื่อเดือนเป็น index
+//       if (isNaN(month)) return null;
+
+//       return `${year}-${(month + 1).toString().padStart(2, "0")}-${day}`;
+//     };
+
+//     const formattedDateUse = convertToISODate(body.dateUse);
+//     if (!formattedDateUse) {
+//       return Response.json(
+//         { error: "Invalid date format for dateUse" },
+//         { status: 400 }
+//       );
+//     }
+
+//     const approvedDate = new Date().toLocaleDateString("en-GB", {
+//       day: "2-digit",
+//       month: "long",
+//       year: "numeric",
+//     });
+
+//     const updatedData = {
+//       ...body,
+//       approvedDate,
+//       resultText: body.resultText || "กำลังดำเนินการ",
+//       operation: body.operation || "ไม่ถึงวันขอใช้",
+//       resultOperation: body.resultOperation || "ยังไม่ให้บริการ",
+//       dateChange: formattedDateUse,
+//     };
+
+//     const result = await updateMeets(id, updatedData);
+
+//     if (result.success) {
+//       return Response.json(
+//         { message: `Meets ${id} updated successfully.` },
+//         { status: 200 }
+//       );
+//     } else {
+//       return Response.json(
+//         { error: result.error || "Update failed" },
+//         { status: 500 }
+//       );
+//     }
+//   } catch (error) {
+//     console.error("PUT Error:", error);
+//     return Response.json({ error: "Internal Server Error" }, { status: 500 });
+//   }
+// }
+
 //Delete
 export async function DELETE(_, { params }) {
   try {
     const { id } = await params;
 
     if (!id) {
-      return new Response(
-        JSON.stringify({ error: "Missing ID" }),
-        { status: 400 }
-      );
+      return new Response(JSON.stringify({ error: "Missing ID" }), {
+        status: 400,
+      });
     }
 
     const result = await deleteMeets(id);
@@ -122,7 +220,6 @@ export async function DELETE(_, { params }) {
         { status: 500 }
       );
     }
-
   } catch (error) {
     return new Response(
       JSON.stringify({ error: "Internal Server Error", detail: error.message }),

@@ -3,9 +3,42 @@ import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
 import { redirect } from "next/navigation";
 import { opreateMeets } from "./handle-form";
-
 import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";
+// import {
+//   // getAllMeets,
+//   parseDateUseToInput,
+//   parseTimeToInput,
+// } from "@/lib/meest";
+
+// ✅ ฟังก์ชันแปลง "08:30 am" → "08:30"
+function revertTimeFormat(timeStr) {
+  if (!timeStr) return "";
+  const [time] = timeStr.split(" ");
+  return time;
+}
+
+// ✅ ฟังก์ชันแปลง "27-July-2025" → "2025-07-27"
+function revertDateFormat(dateStr) {
+  if (!dateStr) return "";
+  const [day, monthText, year] = dateStr.split("-");
+  const months = {
+    January: "01",
+    February: "02",
+    March: "03",
+    April: "04",
+    May: "05",
+    June: "06",
+    July: "07",
+    August: "08",
+    September: "09",
+    October: "10",
+    November: "11",
+    December: "12",
+  };
+  const month = months[monthText];
+  return `${year}-${month}-${day.padStart(2, "0")}`;
+}
 
 export default function AdminMeetsPage() {
   const [meetsList, setMeetsList] = useState([]);
@@ -24,6 +57,10 @@ export default function AdminMeetsPage() {
     statusUse: "",
     toTime: "",
     coordinator: "",
+    approvedDate: "",
+    operation: "",
+    resultOperation: "",
+    dateChange: "",
   });
 
   useEffect(() => {
@@ -32,7 +69,7 @@ export default function AdminMeetsPage() {
       .then(setMeetsList);
   }, []);
 
-  // ฟังก์ชันจัดการ checkbox
+  // ✅ จัดการ checkbox
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     setForm((prevForm) => {
@@ -43,7 +80,7 @@ export default function AdminMeetsPage() {
     });
   };
 
-  // ฟังก์ชันจัดการ text input ทั่วไป
+  // ✅ จัดการ input ทั่วไป
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -52,27 +89,28 @@ export default function AdminMeetsPage() {
     }));
   };
 
-  // จำลองฟังก์ชัน handleEdit และ handleDelete
+  // ✅ เมื่อกด Edit → เติมข้อมูลเข้า form
   const handleEdit = (item) => {
-    // setForm({
-    //   id: item.id,
-    //   agencyUse: item.agencyUse,
-    //   amountUse: item.amountUse,
-    //   beginTime: item.beginTime || "",
-    //   contactUse: item.contactUse,
-    //   dateUse: item.dateUse || "",
-    //   forUse: item.forUse,
-    //   nameUse: item.nameUse,
-    //   resultText: item.resultText || "รอดำเนินการ",
-    //   serviceUse: item.serviceUse || [],
-    //   subjectUse: item.subjectUse,
-    //   statusUse: item.statusUse,
-    //   toTime: item.toTime || "",
-    //   coordinator: item.coordinator || "(-o)",
-    // });
-    const itemId = item.id;
-    console.log("id", itemId);
-    setForm(item);
+    setForm({
+      id: item.id,
+      agencyUse: item.agencyUse || "",
+      amountUse: item.amountUse || "",
+      beginTime: revertTimeFormat(item.beginTime || ""),
+      contactUse: item.contactUse || "",
+      dateUse: revertDateFormat(item.dateUse || ""),
+      forUse: item.forUse || "",
+      nameUse: item.nameUse || "",
+      resultText: item.resultText || "รอดำเนินการ",
+      serviceUse: item.serviceUse || [],
+      subjectUse: item.subjectUse || "",
+      statusUse: item.statusUse || "",
+      toTime: revertTimeFormat(item.toTime || ""),
+      coordinator: item.coordinator || "",
+      approvedDate: item.approvedDate || "",
+      operation: item.operation || "",
+      resultOperation: item.resultOperation || "",
+      dateChange: item.dateChange || "",
+    });
   };
 
   const clearForm = () => {
@@ -91,14 +129,41 @@ export default function AdminMeetsPage() {
       statusUse: "",
       toTime: "",
       coordinator: "",
+      approvedDate: "",
+      operation: "",
+      resultOperation: "",
+      dateChange: "",
     });
   };
 
   const handleDelete = async (id) => {
-    // คุณสามารถเรียก API หรือลบจาก Firebase ได้ที่นี่
+    const confirmDelete = confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบ id: ${id}`);
+    if (!confirmDelete) return;
 
-    alert(`ลบ id: ${id}`);
+    try {
+      const res = await fetch(`/api/meets/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-adminfb": "true",
+        },
+      });
+
+      if (!res.ok) throw new Error("การลบไม่สำเร็จ");
+      alert(`ลบ id: ${id}`);
+      setMeetsList((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาดในการลบ:", error);
+      alert("เกิดข้อผิดพลาดในการลบ");
+    }
   };
+
+  // const formattedData = rawData.map((item) => ({
+  //   ...item,
+  //   dateUseInput: parseDateUseToInput(item.dateUse),
+  //   beginTimeInput: parseTimeToInput(item.beginTime),
+  //   toTimeInput: parseTimeToInput(item.toTime),
+  // }));
 
   return (
     <>
@@ -109,15 +174,23 @@ export default function AdminMeetsPage() {
             Sign out
           </a>
         </h1>
-        <form action={opreateMeets} method="POST" className={styles.form}>
+        <form
+          action={async (formData) => {
+            await opreateMeets(formData);
+            clearForm();
+          }}
+          // method="POST"
+          className={styles.form}
+          // encType="multipart/form-data"
+        >
           <input type="hidden" name="id" value={form.id || ""} />
-
           <input
             name="nameUse"
             placeholder="ชื่อผู้ขอใช้"
             value={form.nameUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
           <input
             name="statusUse"
@@ -125,6 +198,7 @@ export default function AdminMeetsPage() {
             value={form.statusUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
           <input
             name="agencyUse"
@@ -132,50 +206,44 @@ export default function AdminMeetsPage() {
             value={form.agencyUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
-
           <input
             name="contactUse"
             placeholder="ติดต่อ"
             value={form.contactUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
-          <small style={{ color: "red" }}>
-            แนะนำ 091231xxxx or Emails ไม่บังคับแต่ต้องกรอก
-          </small>
-
           <input
             name="forUse"
             placeholder="ใช้เพื่อ"
             value={form.forUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
-          <small style={{ color: "red" }}>
-            ประชุม, ประชุมคณะ, ประชุมย่อย, สัมมนา, อบรม, กิจกรรม
-          </small>
           <input
             name="subjectUse"
             placeholder="เรื่อง"
             value={form.subjectUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
           <input
             type="number"
-            min="0"
-            max="100"
             name="amountUse"
-            placeholder="จำนวนผู้เข้าร่วม "
+            placeholder="จำนวนผู้เข้าร่วม"
             value={form.amountUse}
             onChange={handleChange}
             required
+            disabled={!!form.id}
           />
-          <small style={{ color: "red" }}>
-            ห้องมีที่นั่ง ไม่เกิน 70 รูป/คน
-          </small>
-          {/* วันที่ใช้ */}
+
+          {/* วันที่และเวลา */}
+          {/* <input type="date" defaultValue={item.dateUseInput} /> */}
           <label>
             วันที่ใช้:
             <input
@@ -184,9 +252,10 @@ export default function AdminMeetsPage() {
               value={form.dateUse}
               onChange={handleChange}
               required
+              disabled={!!form.id}
             />
           </label>
-          {/* เวลาเริ่มต้น */}
+          {/* <input type="time" defaultValue={item.beginTimeInput} /> */}
           <label>
             เริ่มเวลา:
             <input
@@ -195,10 +264,10 @@ export default function AdminMeetsPage() {
               value={form.beginTime}
               onChange={handleChange}
               required
+              disabled={!!form.id}
             />
           </label>
-
-          {/*  ถึงเวลา */}
+          {/* <input type="time" defaultValue={item.toTimeInput} /> */}
           <label>
             ถึงเวลา:
             <input
@@ -207,6 +276,7 @@ export default function AdminMeetsPage() {
               value={form.toTime}
               onChange={handleChange}
               required
+              disabled={!!form.id}
             />
           </label>
 
@@ -217,11 +287,13 @@ export default function AdminMeetsPage() {
             onChange={handleChange}
             required
           />
+
+          {/* Checkbox */}
           <fieldset>
             <legend>ขอบริการอุปกรณ์:</legend>
             {["All Device", "PC", "LCD", "Amplifier", "Only room"].map(
               (device) => (
-                <label key={device} style={{ display: "block" }}>
+                <label key={device}>
                   <input
                     type="checkbox"
                     name="serviceUse"
@@ -241,7 +313,35 @@ export default function AdminMeetsPage() {
             value={form.resultText}
             onChange={handleChange}
             required
-            disabled
+          />
+          <input
+            type="date"
+            name="approvedDate"
+            placeholder="วันที่อนุมัติ"
+            value={form.approvedDate}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="operation"
+            placeholder="การใช้ห้อง"
+            value={form.operation}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="resultOperation"
+            placeholder="ผลบริการ"
+            value={form.resultOperation}
+            onChange={handleChange}
+            required
+          />
+          <input
+            name="dateChange"
+            placeholder="เปลี่ยนรูปแบบวัน"
+            value={form.dateChange}
+            onChange={handleChange}
+            required
           />
 
           <button type="submit">{form.id ? "Update" : "Create"} Meets</button>
@@ -261,10 +361,8 @@ export default function AdminMeetsPage() {
                   <strong>{item.nameUse}</strong>
                   <br />
                   อุปกรณ์: [{services.join(", ")}] <br />
-                  เวลาเริ่ม: {item.beginTime}
-                  <br />
-                  วันที่ใช้: {item.dateUse}
-                  <br />
+                  เวลาเริ่ม: {item.beginTime} <br />
+                  วันที่ใช้: {item.dateUse} <br />
                   <button onClick={() => handleEdit(item)}>Edit</button>
                   <button onClick={() => handleDelete(item.id)}>Delete</button>
                 </li>
