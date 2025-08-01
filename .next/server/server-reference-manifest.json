@@ -1,5 +1,17 @@
 {
-  "node": {},
+  "node": {
+    "4022fd19b7ca62772cd0835f00bf123ae14598c7b8": {
+      "workers": {
+        "app/(content)/admin/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CLearnDpu01%5C%5Cfb-meeting-room%5C%5Csrc%5C%5Capp%5C%5C(content)%5C%5Cadmin%5C%5Chandle-form.js%22%2C%5B%7B%22id%22%3A%224022fd19b7ca62772cd0835f00bf123ae14598c7b8%22%2C%22exportedName%22%3A%22opreateMeets%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/(content)/admin/page": "action-browser"
+      }
+    }
+  },
   "edge": {},
-  "encryptionKey": "om3cnCkTbs0vgzPqvjr1b2J1IjzIHr5wurlHLKtRH1g="
+  "encryptionKey": "0IgiNx7EVBctpK5Vd9FTpqb6pD2zQS+OgtP8d4BNn8k="
 }

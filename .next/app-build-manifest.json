@@ -37,6 +37,27 @@
       "static/css/app/(content)/meets/page.css",
       "static/chunks/app/(content)/meets/page.js"
     ],
+    "/api/meets/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/meets/route.js"
+    ],
+    "/(content)/admin/error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(content)/admin/error.js"
+    ],
+    "/(content)/admin/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(content)/admin/page.css",
+      "static/chunks/app/(content)/admin/page.js"
+    ],
+    "/api/meets/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/meets/[id]/route.js"
+    ],
     "/(content)/useMeets/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -53,6 +74,11 @@
       "static/chunks/main-app.js",
       "static/css/app/(content)/useMeets/@meetsAll/default.css",
       "static/chunks/app/(content)/useMeets/@meetsAll/default.js"
+    ],
+    "/api/meets/stats/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/meets/stats/route.js"
     ]
   }
 }

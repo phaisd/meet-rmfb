@@ -1,9 +1,8 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
-import logo from '@/assets/logo.png'
+import logo from "@/assets/logo.png";
 
 export default function MainHeader() {
-
   return (
     <>
       <header id="main-header">
@@ -16,15 +15,14 @@ export default function MainHeader() {
         <nav>
           <ul>
             <li>
-              <NavLink href="/meets" >Meets</NavLink>
+              <NavLink href="/meets">Meets</NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink href="/archive">Archive</NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink href="/useMeets">Use</NavLink>
             </li>
-
           </ul>
         </nav>
       </header>
