@@ -181,7 +181,7 @@ export default function AdminMeetsPage() {
           }}
           // method="POST"
           className={styles.form}
-          // encType="multipart/form-data"
+        // encType="multipart/form-data"
         >
           <input type="hidden" name="id" value={form.id || ""} />
           <input
@@ -190,7 +190,7 @@ export default function AdminMeetsPage() {
             value={form.nameUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}  //ไม่่รู้วว่า ทำไม พออัดเดทแล้ว อินพุดที่นี้คำสั่งนี้ โดนลบหมด
           />
           <input
             name="statusUse"
@@ -198,7 +198,7 @@ export default function AdminMeetsPage() {
             value={form.statusUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
           <input
             name="agencyUse"
@@ -206,7 +206,7 @@ export default function AdminMeetsPage() {
             value={form.agencyUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
           <input
             name="contactUse"
@@ -214,7 +214,7 @@ export default function AdminMeetsPage() {
             value={form.contactUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
           <input
             name="forUse"
@@ -222,7 +222,7 @@ export default function AdminMeetsPage() {
             value={form.forUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
           <input
             name="subjectUse"
@@ -230,7 +230,7 @@ export default function AdminMeetsPage() {
             value={form.subjectUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
           <input
             type="number"
@@ -239,11 +239,10 @@ export default function AdminMeetsPage() {
             value={form.amountUse}
             onChange={handleChange}
             required
-            disabled={!!form.id}
+          // disabled={!!form.id}
           />
 
           {/* วันที่และเวลา */}
-          {/* <input type="date" defaultValue={item.dateUseInput} /> */}
           <label>
             วันที่ใช้:
             <input
@@ -252,10 +251,9 @@ export default function AdminMeetsPage() {
               value={form.dateUse}
               onChange={handleChange}
               required
-              disabled={!!form.id}
+            // disabled={!!form.id}
             />
           </label>
-          {/* <input type="time" defaultValue={item.beginTimeInput} /> */}
           <label>
             เริ่มเวลา:
             <input
@@ -264,10 +262,9 @@ export default function AdminMeetsPage() {
               value={form.beginTime}
               onChange={handleChange}
               required
-              disabled={!!form.id}
+            // disabled={!!form.id}
             />
           </label>
-          {/* <input type="time" defaultValue={item.toTimeInput} /> */}
           <label>
             ถึงเวลา:
             <input
@@ -276,7 +273,7 @@ export default function AdminMeetsPage() {
               value={form.toTime}
               onChange={handleChange}
               required
-              disabled={!!form.id}
+            // disabled={!!form.id}
             />
           </label>
 
@@ -307,13 +304,23 @@ export default function AdminMeetsPage() {
             )}
           </fieldset>
 
-          <input
-            name="resultText"
-            placeholder="ผลดำเนินการ"
-            value={form.resultText}
-            onChange={handleChange}
-            required
-          />
+          <div>
+            <label>ผลดำเนินการ:</label>
+            {["รอดำเนินการ", "กำลังดำเนินการ", "อนุมัติ", "ห้องไม่ว่าง"].map((option) => (
+              <label key={option} style={{ marginRight: "1em" }}>
+                <input
+                  type="radio"
+                  name="resultText"
+                  value={option}
+                  checked={form.resultText === option}
+                  onChange={handleChange}
+                  required
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+
           <input
             type="date"
             name="approvedDate"
@@ -322,21 +329,41 @@ export default function AdminMeetsPage() {
             onChange={handleChange}
             required
           />
-          <input
-            name="operation"
-            placeholder="การใช้ห้อง"
-            value={form.operation}
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="resultOperation"
-            placeholder="ผลบริการ"
-            value={form.resultOperation}
-            onChange={handleChange}
-            required
-          />
-          <input
+
+          <div>
+            <label>การใช้ห้อง:</label>
+            {["รอวันใช้งาน", "มาใช้บริการ", "ขอแต่ไม่ใช้", "ขอเปลี่ยนห้อง"].map((option) => (
+              <label key={option} style={{ marginRight: "1em" }}>
+                <input
+                  type="radio"
+                  name="operation"
+                  value={option}
+                  checked={form.operation === option}
+                  onChange={handleChange}
+                  required
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+
+          <div>
+            <label>ผลบริการ:</label>
+            {["ยังไม่ถึงวัน", "เรียบร้อยดี", "ห้องชำรุด", "อื่น ๆ"].map((option) => (
+              <label key={option} style={{ marginRight: "1em" }} className="option-color">
+                <input
+                  type="radio"
+                  name="resultOperation"
+                  value={option}
+                  checked={form.resultOperation === option}
+                  onChange={handleChange}
+                  required
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+          <input hidden
             name="dateChange"
             placeholder="เปลี่ยนรูปแบบวัน"
             value={form.dateChange}
@@ -353,8 +380,8 @@ export default function AdminMeetsPage() {
               const services = Array.isArray(item.serviceUse)
                 ? item.serviceUse
                 : typeof item.serviceUse === "string"
-                ? [item.serviceUse]
-                : [];
+                  ? [item.serviceUse]
+                  : [];
 
               return (
                 <li key={item.id}>
@@ -364,7 +391,7 @@ export default function AdminMeetsPage() {
                   เวลาเริ่ม: {item.beginTime} <br />
                   วันที่ใช้: {item.dateUse} <br />
                   <button onClick={() => handleEdit(item)}>Edit</button>
-                  <button onClick={() => handleDelete(item.id)}>Delete</button>
+                  <button onClick={() => handleDelete(item.id)} >Delete</button>
                 </li>
               );
             })}

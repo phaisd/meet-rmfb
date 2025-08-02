@@ -1,0 +1,190 @@
+#page {
+  width: 100%;
+  max-width: 98rem;
+  margin: 1rem auto;
+}
+/* play / pause button */
+.carousel-container {
+  max-width: 98%;
+  /* margin: auto; */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 78vh;
+  background: #686868;
+  border-radius: 1rem;
+  color: #d0d0d0;
+}
+
+.carousel {
+  display: contents;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #d2d2d2;
+}
+
+
+.table-container {
+  display: flex;
+  padding: 1rem;
+  overflow-x: auto;
+  text-align: center;
+  flex-direction: column;
+  width: 95%;
+  justify-content: center;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #939191;
+  color: #b40dba;
+}
+.table-container th,
+.table-container td {
+  border: 1px solid #ccc;
+  padding: 0.5em;
+  text-align: left;
+}
+.table-container th {
+  background-color: #939191;
+}
+
+.meeting-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.meeting-table th,
+.meeting-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.meeting-table th {
+  background-color: #939191;
+}
+
+/* รูปแบบการแสดงของสี */
+.status-badge,
+.operate-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+
+.status-badge.รอวันใช้งาน,
+.operate-badge.กำลังดำเนินการ  {
+  background-color: #ef6c00;
+  color: #ffffff;
+}
+
+.status-badge.มาใช้บริการ,
+.operete-badge.เรียบร้อยดี {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.status-badge.ขอแต่ไม่ใช้,
+.operate-badge.ห้องไม่ว่าง {
+  background-color: #f44336;
+  color:#ffffff;
+}
+
+.table-striped {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-striped th,
+.table-striped td {
+  border: 1px solid #ccc;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.table-striped th {
+  background-color: #f2f2f2;
+    text-align: center; /* ให้ข้อความใน <th> อยู่กึ่งกลาง */
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-striped tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+
+/* ปุ่มเลื่อนหน้า */
+.controls {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.controls button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  background: #eee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls .active {
+  font-weight: bold;
+  background: #ccc;
+}
+
+.playpause {
+  margin-left: 12px;
+  background: #d4f0d4;
+}
+
+.highlight-row {
+  background-color: #ffffcc !important;
+}
+
+.table-meets p {
+  margin: 5px;
+  padding: 3px;
+  background: #ffeb3b;
+}
+.title-meet {
+  padding: 0.2rem 1rem;
+  margin-top: 0.1rem ;
+  background: #b40dba;
+  border-radius: 0.8rem;
+
+}
+
+
+.content-meet {
+  padding: 0.2rem 0.5rem;
+  margin-top: 0.1rem ;
+  background: #c4c4c4;
+  border-radius: 0.8rem;
+  color: #1226c2;
+}
+.date-meet {
+  padding: 0.1rem 0.5rem;
+  margin-top: 0.1rem ;
+  margin-bottom: 0.5rem;
+  background: #c4c4c4;
+  border-radius: 0.8rem;
+  color: #077733;
+}

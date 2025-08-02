@@ -138,8 +138,8 @@ export default function MeetsPage() {
 
   return (
     <div className="carousel-container">
-      <h1 id="archive-text">การใช้ห้องประชุมประจำวัน</h1>
-      <p id="archive-text">วันนี้ : {todayStr}</p>
+      <h1 className="title-use">การใช้ห้องประชุมประจำวัน</h1>
+      <p className="content-use">วันนี้ : {todayStr}</p>
 
       <div className="carousel">
         <ul className="card-main">

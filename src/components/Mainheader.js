@@ -17,9 +17,9 @@ export default function MainHeader() {
             <li>
               <NavLink href="/meets">Meets</NavLink>
             </li>
-            {/* <li>
-              <NavLink href="/archive">Archive</NavLink>
-            </li> */}
+            <li>
+              <NavLink href="/tableMeets">Table</NavLink>
+            </li>
             <li>
               <NavLink href="/useMeets">Use</NavLink>
             </li>

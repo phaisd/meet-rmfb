@@ -57,8 +57,8 @@ export default function MeetsAllPage() {
 
   return (
     <div className="carousel-container">
-      <h1>Consoltation Room การใช้ห้องประชุม</h1>
-      <p>
+      <h1 className="title-use">Consoltation Room การใช้ห้องประชุม</h1>
+      <p className="content-use">
         ระบบจองห้องประชุมออนไลน์
         สำหรับการใช้งานของคณาจารย์และบุคลากรของมหาวิทยาลัย
       </p>

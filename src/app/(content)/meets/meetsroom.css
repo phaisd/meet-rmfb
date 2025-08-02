@@ -10,10 +10,20 @@
   padding: 1rem;
 }
 
-h1 {
+.title-use {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+  margin-top: 0.2rem;
+  padding: 0.2rem 3rem;
+  background: #553b02;
+}
+
+.content-use {
+  text-align: center;
+  font-size: 1rem;
   margin-bottom: 1rem;
+  margin-top: .2rem;
 }
 
 .card-title-nomeet {
@@ -49,10 +59,6 @@ h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s;
 }
-
-/* .card:hover {
-  transform: scale(1.02);
-} */
 
 .card img {
   width: 100%;
@@ -95,16 +101,22 @@ h1 {
     max-width: 100%;
   }
 }
-/* 
-.meets-list img {
-  width: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-} */
+
+.status-badge,
+.operate-badge,
+.re-opreate-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  font-weight: bold;
+}
 
 .operate-badge.ใช้บริการ,
 .re-operete-badge.เรียบร้อยดี {
-  color: #2e7d32; /* เขียว */
+  color: #e5e5e5; /* เขียว */
+  background: green;
+  border-radius: 4px;
+  padding: 3px;
 }
 
 .re-operete-badge.รอให้บริการ {

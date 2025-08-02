@@ -1,0 +1,94 @@
+"use client";
+
+import { db } from "@/lib/firebaseConfig";
+import { ref, onValue } from "firebase/database";
+import { useEffect, useState } from "react";
+import "@/app/(content)/tableMeets/tableModle.css"
+
+export default function MonthlySummaryTable() {
+  const [meetsList, setMeetsList] = useState([]);
+
+  useEffect(() => {
+    const meetsRef = ref(db, "Request_Meeting");
+    const unsubscribe = onValue(meetsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const thaiMonths = {
+          มกราคม: "01",
+          กุมภาพันธ์: "02",
+          มีนาคม: "03",
+          เมษายน: "04",
+          พฤษภาคม: "05",
+          มิถุนายน: "06",
+          กรกฎาคม: "07",
+          สิงหาคม: "08",
+          กันยายน: "09",
+          ตุลาคม: "10",
+          พฤศจิกายน: "11",
+          ธันวาคม: "12",
+        };
+
+        const sorted = Object.entries(data)
+          .map(([id, item]) => {
+            let dateObj = new Date(0);
+            if (item.dateUse) {
+              const [day, monthName, year] = item.dateUse.split("-");
+              const month = thaiMonths[monthName] || "01";
+              dateObj = new Date(`${year}-${month}-${day}`);
+            }
+
+            return { id, ...item, _date: dateObj };
+          })
+          .sort((a, b) => b._date - a._date);
+
+        setMeetsList(sorted);
+      } else {
+        setMeetsList([]);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // สรุปเดือน + จำนวน
+  const summary = meetsList.reduce((acc, item) => {
+    const [day, month, year] = item.dateUse?.split("-") || [];
+    const key = `${month}-${year}`;
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+
+  // เรียงเดือนจากใหม่ → เก่า
+  const sortedSummary = Object.entries(summary).sort((a, b) => {
+    const [monthA, yearA] = a[0].split("-");
+    const [monthB, yearB] = b[0].split("-");
+    return yearB.localeCompare(yearA) || monthB.localeCompare(monthA);
+  });
+
+  return (
+    <div className="carousel-container">
+      <h1 className="title-meet">สรุปการขอใช้ห้องประชุมแต่ละเดือน</h1>
+      <p className="content-meet">ระบบจองห้องประชุมออนไลน์ สำหรับคณาจารย์และบุคลากรของมหาวิทยาลัย</p>
+
+      <div style={{ marginBottom: "2rem" }} className="table-container">
+        <h3 className="content-meet">สรุปรายเดือน:</h3>
+        <table className="table-striped">
+          <thead>
+            <tr>
+              <th>เดือน</th>
+              <th>จำนวนการใช้ห้อง</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedSummary.map(([monthYear, count]) => (
+              <tr key={monthYear}>
+                <td>{monthYear}</td>
+                <td>{count} รายการ</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
