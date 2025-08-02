@@ -1,15 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { opreateMeets } from "./handle-form";
 import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";
-// import {
-//   // getAllMeets,
-//   parseDateUseToInput,
-//   parseTimeToInput,
-// } from "@/lib/meest";
 
 // ✅ ฟังก์ชันแปลง "08:30 am" → "08:30"
 function revertTimeFormat(timeStr) {
@@ -62,6 +57,20 @@ export default function AdminMeetsPage() {
     resultOperation: "",
     dateChange: "",
   });
+
+  //router
+  const router = useRouter();
+
+  useEffect(() => {
+    async function checkAuth() {
+      const res = await fetch("/api/auth/check");
+      if (!res.ok) {
+        router.push("/auth"); // redirect ถ้าไม่ใช่ admin
+      }
+    }
+    checkAuth();
+  }, []);
+
 
   useEffect(() => {
     fetch("/api/meets")
@@ -158,21 +167,21 @@ export default function AdminMeetsPage() {
     }
   };
 
-  // const formattedData = rawData.map((item) => ({
-  //   ...item,
-  //   dateUseInput: parseDateUseToInput(item.dateUse),
-  //   beginTimeInput: parseTimeToInput(item.beginTime),
-  //   toTimeInput: parseTimeToInput(item.toTime),
-  // }));
+  const handleSignOut = async () => {
+    await fetch("/api/auth/signout", { method: "POST" });
+    router.push("/admin/auth"); // กลับไปหน้า Login
+  };
 
   return (
     <>
       <div>
+        <div>แสดงข้อมูล Admin ที่นี่</div>
         <h1>
           Manage Meets{" "}
-          <a className={styles.signout} href="/api/auth/signout">
+          {/* <a className={styles.signout} href="/api/auth/signout">
             Sign out
-          </a>
+          </a> */}
+          <button onClick={handleSignOut} className={styles.signout}>Sign Out</button>
         </h1>
         <form
           action={async (formData) => {
