@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/admin/:path*"], // ตรวจสอบเส้นทาง /admin เท่านั้น
+  matcher: [],
+  // matcher: ["/admin/:path*"], // ตรวจสอบเส้นทาง /admin เท่านั้น
 };
 
 export async function middleware(request) {

@@ -1,11 +1,11 @@
 #page {
   width: 90%;
-  max-width: 88rem;
+  max-width: 93rem;
   margin: 2rem auto;
 }
 /* play / pause button */
 .carousel-container {
-  max-width: 88rem;
+  max-width: 92rem;
   margin: auto;
   padding: 1rem;
 }
@@ -36,7 +36,7 @@
 }
 
 .carousel {
-  display: contents;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;

@@ -8,6 +8,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { saveAs } from "file-saver";
 import { Document, Packer, Paragraph, TextRun } from "docx";
+import { exportToWord } from "@/lib/exportWord";
 
 pdfMake.vfs = pdfFonts.vfs;
 
@@ -215,41 +216,41 @@ export default function AdminMeetsPage() {
     pdfMake.createPdf(docDefinition).download(`meet_${item.id || "data"}.pdf`);
   };
 
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString("th-TH", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  // const today = new Date();
+  // const formattedDate = today.toLocaleDateString("th-TH", {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  // });
 
-  //word
-  const exportToWord = async (item) => {
-    const doc = new Document({
-      sections: [
-        {
-          children: [
-            new Paragraph({ text: "แบบฟอร์มจองห้องประชุม", heading: "Heading1" }),
-            new Paragraph(`วันที่รายงาน: ${formattedDate}`),
-            new Paragraph(`ชื่อผู้ขอใช้: ${item.nameUse}`),
-            new Paragraph(`ตำแหน่ง: ${item.statusUse}`),
-            new Paragraph(`หน่วยงาน: ${item.agencyUse}`),
-            new Paragraph(`สำหรับ: ${item.forUse}`),
-            new Paragraph(`เรื่อง: ${item.subjectUse}`),
-            new Paragraph(`อุปกรณ์: ${Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""}`),
-            new Paragraph(`จำนวนผู้เข้าร่วม: ${item.amountUse}`),
-            new Paragraph(`วันที่ใช้: ${formatDateToThai(item.dateChange)}`),
-            new Paragraph(`เริ่มเวลา: ${item.beginTime} - ${item.toTime}`),
-            new Paragraph(`ผู้ประสานงาน : ${item.coordinator}`),
-            new Paragraph(`การติดต่อ : ${item.contactUse}`),
-            new Paragraph(`การขอใช้ : ${item.resultText}`),
-          ],
-        },
-      ],
-    });
+  //word ย้ายไป lip exportToWord
+  // const exportToWord = async (item) => {
+  //   const doc = new Document({
+  //     sections: [
+  //       {
+  //         children: [
+  //           new Paragraph({ text: "แบบฟอร์มจองห้องประชุม", heading: "Heading1" }),
+  //           new Paragraph(`วันที่รายงาน: ${formattedDate}`),
+  //           new Paragraph(`ชื่อผู้ขอใช้: ${item.nameUse}`),
+  //           new Paragraph(`ตำแหน่ง: ${item.statusUse}`),
+  //           new Paragraph(`หน่วยงาน: ${item.agencyUse}`),
+  //           new Paragraph(`สำหรับ: ${item.forUse}`),
+  //           new Paragraph(`เรื่อง: ${item.subjectUse}`),
+  //           new Paragraph(`อุปกรณ์: ${Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""}`),
+  //           new Paragraph(`จำนวนผู้เข้าร่วม: ${item.amountUse}`),
+  //           new Paragraph(`วันที่ใช้: ${formatDateToThai(item.dateChange)}`),
+  //           new Paragraph(`เริ่มเวลา: ${item.beginTime} - ${item.toTime}`),
+  //           new Paragraph(`ผู้ประสานงาน : ${item.coordinator}`),
+  //           new Paragraph(`การติดต่อ : ${item.contactUse}`),
+  //           new Paragraph(`การขอใช้ : ${item.resultText}`),
+  //         ],
+  //       },
+  //     ],
+  //   });
 
-    const blob = await Packer.toBlob(doc);
-    saveAs(blob, `meet_${item.id || "data"}.docx`);
-  };
+  //   const blob = await Packer.toBlob(doc);
+  //   saveAs(blob, `meet_${item.id || "data"}.docx`);
+  // };
 
 
   return (

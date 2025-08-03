@@ -110,11 +110,10 @@ ul {
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
 }
 
-
 .meets-list a {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: start;
   gap: 0.3rem;
   color: #e5e5e1;
   text-decoration: none;
@@ -217,20 +216,3 @@ h2 {
 .status-badge.ห้องไม่ว่าง {
   color: #c62828; /* แดง */
 }
-
-/* printer */
-/* @media print {
-  body * {
-    visibility: hidden;
-  }
-
-  #print-area, #print-area * {
-    visibility: visible;
-  }
-
-  #print-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-} */

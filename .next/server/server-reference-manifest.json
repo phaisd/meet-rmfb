@@ -1,1 +1,5 @@
-{"node":{"400e3f4ae5121c3ab5c331982125fd216e312fab62":{"workers":{"app/(content)/admin/page":{"moduleId":"28357","async":false}},"layer":{"app/(content)/admin/page":"action-browser"}}},"edge":{},"encryptionKey":"0IgiNx7EVBctpK5Vd9FTpqb6pD2zQS+OgtP8d4BNn8k="}
+{
+  "node": {},
+  "edge": {},
+  "encryptionKey": "0IgiNx7EVBctpK5Vd9FTpqb6pD2zQS+OgtP8d4BNn8k="
+}

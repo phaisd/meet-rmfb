@@ -162,7 +162,7 @@ export default function MeetsPage() {
                   </span>
                   <br />
                   <span className="card-text-style">
-                    ห้อง: {meetsItem.resultText} | ใช้ห้อง:{" "}
+                    ห้อง: {meetsItem.resultText} | ใช้ห้อง: {" "}
                     {meetsItem.operation}
                   </span>
                   <br />
@@ -187,7 +187,8 @@ export default function MeetsPage() {
               </h2>
               {nextMeetInfo ? (
                 <p className="card-title-nomeet">
-                  🗓️ อีก {nextMeetInfo.days} วัน จะมีการใช้ห้องประชุมโดย{" "}
+                  🗓️ อีก {nextMeetInfo.days} วัน
+                  จะใช้ห้องประชุมโดย <br /> {" "}
                   <strong>{nextMeetInfo.agency}</strong>
                   <br /> (วันที่: {nextMeetInfo.date})
                 </p>
