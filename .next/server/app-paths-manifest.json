@@ -1,6 +1,6 @@
 {
-  "/(content)/admin/auth/page": "app/(content)/admin/auth/page.js",
   "/(content)/meets/page": "app/(content)/meets/page.js",
-  "/(meeting)/page": "app/(meeting)/page.js",
-  "/(content)/admin/page": "app/(content)/admin/page.js"
+  "/(content)/admin/page": "app/(content)/admin/page.js",
+  "/(content)/admin/auth/page": "app/(content)/admin/auth/page.js",
+  "/(content)/useMeets/@meetToday/[[...filter]]/page": "app/(content)/useMeets/@meetToday/[[...filter]]/page.js"
 }

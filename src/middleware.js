@@ -3,6 +3,8 @@ import { adminAuth } from "@/lib/firebaseAdmin";
 
 export const config = {
   matcher: [],
+  // matcher: ["/admin/:path*"],
+
 };
 
 export async function middleware(request) {
