@@ -49,7 +49,6 @@
 .list {
   list-style: none;
   padding: 0;
-
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
@@ -57,7 +56,7 @@
 }
 
 .list li {
-  background: #24997c;
+  background: #9f8744;
   border: 1px solid #eaeaea;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -68,48 +67,92 @@
 }
 
 .list button {
-  width: fit-content;
+  width: auto;
   padding: 0.3rem 0, 6rem;
   font-size: 0.9rem;
   margin-right: 0.5rem;
   cursor: pointer;
+  box-shadow: 2px 2px #a3a3a3;
 }
 
 .sighout {
   font-size: 0.8rem;
 }
 
-.meets-list {
-  border-radius: 0.8rem;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+.buttonGroup {
+  display: grid; /*flex*/
+  /* flex-wrap: wrap; wrap ให้รองรับ 2 แถวถ้าแคบ */
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
-.meets-list a {
+.btn {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  
+}
+.editBtn {
+  background-color: #4CAF50; /* เขียว */
+}
+
+.deleteBtn {
+  background-color: #f44336; /* แดง */
+}
+
+.pdfBtn {
+  background-color: #2196F3; /* น้ำเงิน */
+}
+
+.wordBtn {
+  background-color: #9C27B0; /* ม่วง */
+}
+
+.inlineField {
+  display: flex;
+  flex-direction: column; /* ค่าเริ่มต้น: มือถือ แยกบรรทัด */
+  margin-bottom: 0.2rem;
+}
+
+.inlineField label {
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+
+}
+
+@media screen and (min-width: 768px) {
+  .inlineField {
+    flex-direction: row; /* หน้าจอกว้าง: อยู่แถวเดียวกัน */
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .inlineField label {
+    margin-bottom: 0; /* ยกเลิกช่องว่างตอนเป็นแถวเดียว */
+    min-width: 120px;
+    text-align: right;
+  }
+
+  .inlineField input {
+    flex: 1;
+  }
+}
+
+.timeRow{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 0.2rem;
+  
+}
+.timeRow label{
   display: flex;
   flex-direction: column;
-  align-items: start;
-  gap: 0.3rem;
-  color: #e5e5e1;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  padding: 0 0 0.2rem 0;
-  background-color: #2d2d2b;
-}
-
-.meets-list a img {
-  width: 100%;
-  /* height: 6rem; */
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.meets-list a:hover {
-  background-color: #666664;
-}
-
-.meets-list a span {
-  padding: 0 0 0 0.4rem;
+  font-weight: bold;
+  align-items: center;
 }
