@@ -1,6 +1,6 @@
 {
-  "/(content)/meets/page": "app/(content)/meets/page.js",
-  "/(content)/admin/page": "app/(content)/admin/page.js",
+  "/icon.png/route": "app/icon.png/route.js",
+  "/api/auth/signin/route": "app/api/auth/signin/route.js",
   "/(content)/admin/auth/page": "app/(content)/admin/auth/page.js",
   "/(content)/tableMeets/@tableMeetAll/page": "app/(content)/tableMeets/@tableMeetAll/page.js",
   "/(content)/tableMeets/@tableMeetResult/page": "app/(content)/tableMeets/@tableMeetResult/page.js"

@@ -1,28 +1,18 @@
 import { NextResponse } from "next/server";
-import { adminAuth } from "@/lib/firebaseAdmin";
+import { cookies } from "next/headers";
 
 export const config = {
-  matcher: [],
-  // matcher: ["/admin/:path*"],
-
+  matcher: ["/admin/:path*"], // ✅ จำกัดเฉพาะเส้นทางที่ต้องใช้ auth
 };
 
 export async function middleware(request) {
-  const cookieStore = await cookies();
+  const cookieStore = cookies(); // ❌ ห้ามใช้ await กับ cookies()
   const token = cookieStore.get("token")?.value;
 
   if (!token) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
-  try {
-    const decodedToken = await adminAuth.verifyIdToken(token);
-    if (decodedToken.role !== "adminfb") {
-      return NextResponse.redirect(new URL("/auth", request.url));
-    }
-    return NextResponse.next();
-  } catch (err) {
-    console.error("Token verification failed", err);
-    return NextResponse.redirect(new URL("/auth", request.url));
-  }
+  // ✅ ให้ผ่านไปก่อน แล้วไปตรวจสอบจริงที่ server (API)
+  return NextResponse.next();
 }
