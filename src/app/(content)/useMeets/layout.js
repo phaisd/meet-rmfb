@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function useMeetsLayout({ meetToday, meetsAll }) {
+export default function UseMeetsLayout({ meetToday, meetsAll }) {
   const [showToday, setShowToday] = useState(true);
 
   useEffect(() => {

@@ -17,6 +17,11 @@
 /.next/
 /out/
 
+#ห้าม push เข้ากับ Git เมื่ออัด vercel
+.next/	
+
+
+
 # production
 /build
 

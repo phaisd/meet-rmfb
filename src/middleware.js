@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
 export const config = {
-  matcher: ["/admin/:path*"], // ✅ จำกัดเฉพาะเส้นทางที่ต้องใช้ auth
+  matcher: ["/admin/:path*"], // ตรวจสอบเส้นทาง /admin เท่านั้น
 };
 
 export async function middleware(request) {
-  const cookieStore = cookies(); // ❌ ห้ามใช้ await กับ cookies()
-  const token = cookieStore.get("token")?.value;
+  // ดึง token จาก cookie
+  const token = request.cookies.get("token")?.value;
 
   if (!token) {
+    // ถ้าไม่มี token ให้ redirect ไป /auth
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
-  // ✅ ให้ผ่านไปก่อน แล้วไปตรวจสอบจริงที่ server (API)
+  // ถ้ามี token ให้ผ่าน middleware
   return NextResponse.next();
 }

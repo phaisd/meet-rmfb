@@ -10,18 +10,22 @@ export default function AuthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`/api/auth/${isSignup ? "signup" : "signin"}`, {
+    setMessage("");
+
+    const payload = {
+      email,
+      password,
+    };
+
+    const res = await fetch("/api/auth/signin", {
       method: "POST",
-      headers: { "Content-Type": "applicatio/json" },
-      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    if (res.ok) {
-      const data = await res.json();
+    const data = await res.json();
 
-      // ตั้ง cookie ชื่อ token
-      document.cookie = `token=${data.token}; path=/`;
-
+    if (data.ok) {
       window.location.href = "/admin";
     } else {
       setMessage(data.error || "Failed");

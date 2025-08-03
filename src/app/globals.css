@@ -110,10 +110,11 @@ ul {
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
 }
 
+
 .meets-list a {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   gap: 0.3rem;
   color: #e5e5e1;
   text-decoration: none;

@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
 import { useRouter } from "next/navigation";
 import { opreateMeets } from "./handle-form";
-import { db } from "@/lib/firebaseConfig";
-import { ref, onValue } from "firebase/database";
 
 import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
@@ -90,7 +88,7 @@ export default function AdminMeetsPage() {
       }
     }
     checkAuth();
-  }, []);
+  }, [router]);
 
 
   useEffect(() => {

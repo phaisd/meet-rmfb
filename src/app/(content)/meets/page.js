@@ -76,19 +76,6 @@ export default function MeetsPage() {
 
         // ✅ หา "วันถัดไป" ที่มีข้อมูลการจอง
         if (upcomingMeets.length === 0) {
-          // const futureMeets = meetsArray
-          //   .filter((item) => {
-          //     const parts = item.dateUse.split("-");
-          //     const itemDate = new Date(`${parts[1]} ${parts[0]}, ${parts[2]}`);
-          //     return itemDate > today;
-          //   })
-          //   .sort((a, b) => {
-          //     const [da, ma, ya] = a.dateUse.split("-");
-          //     const [db, mb, yb] = b.dateUse.split("-");
-          //     return (
-          //       new Date(`${ma} ${da}, ${ya}`) - new Date(`${mb} ${db}, ${yb}`)
-          //     );
-          //   });
           const futureMeets = meetsArray
             .filter((item) => {
               if (!item.dateUse || typeof item.dateUse !== "string")

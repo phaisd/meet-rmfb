@@ -1,12 +1,12 @@
-export const runtime = "node"; // ✅ สำคัญมาก!
-
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebaseAdmin";
 
 export async function GET() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies(); // ✅ ใช้แบบนี้ (ไม่ต้อง await จริง ๆ ถ้าใช้ใน server component/api)
   const token = cookieStore.get("token")?.value;
+
+  // console.log("🔥 token in cookie:", token); // 👈 เพิ่มบรรทัดนี้
 
   if (!token) {
     return NextResponse.json({ ok: false, error: "No token" }, { status: 401 });
@@ -14,12 +14,7 @@ export async function GET() {
 
   try {
     const decoded = await adminAuth.verifyIdToken(token);
-
-    if (decoded.role !== "adminfb") {
-      return NextResponse.json({ ok: false, error: "Permission denied" }, { status: 403 });
-    }
-
-    return NextResponse.json({ ok: true, uid: decoded.uid, email: decoded.email });
+    return NextResponse.json({ ok: true, uid: decoded.uid });
   } catch (error) {
     return NextResponse.json({ ok: false, error: "Invalid token" }, { status: 401 });
   }

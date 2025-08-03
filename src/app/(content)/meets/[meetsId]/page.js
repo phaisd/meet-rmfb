@@ -3,6 +3,7 @@ import { ref, get } from "firebase/database";
 import { notFound } from "next/navigation";
 import MeetsNotFound from "./not-found";
 import "@/app/(content)/meets/meetsroom.css";
+import Image from "next/image";
 
 export default async function MeetRoomPage({ params }) {
   const { meetsId } = await params;
@@ -22,10 +23,12 @@ export default async function MeetRoomPage({ params }) {
       <h1 hidden>{meetsId}</h1>
       <h3>รายละเอียดของการใช้ห้องประชุม : </h3>
       <article className="meets-article">
-        <header>
-          <img
+        <header >
+          <Image
             src={`/images/meets/${meetItem.forUse}.png`}
             alt={meetItem.forUse}
+            width={300} height={100}
+
           />
           <h3>เรื่อง :</h3>
           <h1>{meetItem.subjectUse || "ไม่มีหัวข้อ"}</h1>

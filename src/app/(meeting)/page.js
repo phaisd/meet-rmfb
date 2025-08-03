@@ -1,12 +1,12 @@
 import Link from "next/link";
 import logo from '@/assets/logo.png'
-
+import Image from "next/image";
 
 export default function HomePage() {
   return (
     <>
       <div id="home">
-        <img src={logo.src} alt="A Consultation" />
+        <Image src={logo.src} alt="Logo" width={100} height={100} />
         <h1>Use Consultation </h1>
         <p>
           FBMTROOM ให้บริการการขอใช้ห้องประชุมประจำคณะ!!

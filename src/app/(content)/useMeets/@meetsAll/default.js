@@ -5,6 +5,7 @@ import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import "@/app/(content)/meets/meetsroom.css"; // Import CSS for styling
+import Image from "next/image";
 
 const ITEMS_PER_PAGE = 4;
 const AUTO_ADVANCE_INTERVAL = 10000; // 10 วินาที
@@ -68,9 +69,10 @@ export default function MeetsAllPage() {
             currentItems.map((meetsItem) => (
               <li key={meetsItem.id}>
                 <Link href={`/meets/${meetsItem.id}`}>
-                  <img
+                  <Image
                     src={`/images/meets/${meetsItem.forUse}.png`}
                     alt={meetsItem.dateUse}
+                    width={150} height={100}
                   />
                   <div className="card-body">
                     <span>ส่วนงาน : {meetsItem.agencyUse}</span>

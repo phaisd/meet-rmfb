@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function tableMeetsLayout({ tableMeetAll, tableMeetResult }) {
+export default function TableMeetsLayout({ tableMeetAll, tableMeetResult }) {
   const [showToday, setShowToday] = useState(true);
 
   useEffect(() => {
