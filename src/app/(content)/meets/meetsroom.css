@@ -12,9 +12,9 @@
 
 .carousel-container {
   display: contents;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   height: 78vh;
   padding: 1rem;
   background: #686868;

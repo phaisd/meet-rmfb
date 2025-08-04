@@ -6,7 +6,7 @@ import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
 import "@/app/(content)/tableMeets/tableModle.css";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 3;
 const AUTO_ADVANCE_INTERVAL = 10000;
 
 export default function TableMeetsAllPage() {
@@ -41,8 +41,18 @@ export default function TableMeetsAllPage() {
         const toThaiDateString = (dateObj) => {
           if (!dateObj || isNaN(dateObj)) return "-";
           const thaiMonths = [
-            "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-            "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",
+            "มกราคม",
+            "กุมภาพันธ์",
+            "มีนาคม",
+            "เมษายน",
+            "พฤษภาคม",
+            "มิถุนายน",
+            "กรกฎาคม",
+            "สิงหาคม",
+            "กันยายน",
+            "ตุลาคม",
+            "พฤศจิกายน",
+            "ธันวาคม",
           ];
           const day = dateObj.getDate();
           const month = thaiMonths[dateObj.getMonth()];
@@ -57,12 +67,30 @@ export default function TableMeetsAllPage() {
             if (item.dateUse) {
               const [day, monthName, year] = item.dateUse.split("-");
               const thaiToNumMonth = {
-                มกราคม: "01", กุมภาพันธ์: "02", มีนาคม: "03", เมษายน: "04",
-                พฤษภาคม: "05", มิถุนายน: "06", กรกฎาคม: "07", สิงหาคม: "08",
-                กันยายน: "09", ตุลาคม: "10", พฤศจิกายน: "11", ธันวาคม: "12",
-                January: "01", February: "02", March: "03", April: "04",
-                May: "05", June: "06", July: "07", August: "08",
-                September: "09", October: "10", November: "11", December: "12",
+                มกราคม: "01",
+                กุมภาพันธ์: "02",
+                มีนาคม: "03",
+                เมษายน: "04",
+                พฤษภาคม: "05",
+                มิถุนายน: "06",
+                กรกฎาคม: "07",
+                สิงหาคม: "08",
+                กันยายน: "09",
+                ตุลาคม: "10",
+                พฤศจิกายน: "11",
+                ธันวาคม: "12",
+                January: "01",
+                February: "02",
+                March: "03",
+                April: "04",
+                May: "05",
+                June: "06",
+                July: "07",
+                August: "08",
+                September: "09",
+                October: "10",
+                November: "11",
+                December: "12",
               };
               const month = thaiToNumMonth[monthName] || "01";
               dateObj = new Date(`${year}-${month}-${day}`);
@@ -87,7 +115,7 @@ export default function TableMeetsAllPage() {
 
   // หารายการที่กำลังจะถึง
   const today = new Date();
-  const upcomingItem = meetsList.find(item => item._date >= today);
+  const upcomingItem = meetsList.find((item) => item._date >= today);
 
   const getDaysDiff = (targetDate) => {
     const oneDay = 1000 * 60 * 60 * 24;
@@ -96,7 +124,6 @@ export default function TableMeetsAllPage() {
   };
 
   const upcomingDays = upcomingItem ? getDaysDiff(upcomingItem._date) : null;
-
 
   // กรองตามเดือน
   useEffect(() => {
@@ -125,7 +152,10 @@ export default function TableMeetsAllPage() {
 
   const totalPages = Math.ceil(filteredList.length / ITEMS_PER_PAGE) || 1;
   const startIndex = currentPage * ITEMS_PER_PAGE;
-  const currentItems = filteredList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentItems = filteredList.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   const monthOptions = Array.from(
     new Set(
@@ -144,23 +174,28 @@ export default function TableMeetsAllPage() {
   return (
     <div className="carousel-container">
       <h1 className="title-meet">ตารางการขอใช้ห้องประชุม</h1>
-      <p className="content-meet">ระบบจองห้องประชุมออนไลน์ สำหรับคณาจารย์และบุคลากรของมหาวิทยาลัย</p >
+      <p className="content-meet">
+        ระบบจองห้องประชุมออนไลน์ สำหรับคณาจารย์และบุคลากรของมหาวิทยาลัย
+      </p>
 
       {/* แสดงข้อความรายการถัดไป */}
-      <div >
+      <div>
         {upcomingItem && (
-          <p className="date-meet" >
+          <p className="date-meet">
             จะมีรายการอีกครั้งในวันที่ {upcomingItem.dateChange}
             {upcomingDays > 0 && ` (อีก ${upcomingDays} วัน)`}
             {upcomingDays === 0 && ` (วันนี้)`}
           </p>
         )}
-      </div >
+      </div>
 
       {/* เลือกเดือน */}
       <div style={{ marginBottom: "1rem", marginTop: "0.5rem" }}>
         <label>เลือกเดือน: </label>
-        <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
+        <select
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(e.target.value)}
+        >
           <option value="">ทั้งหมด</option>
           {monthOptions.map((month) => (
             <option key={month} value={month}>
@@ -168,88 +203,95 @@ export default function TableMeetsAllPage() {
             </option>
           ))}
         </select>
-      </div >
+      </div>
 
       {/* ตารางแสดงข้อมูล */}
-      <div className="table-container" >
-        {
-          currentItems.length > 0 ? (
-            <table className="table-striped">
-              <thead>
-                <tr>
-                  {/* <th>วันที่</th> */}
-                  <th>วันเดิอนปี ที่ใช้</th>
-                  <th>เวลา</th>
-                  <th>ส่วนงาน</th>
-                  <th>จำนวน/คน</th>
-                  <th>สถานะห้อง</th>
-                  <th>การใช้ห้อง</th>
-                  <th>ผลบริการ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((item) => (
-                  <tr
-                    key={item.id}
-                    className={item.id === upcomingItem?.id ? "highlight-row" : ""}
-                  >
-                    {/* <td>
+      <div className="table-container">
+        {currentItems.length > 0 ? (
+          <table className="table-striped">
+            <thead>
+              <tr>
+                {/* <th>วันที่</th> */}
+                <th>วันเดิอนปี ที่ใช้</th>
+                <th>เวลา</th>
+                <th>ส่วนงาน</th>
+                <th>จำนวน/คน</th>
+                <th>สถานะห้อง</th>
+                <th>การใช้ห้อง</th>
+                <th>ผลบริการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((item) => (
+                <tr
+                  key={item.id}
+                  className={
+                    item.id === upcomingItem?.id ? "highlight-row" : ""
+                  }
+                >
+                  {/* <td>
                       <Link href={`/meets/${item.id}`}>{item.dateUse}</Link>
                     </td> */}
-                    <td>{item.dateChange}</td>
-                    <td>
-                      {item.beginTime} - {item.toTime}
-                    </td>
-                    <td>{item.agencyUse}</td>
-                    <td>{item.amountUse}</td>
-                    <td>
-                      <span className={`status-badge ${item.resultText}`}>
-                        {item.resultText}
-                      </span>
-                    </td>
-                    <td>
-                      <span className={`status-badge ${item.operation}`}>
-                        {item.operation}
-                      </span>
-                    </td>
-                    <td>
-                      <span className={`operete-badge ${item.resultOperation}`}>
-                        {item.resultOperation}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>ไม่พบรายการการใช้ห้อง</p>
-          )
-        }
-      </div >
+                  <td>{item.dateChange}</td>
+                  <td>
+                    {item.beginTime} - {item.toTime}
+                  </td>
+                  <td>{item.agencyUse}</td>
+                  <td>{item.amountUse}</td>
+                  <td>
+                    <span className={`status-badge ${item.resultText}`}>
+                      {item.resultText}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`status-badge ${item.operation}`}>
+                      {item.operation}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`operete-badge ${item.resultOperation}`}>
+                      {item.resultOperation}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>ไม่พบรายการการใช้ห้อง</p>
+        )}
+      </div>
 
       {/* ปุ่มควบคุม */}
-      < div className="controls" >
-        <button onClick={() => handlePageChange((currentPage - 1 + totalPages) % totalPages)}>
+      <div className="controls">
+        <button
+          onClick={() =>
+            handlePageChange((currentPage - 1 + totalPages) % totalPages)
+          }
+        >
           ◀
         </button>
-        {
-          Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              className={i === currentPage ? "active" : ""}
-              onClick={() => handlePageChange(i)}
-            >
-              {i + 1}
-            </button>
-          ))
-        }
-        <button onClick={() => handlePageChange((currentPage + 1) % totalPages)}>
+        {Array.from({ length: totalPages }).map((_, i) => (
+          <button
+            key={i}
+            className={i === currentPage ? "active" : ""}
+            onClick={() => handlePageChange(i)}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange((currentPage + 1) % totalPages)}
+        >
           ▶
         </button>
-        <button onClick={() => setAutoAdvance((prev) => !prev)} className="playpause">
+        <button
+          onClick={() => setAutoAdvance((prev) => !prev)}
+          className="playpause"
+        >
           {autoAdvance ? "⏸ Pause" : "▶ Play"}
         </button>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import "@/app/(content)/meets/meetsroom.css"; // Import CSS for styling
 import Image from "next/image";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 4;
 const AUTO_ADVANCE_INTERVAL = 10000; // 10 วินาที
 
 export default function MeetsAllPage() {
@@ -72,7 +72,8 @@ export default function MeetsAllPage() {
                   <Image
                     src={`/images/meets/${meetsItem.forUse}.png`}
                     alt={meetsItem.dateUse}
-                    width={150} height={100}
+                    width={150}
+                    height={100}
                   />
                   <div className="card-body">
                     <span>ส่วนงาน : {meetsItem.agencyUse}</span>

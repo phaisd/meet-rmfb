@@ -91,6 +91,17 @@
       "static/chunks/main-app.js",
       "static/css/app/(content)/meets/[meetsId]/page.css",
       "static/chunks/app/(content)/meets/[meetsId]/page.js"
+    ],
+    "/(content)/users/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(content)/users/page.css",
+      "static/chunks/app/(content)/users/page.js"
+    ],
+    "/api/meets/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/meets/route.js"
     ]
   }
 }

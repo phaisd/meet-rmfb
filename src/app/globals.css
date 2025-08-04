@@ -112,7 +112,7 @@ ul {
 
 .meets-list a {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: start;
   gap: 0.3rem;
   color: #e5e5e1;
