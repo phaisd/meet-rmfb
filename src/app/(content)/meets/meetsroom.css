@@ -10,6 +10,17 @@
   padding: 1rem;
 }
 
+.carousel-container {
+  display: contents;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 78vh;
+  padding: 1rem;
+  background: #686868;
+  border-radius: 1rem;
+}
+
 .title-use {
   text-align: center;
   font-size: 1.8rem;
@@ -23,7 +34,7 @@
   text-align: center;
   font-size: 1rem;
   margin-bottom: 1rem;
-  margin-top: .2rem;
+  margin-top: 0.2rem;
 }
 
 .card-title-nomeet {
@@ -36,7 +47,7 @@
 }
 
 .carousel {
-  display: flex;
+  display: contents;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
@@ -143,17 +154,6 @@
   font-weight: bold;
   color: #f105ca;
   padding-left: 0.3rem;
-}
-
-.carousel-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  height: 78vh;
-  padding: 1rem;
-  background: #686868;
-  border-radius: 1rem;
 }
 
 .card-fullscreen {
