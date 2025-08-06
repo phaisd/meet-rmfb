@@ -1,6 +1,7 @@
 import Link from "next/link";
 import NavLink from "./NavLink";
 import logo from "@/assets/logo.png";
+import Image from "next/image";
 
 export default function MainHeader() {
   return (
@@ -8,7 +9,7 @@ export default function MainHeader() {
       <header id="main-header">
         <div id="logo">
           <Link href="/">
-            <img src={logo.src} alt="All Meeting" width="45px" />
+            <Image src={logo.src} alt="All Meeting" width={45} height={45} />
             FBMtRm
           </Link>
         </div>
@@ -22,6 +23,9 @@ export default function MainHeader() {
             </li>
             <li>
               <NavLink href="/useMeets">Use</NavLink>
+            </li>
+            <li>
+              <NavLink href="/usersfb">Service</NavLink>
             </li>
           </ul>
         </nav>

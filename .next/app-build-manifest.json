@@ -11,16 +11,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/(meeting)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/layout.js"
-    ],
-    "/(meeting)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/page.js"
-    ],
     "/(content)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -30,12 +20,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(content)/not-found.js"
-    ],
-    "/(content)/meets/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/meets/page.css",
-      "static/chunks/app/(content)/meets/page.js"
     ],
     "/(content)/tableMeets/layout": [
       "static/chunks/webpack.js",
@@ -47,6 +31,18 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(content)/tableMeets/not-found.js"
     ],
+    "/(content)/tableMeets/@meetCurrent/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(content)/tableMeets/@meetCurrent/page.css",
+      "static/chunks/app/(content)/tableMeets/@meetCurrent/page.js"
+    ],
+    "/(content)/tableMeets/@meetsTotle/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(content)/tableMeets/@meetsTotle/page.css",
+      "static/chunks/app/(content)/tableMeets/@meetsTotle/page.js"
+    ],
     "/(content)/tableMeets/@tableMeetAll/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -56,52 +52,7 @@
     "/(content)/tableMeets/@tableMeetResult/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(content)/tableMeets/@tableMeetResult/page.css",
       "static/chunks/app/(content)/tableMeets/@tableMeetResult/page.js"
-    ],
-    "/(content)/useMeets/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(content)/useMeets/layout.js"
-    ],
-    "/(content)/useMeets/@meetToday/[[...filter]]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/useMeets/@meetToday/[[...filter]]/page.css",
-      "static/chunks/app/(content)/useMeets/@meetToday/[[...filter]]/page.js"
-    ],
-    "/(content)/useMeets/@meetsAll/default": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/useMeets/@meetsAll/default.css",
-      "static/chunks/app/(content)/useMeets/@meetsAll/default.js"
-    ],
-    "/(content)/meets/[meetsId]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(content)/meets/[meetsId]/loading.js"
-    ],
-    "/(content)/meets/[meetsId]/not-found": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(content)/meets/[meetsId]/not-found.js"
-    ],
-    "/(content)/meets/[meetsId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/meets/[meetsId]/page.css",
-      "static/chunks/app/(content)/meets/[meetsId]/page.js"
-    ],
-    "/(content)/users/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/users/page.css",
-      "static/chunks/app/(content)/users/page.js"
-    ],
-    "/api/meets/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/route.js"
     ]
   }
 }

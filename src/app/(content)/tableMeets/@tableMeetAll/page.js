@@ -182,7 +182,7 @@ export default function TableMeetsAllPage() {
       <div>
         {upcomingItem && (
           <p className="date-meet">
-            จะมีรายการอีกครั้งในวันที่ {upcomingItem.dateChange}
+            มีการใช้ห้องประชุมอีกครั้ง วันที่ {upcomingItem.dateChange}
             {upcomingDays > 0 && ` (อีก ${upcomingDays} วัน)`}
             {upcomingDays === 0 && ` (วันนี้)`}
           </p>
@@ -214,11 +214,12 @@ export default function TableMeetsAllPage() {
                 {/* <th>วันที่</th> */}
                 <th>วันเดิอนปี ที่ใช้</th>
                 <th>เวลา</th>
-                <th>ส่วนงาน</th>
-                <th>จำนวน/คน</th>
-                <th>สถานะห้อง</th>
-                <th>การใช้ห้อง</th>
-                <th>ผลบริการ</th>
+                {/* <th>ส่วนงาน</th> */}
+                <th>เรื่อง</th>
+                <th>จำนวน</th>
+                <th>ผล</th>
+                <th>ใช้ห้อง</th>
+                <th>บริการ</th>
               </tr>
             </thead>
             <tbody>
@@ -232,12 +233,13 @@ export default function TableMeetsAllPage() {
                   {/* <td>
                       <Link href={`/meets/${item.id}`}>{item.dateUse}</Link>
                     </td> */}
-                  <td>{item.dateChange}</td>
-                  <td>
+                  <td style={{ width: "160px" }}>{item.dateChange}</td>
+                  <td style={{ width: "180px" }}>
                     {item.beginTime} - {item.toTime}
                   </td>
-                  <td>{item.agencyUse}</td>
-                  <td>{item.amountUse}</td>
+                  {/* <td>{item.agencyUse}</td> */}
+                  <td className="subject-cell">{item.subjectUse}</td>
+                  <td style={{ textAlign: "center" }}>{item.amountUse}</td>
                   <td>
                     <span className={`status-badge ${item.resultText}`}>
                       {item.resultText}
@@ -249,7 +251,10 @@ export default function TableMeetsAllPage() {
                     </span>
                   </td>
                   <td>
-                    <span className={`operete-badge ${item.resultOperation}`}>
+                    <span
+                      className={`operete-badge ${item.resultOperation}`}
+                      style={{ width: "140px" }}
+                    >
                       {item.resultOperation}
                     </span>
                   </td>

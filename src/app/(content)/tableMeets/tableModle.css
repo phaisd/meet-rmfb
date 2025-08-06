@@ -1,17 +1,17 @@
 #page {
   width: 100%;
-  max-width: 98rem;
+  max-width: 99rem;
   margin: 1rem auto;
 }
 /* play / pause button */
 .carousel-container {
-  max-width: 98%;
+  max-width: 100%;
   /* margin: auto; */
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   height: 78vh;
   background: #686868;
   border-radius: 1rem;
@@ -32,14 +32,13 @@ h1 {
   color: #d2d2d2;
 }
 
-
 .table-container {
   display: flex;
   padding: 1rem;
   overflow-x: auto;
   text-align: center;
   flex-direction: column;
-  width: 95%;
+  width: 100%;
   justify-content: center;
 }
 
@@ -85,9 +84,8 @@ h1 {
   font-weight: bold;
 }
 
-
 .status-badge.รอวันใช้งาน,
-.operate-badge.กำลังดำเนินการ  {
+.operate-badge.กำลังดำเนินการ {
   background-color: #ef6c00;
   color: #ffffff;
 }
@@ -101,7 +99,7 @@ h1 {
 .status-badge.ขอแต่ไม่ใช้,
 .operate-badge.ห้องไม่ว่าง {
   background-color: #f44336;
-  color:#ffffff;
+  color: #ffffff;
 }
 
 .table-striped {
@@ -118,7 +116,7 @@ h1 {
 
 .table-striped th {
   background-color: #f2f2f2;
-    text-align: center; /* ให้ข้อความใน <th> อยู่กึ่งกลาง */
+  text-align: center; /* ให้ข้อความใน <th> อยู่กึ่งกลาง */
 }
 
 .table-striped tbody tr:nth-child(odd) {
@@ -128,7 +126,6 @@ h1 {
 .table-striped tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
-
 
 /* ปุ่มเลื่อนหน้า */
 .controls {
@@ -165,28 +162,39 @@ h1 {
   background: #ffeb3b;
 }
 .title-meet {
-  padding: 0.2rem 1rem;
-  margin-top: 0.1rem ;
+  padding: 0.2rem 0.3rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
   background: #b40dba;
   border-radius: 0.8rem;
-
 }
 
-
 .content-meet {
-  padding: 0.2rem 0.5rem;
-  margin-top: 0.1rem ;
+  padding: 0.2rem 0.3rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
   background: #c4c4c4;
   border-radius: 0.8rem;
   color: #1226c2;
+  text-align: center;
 }
 .date-meet {
-  padding: 0.1rem 0.5rem;
-  margin-top: 0.1rem ;
-  margin-bottom: 0.5rem;
+  padding: 0.1rem 0.3rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.3rem;
   background: #c4c4c4;
   border-radius: 0.8rem;
   color: #077733;
   font-size: 1.5rem;
   font-weight: bold;
+  text-align: center;
+}
+
+.subject-cell {
+  width: 480px;
+  max-width: 480px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: medium;
 }
