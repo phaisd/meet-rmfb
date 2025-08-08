@@ -55,6 +55,7 @@ export async function opreateMeets(formData) {
   const operation = formData.get("operation") || "";
   const resultOperation = formData.get("resultOperation") || "";
   const dateChange = formData.get("dateChange") || "";
+  const approvedDate = formData.get("approvedDate") || ""; // âœ… à¸£à¸±à¸šà¸ˆà¸²à¸à¸Ÿà¸­à¸£à¹Œà¸¡à¹‚à¸”à¸¢à¸•à¸£à¸‡
 
   const data = {
     agencyUse,
@@ -72,6 +73,7 @@ export async function opreateMeets(formData) {
     resultText,
     resultOperation,
     dateChange,
+    approvedDate,
     dateUse: formatDateString(dateUse),
     beginTimeDisplay: formatTime24hWithPM(beginTime),
     toTimeDisplay: formatTime24hWithPM(toTime),
@@ -82,7 +84,7 @@ export async function opreateMeets(formData) {
   try {
     if (id) {
       // 🟢 เพิ่มวันที่วันนี้ตอนอัปเดต
-      data.approvedDate = getTodayFormatted();
+      // data.approvedDate = getTodayFormatted();
 
       const updates = {};
       updates[`Request_Meeting/${id}`] = data;
@@ -90,7 +92,7 @@ export async function opreateMeets(formData) {
     } else {
       // 🟡 เพิ่มใหม่
       data.resultText = "รอดำเนินการ";
-      data.approvedDate = ""; // หรือใส่ getTodayFormatted() ถ้าต้องการ
+      // data.approvedDate = ""; // หรือใส่ getTodayFormatted() ถ้าต้องการ
       const newRef = ref(db, "Request_Meeting");
       await push(newRef, data);
     }

@@ -1,4 +1,5 @@
 import MainHeader from "@/components/Mainheader";
+import MainFoolter from "@/components/Mainfooter";
 
 export const metadata = {
   title: "FbMRm",
@@ -10,7 +11,7 @@ export default function ContentLayout({ children }) {
     <div id="page">
       <MainHeader />
       {children}
-
+      <MainFoolter />
     </div>
   );
 }

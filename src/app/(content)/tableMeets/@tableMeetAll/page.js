@@ -173,9 +173,10 @@ export default function TableMeetsAllPage() {
 
   return (
     <div className="carousel-container">
-      <h1 className="title-meet">ตารางการขอใช้ห้องประชุม</h1>
+      <h1 className="title-meet">ตารางการขอใช้ห้องประชุมประจำคณะพุทธศาสตร์</h1>
       <p className="content-meet">
-        ระบบจองห้องประชุมออนไลน์ สำหรับคณาจารย์และบุคลากรของมหาวิทยาลัย
+        ระบบจองห้องประชุมออนไลน์ สำหรับผู้บริหาร
+        คณาจารย์และบุคลากรของมหาวิทยาลัย
       </p>
 
       {/* แสดงข้อความรายการถัดไป */}

@@ -124,7 +124,9 @@ export default function MeetsCurrentPage() {
 
   return (
     <div className="carousel-container">
-      <h1 className="title-use">การใช้ห้องประชุมประจำวัน</h1>
+      <h1 className="title-use">
+        การใช้ห้องประชุมประจำคณะพุทธศาสตร์ แบบรายวัน
+      </h1>
       <p className="content-use">วันนี้ : {todayStr}</p>
 
       <div className="carousel">
@@ -183,7 +185,7 @@ export default function MeetsCurrentPage() {
           ) : (
             <div>
               <h2 className="card-title-nomeet">
-                วันนี้ : ไม่มีการใช้ห้องประชุม
+                วันนี้ : ไม่มีการใช้ห้องประชุมประจำคณะฯ
               </h2>
               {nextMeetInfo ? (
                 <p className="card-title-nomeet">

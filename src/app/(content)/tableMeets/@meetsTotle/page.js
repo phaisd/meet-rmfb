@@ -58,12 +58,14 @@ export default function MeetsTotlePage() {
 
   return (
     <div className="carousel-container">
-      <h1 className="title-use">Consoltation Room การขอใช้ห้องประชุม</h1>
+      <h1 className="title-use">
+        Consoltation Room การขอใช้ห้องประชุมประจำคณะพุทธ
+      </h1>
       <p className="content-use">
-        ระบบจองห้องประชุมออนไลน์
-        สำหรับการใช้งานของคณาจารย์และบุคลากรของมหาวิทยาลัย
+        ระบบจองห้องประชุมประจำคณะพุทธศาสตร์ ออนไลน์
+        สำหรับการใช้งานการให้บริการแก่คณาจารย์และบุคลากรของมหาวิทยาลัย
       </p>
-      <div className="carousel">
+      <div className="carousel" style={{ textAlign: "center" }}>
         <ul className="meets-list">
           {currentItems.length > 0 ? (
             currentItems.map((meetsItem) => (

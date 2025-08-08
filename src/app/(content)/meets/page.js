@@ -124,7 +124,10 @@ export default function MeetsPage() {
 
   return (
     <div className="carousel-container">
-      <h1 id="archive-text">การใช้ห้องประชุมประจำวัน</h1>
+      <h1 id="archive-text">การใช้ห้องประชุมประจำคณะ ประจำวัน</h1>
+      <p id="archive-text" style={{ textAlign: "center" }}>
+        อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) อาคารเรียนรวม โซน D
+      </p>
       <p id="archive-text">วันนี้ : {todayStr}</p>
 
       <div className="carousel">
@@ -182,7 +185,7 @@ export default function MeetsPage() {
           ) : (
             <div>
               <h2 className="card-title-nomeet">
-                วันนี้ : ไม่มีการใช้ห้องประชุม
+                วันนี้ : ไม่มีการใช้ห้องประชุมประจำคณะฯ
               </h2>
               {nextMeetInfo ? (
                 <p className="card-title-nomeet">

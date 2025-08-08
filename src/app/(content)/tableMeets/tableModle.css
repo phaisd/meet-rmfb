@@ -156,6 +156,15 @@ h1 {
   background-color: #ffffcc !important;
 }
 
+.title-use {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  margin-top: 0.2rem;
+  padding: 0.2rem 3rem;
+  background: #553b02;
+}
+
 .table-meets p {
   margin: 5px;
   padding: 3px;
@@ -191,8 +200,8 @@ h1 {
 }
 
 .subject-cell {
-  width: 480px;
-  max-width: 480px;
+  width: 470px;
+  max-width: 470px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

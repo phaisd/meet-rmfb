@@ -22,8 +22,18 @@ function revertTimeFormat(timeStr) {
 function formatDateToThai(dateStr) {
   if (!dateStr) return "";
   const monthsThai = [
-    "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม",
   ];
 
   const [year, month, day] = dateStr.split("-");
@@ -55,6 +65,16 @@ function revertDateFormat(dateStr) {
   return `${year}-${month}-${day.padStart(2, "0")}`;
 }
 
+function formatToDDMMMYYYY(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d)) return "";
+  const day = d.getDate().toString().padStart(2, "0");
+  const month = d.toLocaleString("en-US", { month: "long" });
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
 export default function AdminMeetsPage() {
   const [meetsList, setMeetsList] = useState([]);
   const [form, setForm] = useState({
@@ -81,6 +101,7 @@ export default function AdminMeetsPage() {
   //router
   const router = useRouter();
 
+  //ตรวจการล๊อคอิน ตอนนี้ใช้ไม่ได้
   useEffect(() => {
     async function checkAuth() {
       const res = await fetch("/api/auth/check");
@@ -90,7 +111,6 @@ export default function AdminMeetsPage() {
     }
     checkAuth();
   }, [router]);
-
 
   useEffect(() => {
     fetch("/api/meets")
@@ -135,7 +155,9 @@ export default function AdminMeetsPage() {
       statusUse: item.statusUse || "",
       toTime: revertTimeFormat(item.toTime || ""),
       coordinator: item.coordinator || "",
-      approvedDate: item.approvedDate || "",
+      approvedDate: item.approvedDate
+        ? revertDateFormat(item.approvedDate)
+        : "", //approvedDate: item.approvedDate || "",
       operation: item.operation || "",
       resultOperation: item.resultOperation || "",
       dateChange: item.dateChange || "",
@@ -201,7 +223,11 @@ export default function AdminMeetsPage() {
         { text: `หน่วยงาน: ${item.agencyUse}` },
         { text: `วันที่ใช้: ${item.dateUse}` },
         { text: `เวลา: ${item.beginTime} - ${item.toTime}` },
-        { text: `อุปกรณ์: ${Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""}` },
+        {
+          text: `อุปกรณ์: ${
+            Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""
+          }`,
+        },
         { text: `ผลดำเนินการ: ${item.resultText}` },
       ],
       styles: {
@@ -252,7 +278,6 @@ export default function AdminMeetsPage() {
   //   saveAs(blob, `meet_${item.id || "data"}.docx`);
   // };
 
-
   return (
     <>
       <div>
@@ -262,16 +287,22 @@ export default function AdminMeetsPage() {
           {/* <a className={styles.signout} href="/api/auth/signout">
             Sign out
           </a> */}
-          <button onClick={handleSignOut} className={styles.signout}>Sign Out</button>
+          <button onClick={handleSignOut} className={styles.signout}>
+            Sign Out
+          </button>
         </h1>
         <form
           action={async (formData) => {
+            // ✅ แปลง approvedDate → dd-MMMM-yyyy ก่อนส่ง
+            const rawDate = formData.get("approvedDate");
+            formData.set("approvedDate", formatToDDMMMYYYY(rawDate));
+
             await opreateMeets(formData);
             clearForm();
           }}
           // method="POST"
           className={styles.form}
-        // encType="multipart/form-data"
+          // encType="multipart/form-data"
         >
           <input type="hidden" name="id" value={form.id || ""} />
 
@@ -283,7 +314,7 @@ export default function AdminMeetsPage() {
               value={form.nameUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}  //ไม่่รู้วว่า ทำไม พออัดเดทแล้ว อินพุดที่นี้คำสั่งนี้ โดนลบหมด
+              // disabled={!!form.id}  //ไม่่รู้วว่า ทำไม พออัดเดทแล้ว อินพุดที่นี้คำสั่งนี้ โดนลบหมด
             />
           </div>
 
@@ -295,7 +326,6 @@ export default function AdminMeetsPage() {
               value={form.statusUse}
               onChange={handleChange}
               required
-
             />
           </div>
           <div className={styles.inlineField}>
@@ -306,7 +336,7 @@ export default function AdminMeetsPage() {
               value={form.agencyUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}
+              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -317,7 +347,7 @@ export default function AdminMeetsPage() {
               value={form.contactUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}
+              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -328,7 +358,7 @@ export default function AdminMeetsPage() {
               value={form.forUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}
+              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -339,7 +369,7 @@ export default function AdminMeetsPage() {
               value={form.subjectUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}
+              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -351,7 +381,7 @@ export default function AdminMeetsPage() {
               value={form.amountUse}
               onChange={handleChange}
               required
-            // disabled={!!form.id}
+              // disabled={!!form.id}
             />
           </div>
 
@@ -423,7 +453,14 @@ export default function AdminMeetsPage() {
 
           <div>
             <label>ผลดำเนินการ:</label>
-            {["รอดำเนินการ", "กำลังดำเนินการ", "อนุมัติ", "ไม่อนุมัติ", "ห้องไม่ว่าง", "ห้องว่าง"].map((option) => (
+            {[
+              "รอดำเนินการ",
+              "กำลังดำเนินการ",
+              "อนุมัติ",
+              "ไม่อนุมัติ",
+              "ห้องไม่ว่าง",
+              "ห้องว่าง",
+            ].map((option) => (
               <label key={option} style={{ marginRight: "1em" }}>
                 <input
                   type="radio"
@@ -452,36 +489,44 @@ export default function AdminMeetsPage() {
 
           <div>
             <label>การใช้ห้อง:</label>
-            {["รอวันใช้งาน", "มาใช้บริการ", "ขอแต่ไม่ใช้", "ขอเปลี่ยนห้อง"].map((option) => (
-              <label key={option} style={{ marginRight: "1em" }}>
-                <input
-                  type="radio"
-                  name="operation"
-                  value={option}
-                  checked={form.operation === option}
-                  onChange={handleChange}
-                  required
-                />
-                {option}
-              </label>
-            ))}
+            {["รอวันใช้งาน", "มาใช้บริการ", "ขอแต่ไม่ใช้", "ขอเปลี่ยนห้อง"].map(
+              (option) => (
+                <label key={option} style={{ marginRight: "1em" }}>
+                  <input
+                    type="radio"
+                    name="operation"
+                    value={option}
+                    checked={form.operation === option}
+                    onChange={handleChange}
+                    required
+                  />
+                  {option}
+                </label>
+              )
+            )}
           </div>
 
           <div>
             <label htmlFor="resultOperation">ผลบริการ:</label>
-            {["ยังไม่ถึงวัน", "เรียบร้อยดี", "ห้องชำรุด", "อื่น ๆ"].map((option) => (
-              <label key={option} style={{ marginRight: "1em" }} className="option-color">
-                <input
-                  type="radio"
-                  name="resultOperation"
-                  value={option}
-                  checked={form.resultOperation === option}
-                  onChange={handleChange}
-                  required
-                />
-                {option}
-              </label>
-            ))}
+            {["ยังไม่ถึงวัน", "เรียบร้อยดี", "ห้องชำรุด", "อื่น ๆ"].map(
+              (option) => (
+                <label
+                  key={option}
+                  style={{ marginRight: "1em" }}
+                  className="option-color"
+                >
+                  <input
+                    type="radio"
+                    name="resultOperation"
+                    value={option}
+                    checked={form.resultOperation === option}
+                    onChange={handleChange}
+                    required
+                  />
+                  {option}
+                </label>
+              )
+            )}
           </div>
           <div className={styles.inlineField}>
             <label htmlFor="dateChange">เปลี่ยนรูปแบบวัน :</label>
@@ -496,7 +541,7 @@ export default function AdminMeetsPage() {
           </div>
 
           <button type="submit">{form.id ? "Update" : "Create"} Meets</button>
-        </form >
+        </form>
 
         <ul className={styles.list}>
           {Array.isArray(meetsList) &&
@@ -504,26 +549,47 @@ export default function AdminMeetsPage() {
               const services = Array.isArray(item.serviceUse)
                 ? item.serviceUse
                 : typeof item.serviceUse === "string"
-                  ? [item.serviceUse]
-                  : [];
+                ? [item.serviceUse]
+                : [];
 
               return (
                 <li key={item.id}>
-                  <strong>{item.nameUse}</strong><br />
+                  <strong>{item.nameUse}</strong>
+                  <br />
                   อุปกรณ์: [{services.join(", ")}] <br />
                   เวลาเริ่ม: {item.beginTime} <br />
                   วันที่ใช้: {item.dateUse} <br />
                   <div className={styles.buttonGroup}>
-                    <button onClick={() => handleEdit(item)} className={`${styles.btn} ${styles.editBtn} `} >Edit</button>
-                    <button onClick={() => handleDelete(item.id)} className={`${styles.btn} ${styles.deleteBtn}`}>Delete</button>
-                    <button onClick={() => exportToPDF(item)} className={`${styles.btn} ${styles.pdfBtn}`}>Exp PDF</button>
-                    <button onClick={() => exportToWord(item)} className={`${styles.btn} ${styles.wordBtn}`}>Exp Word</button>
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className={`${styles.btn} ${styles.editBtn} `}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className={`${styles.btn} ${styles.deleteBtn}`}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => exportToPDF(item)}
+                      className={`${styles.btn} ${styles.pdfBtn}`}
+                    >
+                      Exp PDF
+                    </button>
+                    <button
+                      onClick={() => exportToWord(item)}
+                      className={`${styles.btn} ${styles.wordBtn}`}
+                    >
+                      Exp Word
+                    </button>
                   </div>
                 </li>
               );
             })}
         </ul>
-      </div >
+      </div>
     </>
   );
 }

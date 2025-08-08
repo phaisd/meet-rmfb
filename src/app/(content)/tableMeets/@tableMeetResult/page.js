@@ -171,7 +171,7 @@ export default function MonthlySummaryAllViews() {
 
   return (
     <div>
-      <h1>สรุปการขอใช้ห้องประชุม</h1>
+      <h1>สรุปการขอใช้ห้องประชุมประจำคณะพุทธศาสตร์</h1>
       <p style={{ textAlign: "center" }}>
         ตารางและกราฟแท่งจาก วันใช้งาน, กราฟวงกลมจาก ใช่สำหรับ
       </p>
