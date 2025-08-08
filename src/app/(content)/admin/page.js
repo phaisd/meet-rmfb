@@ -102,15 +102,15 @@ export default function AdminMeetsPage() {
   const router = useRouter();
 
   //ตรวจการล๊อคอิน ตอนนี้ใช้ไม่ได้
-  useEffect(() => {
-    async function checkAuth() {
-      const res = await fetch("/api/auth/check");
-      if (!res.ok) {
-        router.push("/auth"); // redirect ถ้าไม่ใช่ admin
-      }
-    }
-    checkAuth();
-  }, [router]);
+  // useEffect(() => {
+  //   async function checkAuth() {
+  //     const res = await fetch("/api/auth/check");
+  //     if (!res.ok) {
+  //       router.push("/auth"); // redirect ถ้าไม่ใช่ admin
+  //     }
+  //   }
+  //   checkAuth();
+  // }, [router]);
 
   useEffect(() => {
     fetch("/api/meets")
