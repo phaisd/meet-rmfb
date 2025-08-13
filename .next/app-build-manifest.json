@@ -11,16 +11,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/(meeting)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/layout.js"
-    ],
-    "/(meeting)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/page.js"
-    ],
     "/(content)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -31,31 +21,43 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(content)/not-found.js"
     ],
-    "/(content)/admin/error": [
+    "/(content)/tableMeets/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(content)/admin/error.js"
+      "static/chunks/app/(content)/tableMeets/layout.js"
     ],
-    "/(content)/admin/not-found": [
+    "/(content)/tableMeets/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(content)/admin/not-found.js"
+      "static/chunks/app/(content)/tableMeets/not-found.js"
     ],
-    "/(content)/admin/page": [
+    "/(content)/tableMeets/@meetCurrent/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(content)/admin/page.css",
-      "static/chunks/app/(content)/admin/page.js"
+      "static/css/app/(content)/tableMeets/@meetCurrent/page.css",
+      "static/chunks/app/(content)/tableMeets/@meetCurrent/page.js"
     ],
-    "/api/meets/route": [
+    "/(content)/tableMeets/@meetsTotle/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/route.js"
+      "static/css/app/(content)/tableMeets/@meetsTotle/page.css",
+      "static/chunks/app/(content)/tableMeets/@meetsTotle/page.js"
     ],
-    "/_not-found/page": [
+    "/(content)/tableMeets/@tableMeetAll/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/css/app/(content)/tableMeets/@tableMeetAll/page.css",
+      "static/chunks/app/(content)/tableMeets/@tableMeetAll/page.js"
+    ],
+    "/(content)/tableMeets/@tableMeetResult/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(content)/tableMeets/@tableMeetResult/page.js"
+    ],
+    "/api/export-to-sheets/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/export-to-sheets/route.js"
     ]
   }
 }

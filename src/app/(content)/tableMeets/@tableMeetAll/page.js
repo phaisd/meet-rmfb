@@ -171,6 +171,22 @@ export default function TableMeetsAllPage() {
     setAutoAdvance(false);
   };
 
+  const handleExportToSheets = async () => {
+    try {
+      const res = await fetch("/api/export-to-sheets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: meetsList }),
+      });
+
+      const result = await res.json();
+      alert(result.message || "ส่งออกสำเร็จ");
+    } catch (err) {
+      console.error(err);
+      alert("เกิดข้อผิดพลาดในการส่งออก");
+    }
+  };
+
   return (
     <div className="carousel-container">
       <h1 className="title-meet">ตารางการขอใช้ห้องประชุมประจำคณะพุทธศาสตร์</h1>
@@ -178,6 +194,12 @@ export default function TableMeetsAllPage() {
         ระบบจองห้องประชุมออนไลน์ สำหรับผู้บริหาร
         คณาจารย์และบุคลากรของมหาวิทยาลัย
       </p>
+      <button
+        onClick={handleExportToSheets}
+        style={{ marginTop: "10px", alignSelf: "flex-end" }}
+      >
+        📤 ส่งออก Google Sheets
+      </button>
 
       {/* แสดงข้อความรายการถัดไป */}
       <div>
