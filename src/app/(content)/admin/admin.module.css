@@ -34,7 +34,7 @@
 }
 
 .preview {
-  max-width: 100%;
+  max-width: 95%;
   max-height: 200px;
   object-fit: contain;
   border: 1px solid #ccc;
@@ -51,12 +51,11 @@
   padding: 0;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
 }
 
 .list li {
-  background: #9f8744;
+  background: #8d783d;
   border: 1px solid #eaeaea;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -94,10 +93,9 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
-  
 }
 .editBtn {
-  background-color: #4CAF50; /* เขียว */
+  background-color: #4caf50; /* เขียว */
 }
 
 .deleteBtn {
@@ -105,11 +103,11 @@
 }
 
 .pdfBtn {
-  background-color: #2196F3; /* น้ำเงิน */
+  background-color: #2196f3; /* น้ำเงิน */
 }
 
 .wordBtn {
-  background-color: #9C27B0; /* ม่วง */
+  background-color: #9c27b0; /* ม่วง */
 }
 
 .inlineField {
@@ -121,7 +119,6 @@
 .inlineField label {
   margin-bottom: 0.25rem;
   font-weight: bold;
-
 }
 
 @media screen and (min-width: 768px) {
@@ -142,15 +139,14 @@
   }
 }
 
-.timeRow{
+.timeRow {
   display: flex;
   gap: 1rem;
   align-items: center;
   flex-wrap: nowrap;
   margin-bottom: 0.2rem;
-  
 }
-.timeRow label{
+.timeRow label {
   display: flex;
   flex-direction: column;
   font-weight: bold;

@@ -146,9 +146,9 @@ export async function exportToWord(item) {
 
   const thaiDateUse = formatThaiDate(item.dateUse);
 
-  // const imageRes = await fetch("/logo.png");
+  // const imageRes = await fetch("/logofb.png");
 
-  const imageRes = await fetch(`${window.location.origin}/logo.jpg`);
+  const imageRes = await fetch(`${window.location.origin}/logofb.png`);
 
   const imageBlob = await imageRes.blob();
   const reader = new FileReader();
@@ -156,6 +156,14 @@ export async function exportToWord(item) {
     reader.onloadend = () => resolve(reader.result.split(",")[1]);
     reader.readAsDataURL(imageBlob);
   });
+
+  // โหลดโลโก้จาก public/logo.jpg เป็น Uint8Array
+  // const imageRes = await fetch("/logo.jpg"); // ไฟล์ต้องอยู่ใน public/
+  // if (!imageRes.ok) {
+  //   console.error("โหลดโลโก้ไม่สำเร็จ");
+  // }
+  // const imageBuffer = await imageRes.arrayBuffer();
+  // const imageUint8 = new Uint8Array(imageBuffer);
 
   const doc = new Document({
     sections: [
@@ -170,6 +178,11 @@ export async function exportToWord(item) {
                 ),
                 transformation: { width: 85, height: 85 },
               }),
+
+              // new ImageRun({
+              //   data: imageUint8, // ใช้ตัวแปรที่เราโหลดจาก arrayBuffer
+              //   transformation: { width: 85, height: 85 },
+              // }),
             ],
             alignment: AlignmentType.CENTER,
           }),
@@ -185,7 +198,7 @@ export async function exportToWord(item) {
             text: "มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย ตำบลลำไทย อำเภอวังน้อย จังหวัดพระนครศรีอยุธยา",
             alignment: AlignmentType.CENTER,
           }),
-
+          new Paragraph(""),
           new Paragraph({
             text: `วันที่พิมพ์: ${printedDate}`,
             alignment: AlignmentType.RIGHT,
@@ -228,7 +241,7 @@ export async function exportToWord(item) {
                 bold: true,
                 underline: UnderlineType.DOTDASH,
               }),
-              new TextRun(" \t เบอร์ติดต่อ: ............."),
+              new TextRun("\t เบอร์ติดต่อ: ............."),
               // new TextRun(item.contactUse|| "............."),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -251,7 +264,7 @@ export async function exportToWord(item) {
           }),
           new Paragraph({
             children: [
-              new TextRun("\tเพื่อ: "),
+              new TextRun("\t เพื่อ: "),
               new TextRun({
                 text: `${item.forUse}`,
                 bold: true,
@@ -262,7 +275,7 @@ export async function exportToWord(item) {
           }),
           new Paragraph({
             children: [
-              new TextRun("\tเรื่อง:"),
+              new TextRun("\t เรื่อง:"),
               new TextRun({
                 text: `${item.subjectUse}`,
                 bold: true,
@@ -274,7 +287,7 @@ export async function exportToWord(item) {
 
           new Paragraph({
             children: [
-              new TextRun("วันที่ใช้: "),
+              new TextRun("\t วันที่ใช้: "),
               new TextRun({
                 text: `${formatThaiDate(item.dateUse)}`,
                 bold: true,
@@ -292,7 +305,7 @@ export async function exportToWord(item) {
 
           new Paragraph({
             children: [
-              new TextRun("มีจำนวนผู้เข้าใช้ห้องประชุม ประมาณ: "),
+              new TextRun("\t มีจำนวนผู้เข้าใช้ห้องประชุม ประมาณ: "),
               new TextRun(`${item.amountUse} รูป/คน`),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -306,7 +319,8 @@ export async function exportToWord(item) {
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
-
+          new Paragraph(""),
+          new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun({
@@ -339,6 +353,7 @@ export async function exportToWord(item) {
               "(เจ้าหน้าที่ผู้ดำเนินงาน)",
               "----------/--------------/--------------",
             ],
+
             "ความเห็นสมควร:",
             [
               "อนุมัติ ( )   ไม่อนุมัติ ( )",

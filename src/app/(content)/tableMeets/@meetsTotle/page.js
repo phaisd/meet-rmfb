@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import "@/app/(content)/meets/meetsroom.css"; // Import CSS for styling
 import Image from "next/image";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 4;
 const AUTO_ADVANCE_INTERVAL = 10000; // 10 วินาที
 
 export default function MeetsTotlePage() {

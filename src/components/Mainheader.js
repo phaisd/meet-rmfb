@@ -25,7 +25,7 @@ export default function MainHeader() {
               <NavLink href="/useMeets">Use</NavLink>
             </li>
             <li>
-              <NavLink href="/usersfb">Service</NavLink>
+              <NavLink href="/userauth">Service</NavLink>
             </li>
           </ul>
         </nav>

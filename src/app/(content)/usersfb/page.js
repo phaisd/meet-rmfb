@@ -146,7 +146,6 @@ export default function UsersFbMeetsPage() {
               value={form.nameUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}  //ไม่่รู้วว่า ทำไม พออัดเดทแล้ว อินพุดที่นี้คำสั่งนี้ โดนลบหมด
             />
           </div>
 
@@ -168,7 +167,6 @@ export default function UsersFbMeetsPage() {
               value={form.agencyUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -179,7 +177,6 @@ export default function UsersFbMeetsPage() {
               value={form.contactUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -190,7 +187,6 @@ export default function UsersFbMeetsPage() {
               value={form.forUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -201,7 +197,6 @@ export default function UsersFbMeetsPage() {
               value={form.subjectUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -213,7 +208,6 @@ export default function UsersFbMeetsPage() {
               value={form.amountUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
 
@@ -267,20 +261,25 @@ export default function UsersFbMeetsPage() {
           {/* Checkbox */}
           <fieldset>
             <legend>ขอบริการอุปกรณ์:</legend>
-            {["All Device", "PC", "LCD", "Amplifier", "Only room"].map(
-              (device) => (
-                <label key={device}>
-                  <input
-                    type="checkbox"
-                    name="serviceUse"
-                    value={device}
-                    checked={form.serviceUse.includes(device)}
-                    onChange={handleCheckboxChange}
-                  />
-                  {device}
-                </label>
-              )
-            )}
+            {[
+              "คอมพิวเตอร์",
+              "LED_Display",
+              "เครื่องขยายเสียง",
+              "บ้นทึกประชุม",
+              "SmartTv",
+              "เฉพาะห้อง",
+            ].map((device) => (
+              <label key={device}>
+                <input
+                  type="checkbox"
+                  name="serviceUse"
+                  value={device}
+                  checked={form.serviceUse.includes(device)}
+                  onChange={handleCheckboxChange}
+                />
+                {device}
+              </label>
+            ))}
           </fieldset>
 
           <input
@@ -330,9 +329,7 @@ export default function UsersFbMeetsPage() {
             hidden
           />
 
-          <button type="submit">
-            {form.id ? "Update" : "Create"} ขอใช้ห้อง
-          </button>
+          <button type="submit">ยืนยันขอใช้ห้อง</button>
         </form>
       </div>
     </>

@@ -106,7 +106,7 @@ export default function AdminMeetsPage() {
     async function checkAuth() {
       const res = await fetch("/api/auth/check");
       if (!res.ok) {
-        router.push("/auth"); // redirect ถ้าไม่ใช่ admin
+        router.push("/"); // redirect ถ้าไม่ใช่ admin
       }
     }
     checkAuth();
@@ -211,7 +211,7 @@ export default function AdminMeetsPage() {
 
   const handleSignOut = async () => {
     await fetch("/api/auth/signout", { method: "POST" });
-    router.push("/admin/auth"); // กลับไปหน้า Login
+    router.push("/"); // กลับไปหน้า Login
   };
   //Pdf
   const exportToPDF = (item) => {
@@ -241,42 +241,6 @@ export default function AdminMeetsPage() {
 
     pdfMake.createPdf(docDefinition).download(`meet_${item.id || "data"}.pdf`);
   };
-
-  // const today = new Date();
-  // const formattedDate = today.toLocaleDateString("th-TH", {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  // });
-
-  //word ย้ายไป lip exportToWord
-  // const exportToWord = async (item) => {
-  //   const doc = new Document({
-  //     sections: [
-  //       {
-  //         children: [
-  //           new Paragraph({ text: "แบบฟอร์มจองห้องประชุม", heading: "Heading1" }),
-  //           new Paragraph(`วันที่รายงาน: ${formattedDate}`),
-  //           new Paragraph(`ชื่อผู้ขอใช้: ${item.nameUse}`),
-  //           new Paragraph(`ตำแหน่ง: ${item.statusUse}`),
-  //           new Paragraph(`หน่วยงาน: ${item.agencyUse}`),
-  //           new Paragraph(`สำหรับ: ${item.forUse}`),
-  //           new Paragraph(`เรื่อง: ${item.subjectUse}`),
-  //           new Paragraph(`อุปกรณ์: ${Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""}`),
-  //           new Paragraph(`จำนวนผู้เข้าร่วม: ${item.amountUse}`),
-  //           new Paragraph(`วันที่ใช้: ${formatDateToThai(item.dateChange)}`),
-  //           new Paragraph(`เริ่มเวลา: ${item.beginTime} - ${item.toTime}`),
-  //           new Paragraph(`ผู้ประสานงาน : ${item.coordinator}`),
-  //           new Paragraph(`การติดต่อ : ${item.contactUse}`),
-  //           new Paragraph(`การขอใช้ : ${item.resultText}`),
-  //         ],
-  //       },
-  //     ],
-  //   });
-
-  //   const blob = await Packer.toBlob(doc);
-  //   saveAs(blob, `meet_${item.id || "data"}.docx`);
-  // };
 
   return (
     <>
@@ -308,13 +272,13 @@ export default function AdminMeetsPage() {
 
           <div className={styles.inlineField}>
             <label htmlFor="nameUse">ชื่อผู้ขอใช้ :</label>
+
             <input
               name="nameUse"
               placeholder="ชื่อผู้ขอใช้"
               value={form.nameUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}  //ไม่่รู้วว่า ทำไม พออัดเดทแล้ว อินพุดที่นี้คำสั่งนี้ โดนลบหมด
             />
           </div>
 
@@ -336,7 +300,6 @@ export default function AdminMeetsPage() {
               value={form.agencyUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -347,7 +310,6 @@ export default function AdminMeetsPage() {
               value={form.contactUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -358,7 +320,6 @@ export default function AdminMeetsPage() {
               value={form.forUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -369,7 +330,6 @@ export default function AdminMeetsPage() {
               value={form.subjectUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
           <div className={styles.inlineField}>
@@ -381,7 +341,6 @@ export default function AdminMeetsPage() {
               value={form.amountUse}
               onChange={handleChange}
               required
-              // disabled={!!form.id}
             />
           </div>
 
@@ -435,20 +394,25 @@ export default function AdminMeetsPage() {
           {/* Checkbox */}
           <fieldset>
             <legend>ขอบริการอุปกรณ์:</legend>
-            {["All Device", "PC", "LCD", "Amplifier", "Only room"].map(
-              (device) => (
-                <label key={device}>
-                  <input
-                    type="checkbox"
-                    name="serviceUse"
-                    value={device}
-                    checked={form.serviceUse.includes(device)}
-                    onChange={handleCheckboxChange}
-                  />
-                  {device}
-                </label>
-              )
-            )}
+            {[
+              "คอมพิวเตอร์",
+              "LED_Display",
+              "เครื่องขยายเสียง",
+              "บ้นทึกประชุม",
+              "SmartTv",
+              "เฉพาะห้อง",
+            ].map((device) => (
+              <label key={device}>
+                <input
+                  type="checkbox"
+                  name="serviceUse"
+                  value={device}
+                  checked={form.serviceUse.includes(device)}
+                  onChange={handleCheckboxChange}
+                />
+                {device}
+              </label>
+            ))}
           </fieldset>
 
           <div>
@@ -566,23 +530,18 @@ export default function AdminMeetsPage() {
                     >
                       Edit
                     </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className={`${styles.btn} ${styles.deleteBtn}`}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      onClick={() => exportToPDF(item)}
-                      className={`${styles.btn} ${styles.pdfBtn}`}
-                    >
-                      Exp PDF
-                    </button>
+
                     <button
                       onClick={() => exportToWord(item)}
                       className={`${styles.btn} ${styles.wordBtn}`}
                     >
                       Exp Word
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className={`${styles.btn} ${styles.deleteBtn}`}
+                    >
+                      Delete
                     </button>
                   </div>
                 </li>

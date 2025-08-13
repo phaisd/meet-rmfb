@@ -10,9 +10,18 @@ html {
 }
 
 body {
+  font-size: 1.2vw; /* ปรับตามความกว้างจอ */
   margin: 0;
   background-color: #181817;
   color: #e5e5e1;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (min-width: 1600px) {
+  body {
+    font-size: 18px; /* fix ขนาดเมื่อจอใหญ่มาก */
+  }
 }
 
 ul {
