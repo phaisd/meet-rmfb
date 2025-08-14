@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         {/* <ConsentGate allow="analytics"> */}
         {/* Google Analytics หรือ script อื่นๆ */}
         {/* </ConsentGate> */}
-        {/* <ConsentManager /> */}
+        <ConsentManager />
       </body>
     </html>
   );

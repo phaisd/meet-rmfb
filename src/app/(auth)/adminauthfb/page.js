@@ -25,7 +25,7 @@ export default function AuthAdminPage() {
         );
         await set(ref(db, `adweb/${userCredential.user.uid}`), {
           email,
-          role: "adminfb",
+          role: "admin", // or "adminfb" based on your logic
         });
         setMessage("✅ สร้างบัญชี Admin สำเร็จ");
       } else {
