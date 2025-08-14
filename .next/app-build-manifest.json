@@ -11,57 +11,32 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/(content)/layout": [
+    "/(meeting)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(content)/layout.js"
+      "static/chunks/app/(meeting)/layout.js"
     ],
-    "/(content)/not-found": [
+    "/(meeting)/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(content)/not-found.js"
-    ],
-    "/(content)/admin/error": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(content)/admin/error.js"
-    ],
-    "/(content)/admin/not-found": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(content)/admin/not-found.js"
-    ],
-    "/(content)/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(content)/admin/page.css",
-      "static/chunks/app/(content)/admin/page.js"
-    ],
-    "/api/auth/check/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/auth/check/route.js"
-    ],
-    "/api/meets/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/route.js"
-    ],
-    "/api/meets/[id]/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/meets/[id]/route.js"
+      "static/chunks/app/(meeting)/page.js"
     ],
     "/(auth)/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(auth)/not-found.js"
     ],
-    "/(auth)/adminauth/page": [
+    "/(auth)/adminauthfb/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/(auth)/adminauth/page.css",
-      "static/chunks/app/(auth)/adminauth/page.js"
+      "static/css/app/(auth)/adminauthfb/page.css",
+      "static/chunks/app/(auth)/adminauthfb/page.js"
+    ],
+    "/(auth)/userauth/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(auth)/userauth/page.css",
+      "static/chunks/app/(auth)/userauth/page.js"
     ]
   }
 }

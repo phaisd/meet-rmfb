@@ -18,10 +18,10 @@
   bottom: 15%;
   left: 50%;
   transform: translate(-50%, 50%);
-  background-color: #f3f4f6; /* เทาอ่อน */
+  background-color: #9f9fa0; /* เทาอ่อน */
   padding: 20px;
   border-radius: 12px;
-  max-width: 500px;
+  max-width: 85%;
   width: 90%;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
   z-index: 9999;

@@ -1,4 +1,6 @@
 {
-  "/(auth)/adminauth/page": "app/(auth)/adminauth/page.js",
-  "/(content)/admin/page": "app/(content)/admin/page.js"
+  "/icon.png/route": "app/icon.png/route.js",
+  "/(auth)/userauth/page": "app/(auth)/userauth/page.js",
+  "/(auth)/adminauthfb/page": "app/(auth)/adminauthfb/page.js",
+  "/(meeting)/page": "app/(meeting)/page.js"
 }

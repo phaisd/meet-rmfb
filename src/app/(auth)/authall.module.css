@@ -1,7 +1,7 @@
 .container {
   max-width: 400px;
   margin: 5rem auto;
-  padding: 2rem;
+  padding: 1rem;
   background: #b6b56c;
   box-shadow: 0 2rem 10px rgba(0, 0, 0, 0.1);
   display: flex;

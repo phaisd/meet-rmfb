@@ -92,6 +92,9 @@ export default function AuthUserPage() {
   return (
     <div className={styles.container}>
       <h1>{isSignup ? "ลงทะเบียน" : "เข้าสู่ระบบ"} ผู้ใช้บริการ</h1>
+      <h3>
+        ขอใช้บริการห้องประชุมประจำคณะพุทธศาสตร์ อาคารสมเด็จพระพุฒาจารย์ โซน D
+      </h3>
 
       {/* Email / Password Form */}
       <form onSubmit={handleSubmit} className={styles.form}>

@@ -4,68 +4,40 @@ import useConsent from "@/app/hooks/useConsent";
 import "./styles/consent.css";
 
 export default function ConsentManager() {
-  const { consent, saveConsent } = useConsent();
-  const [visible, setVisible] = useState(false);
-  const [draft, setDraft] = useState(consent);
+  const { consent, setConsent } = useConsent();
 
-  useEffect(() => {
-    setDraft(consent);
-    if (!localStorage.getItem("consent_set")) setVisible(true);
-  }, [consent]);
+  // ถ้ายังไม่มีการตอบรับ/ปฏิเสธ
+  if (consent) return null;
 
-  const handleSave = () => {
-    saveConsent(draft);
-    setVisible(false);
+  const handleAcceptAll = () => {
+    setConsent({ accepted: true });
   };
 
-  const acceptAll = () => {
-    const allGranted = { necessary: true, analytics: true, marketing: true };
-    saveConsent(allGranted);
-    setVisible(false);
+  const handleReject = () => {
+    setConsent({ accepted: false });
   };
-
-  const rejectAll = () => {
-    const denied = { necessary: true, analytics: false, marketing: false };
-    saveConsent(denied);
-    setVisible(false);
-  };
-
-  if (!visible) return null;
 
   return (
     <>
-      <div className="modal-backdrop" onClick={handleSave}></div>
+      <div className="modal-backdrop"></div>
       <div className="modal-container">
         <p>
-          เว็บไซต์นี้ มีการใช้งานเทคโนโลยีคุกกี้ หรือ
-          เทคโนโลยีอื่นที่มีลักษณะใกล้เคียงกันกับคุกกี้ บนเว็บไซด์ของเรา
-          โปรดศึกษา นโยบายการใช้คุกกี้ และนโยบายความเป็นส่วนตัวของข้อมูล
-          ก่อนใช้บริการเว็บไซด์ [ประกาศนโยบายคุ้มครองส่วนบุคคล]
+          เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ
+          โดยการใช้งานเว็บไซต์นี้ ถือว่าคุณยอมรับ{" "}
+          <a href="/privacy" className="modal-link" target="_blank">
+            นโยบายความเป็นส่วนตัว
+          </a>{" "}
+          และ{" "}
+          <a href="/cookies" className="modal-link" target="_blank">
+            นโยบายคุกกี้
+          </a>
         </p>
 
-        <div className="modal-checkboxes">
-          {["analytics", "marketing"].map((key) => (
-            <label key={key}>
-              <input
-                type="checkbox"
-                checked={draft[key]}
-                onChange={(e) =>
-                  setDraft({ ...draft, [key]: e.target.checked })
-                }
-              />{" "}
-              {key}
-            </label>
-          ))}
-        </div>
-
         <div className="modal-buttons">
-          <button onClick={acceptAll} className="accept-all">
+          <button className="accept-all" onClick={handleAcceptAll}>
             ยอมรับทั้งหมด
           </button>
-          <button onClick={handleSave} className="save">
-            บันทึก
-          </button>
-          <button onClick={rejectAll} className="reject">
+          <button className="reject" onClick={handleReject}>
             ปฏิเสธ
           </button>
         </div>
