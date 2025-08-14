@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 const DEFAULT_CONSENT = {
   necessary: true,
   analytics: false,
-  marketing: false,
 };
 
 export default function useConsent() {
@@ -19,7 +18,6 @@ export default function useConsent() {
     setConsent(newConsent);
     localStorage.setItem("consent", JSON.stringify(newConsent));
     localStorage.setItem("consent_set", "true");
-    // ส่ง event ไป dataLayer ถ้ามี
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "consent_update", consent: newConsent });
   };

@@ -11,22 +11,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/not-found.js"
     ],
-    "/(meeting)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/layout.js"
-    ],
-    "/(meeting)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(meeting)/page.js"
-    ],
-    "/(auth)/adminauth/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/(auth)/adminauth/page.css",
-      "static/chunks/app/(auth)/adminauth/page.js"
-    ],
     "/(content)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -62,6 +46,22 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/api/meets/route.js"
+    ],
+    "/api/meets/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/meets/[id]/route.js"
+    ],
+    "/(auth)/not-found": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(auth)/not-found.js"
+    ],
+    "/(auth)/adminauth/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(auth)/adminauth/page.css",
+      "static/chunks/app/(auth)/adminauth/page.js"
     ]
   }
 }

@@ -16,8 +16,8 @@ export default function CookiePolicyPage() {
       </h2>
       <ul className="list-disc list-inside">
         <li>คุกกี้ที่จำเป็น (Necessary Cookies)</li>
-        <li>คุกกี้เพื่อการวิเคราะห์ (Analytics Cookies)</li>
-        <li>คุกกี้เพื่อการตลาด (Marketing Cookies)</li>
+        {/* <li>คุกกี้เพื่อการวิเคราะห์ (Analytics Cookies)</li> */}
+        {/* <li>คุกกี้เพื่อการตลาด (Marketing Cookies)</li> */}
       </ul>
       <h2 className="text-xl font-semibold mt-4 mb-2">3. การจัดการคุกกี้</h2>
       <p>

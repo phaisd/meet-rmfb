@@ -1,47 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./user.module.css";
-import { redirect } from "next/navigation";
 import { opreateMeets } from "./handle-form";
-import { db } from "@/lib/firebaseConfig";
-import { ref, onValue } from "firebase/database";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-// import {
-//   // getAllMeets,
-//   parseDateUseToInput,
-//   parseTimeToInput,
-// } from "@/lib/meest";
-
-// ✅ ฟังก์ชันแปลง "08:30 am" → "08:30"
-// function revertTimeFormat(timeStr) {
-//   if (!timeStr) return "";
-//   const [time] = timeStr.split(" ");
-//   return time;
-// }
-
-// ✅ ฟังก์ชันแปลง "27-July-2025" → "2025-07-27"
-// function revertDateFormat(dateStr) {
-//   if (!dateStr) return "";
-//   const [day, monthText, year] = dateStr.split("-");
-//   const months = {
-//     January: "01",
-//     February: "02",
-//     March: "03",
-//     April: "04",
-//     May: "05",
-//     June: "06",
-//     July: "07",
-//     August: "08",
-//     September: "09",
-//     October: "10",
-//     November: "11",
-//     December: "12",
-//   };
-//   const month = months[monthText];
-//   return `${year}-${month}-${day.padStart(2, "0")}`;
-// }
 
 export default function UsersFbMeetsPage() {
   const [meetsList, setMeetsList] = useState([]);
@@ -116,13 +77,6 @@ export default function UsersFbMeetsPage() {
     });
   };
 
-  // const formattedData = rawData.map((item) => ({
-  //   ...item,
-  //   dateUseInput: parseDateUseToInput(item.dateUse),
-  //   beginTimeInput: parseTimeToInput(item.beginTime),
-  //   toTimeInput: parseTimeToInput(item.toTime),
-  // }));
-
   return (
     <>
       <div className="container">
@@ -131,7 +85,7 @@ export default function UsersFbMeetsPage() {
           action={async (formData) => {
             await opreateMeets(formData);
             clearForm();
-            router.push("/");
+            router.push("/useMeets"); // ✅ ใช้ router.push เพื่อเปลี่ยนหน้า
           }}
           // method="POST"
           className={styles.form}
@@ -178,16 +132,39 @@ export default function UsersFbMeetsPage() {
               onChange={handleChange}
               required
             />
+            <br />
+            <span style={{ color: "red" }}>
+              **ไม่จำเป็นต้องใช้ที่ติดต่อจริงเช่น 095-xxx-xxxx
+              เพียงแค่3ตัวแรกตามตัวอย่าง
+            </span>
           </div>
           <div className={styles.inlineField}>
-            <label htmlFor="forUse">ใช้เพื่อ :</label>
-            <input
-              name="forUse"
-              placeholder="ใช้เพื่อ"
-              value={form.forUse}
-              onChange={handleChange}
-              required
-            />
+            <label>ใช้เพื่อ :</label>
+            <div className={styles.radioGroup}>
+              {[
+                "ประชุม",
+                "ประชุมคณะ",
+                "ประชุมภาค",
+                "ประชุมย่อย",
+                "สัมมนา",
+                "บรรยายพิเศษ",
+                "กิจกรรม",
+                "ชมรม",
+                "อื่นๆ",
+              ].map((option) => (
+                <label key={option} className={styles.radioOption}>
+                  <input
+                    type="radio"
+                    name="forUse"
+                    value={option}
+                    checked={form.forUse === option}
+                    onChange={handleChange}
+                    required
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
           <div className={styles.inlineField}>
             <label htmlFor="subjectUse">เรื่อง :</label>

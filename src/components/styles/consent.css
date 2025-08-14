@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap");
+/* font-family: "Prompt", sans-serif; */
+
 /* พื้นหลังมืดด้านหลัง modal */
 .modal-backdrop {
   position: fixed;
@@ -12,60 +15,100 @@
 /* กล่อง modal */
 .modal-container {
   position: fixed;
-  bottom: 50%;
+  bottom: 15%;
   left: 50%;
   transform: translate(-50%, 50%);
-  background-color: #f3f4f6; /* สีเทาอ่อน */
-  padding: 24px;
+  background-color: #f3f4f6; /* เทาอ่อน */
+  padding: 20px;
   border-radius: 12px;
-  max-width: 480px;
+  max-width: 500px;
   width: 90%;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
   z-index: 9999;
-  font-family: sans-serif;
+  font-family: "Prompt", sans-serif;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
 }
 
-/* ข้อความใน modal */
+/* Animation */
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 50%);
+    opacity: 1;
+  }
+}
+
+/* ข้อความ */
 .modal-container p {
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: #111827;
 }
 
-/* checkbox */
-.modal-checkboxes {
+/* ลิงก์ */
+.modal-links {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.modal-links a {
+  color: #2563eb;
+  text-decoration: underline;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.modal-links a:hover {
+  color: #1d4ed8;
 }
 
 /* ปุ่ม */
 .modal-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .modal-buttons button {
   flex: 1 1 auto;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   color: white;
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
 }
 
 .modal-buttons .accept-all {
   background-color: #16a34a; /* เขียว */
 }
 
-.modal-buttons .save {
-  background-color: #2563eb; /* น้ำเงิน */
+.modal-buttons .accept-all:hover {
+  background-color: #15803d;
 }
 
 .modal-buttons .reject {
   background-color: #374151; /* เทาเข้ม */
+}
+
+.modal-buttons .reject:hover {
+  background-color: #1f2937;
+}
+
+.modal-buttons .save {
+  background-color: #2563eb; /* น้ำเงิน */
+}
+
+.modal-buttons .save:hover {
+  background-color: #1d4ed8;
 }
 
 /* responsive มือถือ */

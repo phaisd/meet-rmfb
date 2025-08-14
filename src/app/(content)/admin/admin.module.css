@@ -152,3 +152,29 @@
   font-weight: bold;
   align-items: center;
 }
+/* radiogroup */
+.radioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #949494;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.radioOption:hover {
+  background: #929292;
+}
+
+.radioOption input[type="radio"] {
+  accent-color: #007bff; /* สีปุ่ม radio */
+  transform: scale(1.2);
+}

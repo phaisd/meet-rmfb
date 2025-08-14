@@ -4,9 +4,14 @@ import { auth, db } from "@/lib/firebaseConfig";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  OAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { get, ref, set } from "firebase/database";
 import styles from "@/app/(auth)/authall.module.css";
+import socialStyles from "@/app/(auth)/socialButtons.module.css";
+import Image from "next/image"; // ✅ ไฟล์ CSS ใหม่
 
 export default function AuthUserPage() {
   const [email, setEmail] = useState("");
@@ -14,11 +19,12 @@ export default function AuthUserPage() {
   const [message, setMessage] = useState("");
   const [isSignup, setIsSignup] = useState(false);
 
+  // Email / Password
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+
     if (isSignup) {
-      // Sign Up
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -35,7 +41,6 @@ export default function AuthUserPage() {
         setMessage(error.message);
       }
     } else {
-      // Sign In
       try {
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -56,9 +61,39 @@ export default function AuthUserPage() {
     }
   };
 
+  // Provider Login
+  const handleProviderLogin = async (provider) => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const snapshot = await get(ref(db, `adweb/${user.uid}`));
+      if (!snapshot.exists()) {
+        await set(ref(db, `adweb/${user.uid}`), {
+          email: user.email,
+          role: "userfb",
+          uid: user.uid,
+        });
+      }
+
+      const token = await user.getIdToken();
+      document.cookie = `token=${token}; path=/;`;
+      window.location.href = "/usersfb";
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
+
+  const loginWithGoogle = () => {
+    const googleProvider = new GoogleAuthProvider();
+    handleProviderLogin(googleProvider);
+  };
+
   return (
     <div className={styles.container}>
       <h1>{isSignup ? "ลงทะเบียน" : "เข้าสู่ระบบ"} ผู้ใช้บริการ</h1>
+
+      {/* Email / Password Form */}
       <form onSubmit={handleSubmit} className={styles.form}>
         <input
           placeholder="Email"
@@ -80,6 +115,7 @@ export default function AuthUserPage() {
         <button type="submit">{isSignup ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>
       </form>
 
+      {/* Toggle Signup/Login */}
       <button
         onClick={() => setIsSignup(!isSignup)}
         className={styles.toggle}
@@ -90,7 +126,20 @@ export default function AuthUserPage() {
           : "Don't have an account? Sign Up"}
       </button>
 
-      <p>{message}</p>
+      {/* Social Login Buttons */}
+      <div className={socialStyles.socialContainer}>
+        <button onClick={loginWithGoogle} className={socialStyles.googleBtn}>
+          <Image
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            width="20"
+            height="20"
+          />
+          เข้าสู่ระบบด้วย Google
+        </button>
+      </div>
+
+      <p style={{ marginTop: "1rem", color: "red" }}>{message}</p>
     </div>
   );
 }

@@ -223,14 +223,14 @@ export async function exportToWord(item) {
                 bold: true,
                 underline: UnderlineType.DOTDASH, // ขีดเส้นใต้แบบจุดและขีด
               }),
-              new TextRun(" \t\t ตำแหน่ง: "),
+              new TextRun("\t ตำแหน่ง: "),
               new TextRun({
                 text: `${item.statusUse}`,
                 bold: true,
                 underline: UnderlineType.DOTDASH, // ขีดเส้นใต้แบบจุดและขีด
               }),
             ],
-            tabStops: [{ type: TabStopType.CENTER, position: 1000 }],
+            tabStops: [{ type: TabStopType.LEFT, position: 1100 }],
           }),
 
           new Paragraph({
@@ -241,7 +241,7 @@ export async function exportToWord(item) {
                 bold: true,
                 underline: UnderlineType.DOTDASH,
               }),
-              new TextRun("\t เบอร์ติดต่อ: ............."),
+              new TextRun("\t เบอร์ติดต่อ: ............"),
               // new TextRun(item.contactUse|| "............."),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -249,7 +249,7 @@ export async function exportToWord(item) {
           new Paragraph({
             children: [
               new TextRun(
-                "มีความประสงค์จะใช้ห้องประชุมคณะพุทธศาสตร์ (รองรับจำนวนได้ 70 รูป/คน)"
+                "มีความประสงค์จะใช้ห้องประชุม (จำนวนที่นั่งประมาณ 70 รูป/คน)"
               ),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -257,24 +257,19 @@ export async function exportToWord(item) {
           new Paragraph({
             children: [
               new TextRun(
-                "อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) โซน D อาคารเรียนรวม "
+                "้\tประจำคณะพุทธศาสตร์ อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) โซน D อาคารเรียนรวม "
               ),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
           new Paragraph({
             children: [
-              new TextRun("\t เพื่อ: "),
+              new TextRun("เพื่อ: "),
               new TextRun({
                 text: `${item.forUse}`,
                 bold: true,
                 underline: UnderlineType.DOTDASH,
               }),
-            ],
-            tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
-          }),
-          new Paragraph({
-            children: [
               new TextRun("\t เรื่อง:"),
               new TextRun({
                 text: `${item.subjectUse}`,
@@ -282,12 +277,23 @@ export async function exportToWord(item) {
                 underline: UnderlineType.DOTDASH,
               }),
             ],
-            tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
+            tabStops: [{ type: TabStopType.LEFT, position: 800 }],
           }),
+          // new Paragraph({
+          //   children: [
+          //     new TextRun("\t เรื่อง:"),
+          //     new TextRun({
+          //       text: `${item.subjectUse}`,
+          //       bold: true,
+          //       underline: UnderlineType.DOTDASH,
+          //     }),
+          //   ],
+          //   tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
+          // }),
 
           new Paragraph({
             children: [
-              new TextRun("\t วันที่ใช้: "),
+              new TextRun("วันที่ใช้: "),
               new TextRun({
                 text: `${formatThaiDate(item.dateUse)}`,
                 bold: true,
@@ -299,43 +305,61 @@ export async function exportToWord(item) {
                 bold: true,
                 underline: UnderlineType.DOTDASH,
               }),
+              new TextRun("\tมีจำนวนผู้เข้าใช้ : "),
+              new TextRun({
+                text: `${item.amountUse} รูป/คน`,
+                bold: true,
+                underline: UnderlineType.DOTDASH,
+              }),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
 
-          new Paragraph({
-            children: [
-              new TextRun("\t มีจำนวนผู้เข้าใช้ห้องประชุม ประมาณ: "),
-              new TextRun(`${item.amountUse} รูป/คน`),
-            ],
-            tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
-          }),
+          // new Paragraph({
+          //   children: [
+          //     new TextRun("\t มีจำนวนผู้เข้าใช้ : "),
+          //     new TextRun({
+          //       text: `${item.amountUse} รูป/คน`,
+          //       bold: true,
+          //       underline: UnderlineType.DOTDASH,
+          //     }),
+          //   ],
+          //   tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
+          // }),
           new Paragraph({
             children: [
               new TextRun("ต้องการใช้อุปกรณ์ ดังนี้ : "),
-              new TextRun(
-                Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""
-              ),
+              new TextRun({
+                text: Array.isArray(item.serviceUse)
+                  ? item.serviceUse.join(", ")
+                  : "",
+                bold: true,
+                underline: UnderlineType.DOTDASH,
+              }),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
-          new Paragraph(""),
           new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun({
                 text: `\t\t\tลงชื่อ..${item.nameUse}..ผู้ยืม`,
                 alignment: AlignmentType.CENTER,
+                bold: true,
               }),
             ],
             tabStops: [{ type: TabStopType.CENTER, position: 3600 }],
           }),
-
+          new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun("\tผู้ประสานงาน:"),
-              new TextRun(item.coordinator),
-              new TextRun(" \t เบอร์ติดต่อ: ............."),
+              new TextRun({
+                text: `${item.coordinator}`,
+                bold: true,
+                underline: UnderlineType.DOTDASH,
+              }),
+              // new TextRun(" \t เบอร์ติดต่อ: ............."),
               // new TextRun(item.contactUse),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -366,20 +390,20 @@ export async function exportToWord(item) {
               "----------/--------------/--------------",
             ]
           ),
+          new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun("หมายเหตุ: "),
               new TextRun(
-                "\t 1.ผู้ยืม(หน่วยงานที่ขอใช้ห้องประชุม)ต้องดูแดการใช้ห้องประชุมให้เป็นที่เรียบร้อย เมื่อใช้ห้องเสร็จแล้วให้แจ้งเจ้าหน้าที่เพื่อปิดระบบภายใน้ห้องประชุม"
+                "\t 1.ผู้ยืม(หน่วยงานที่ขอใช้ห้องประชุม)ต้องดูแดการใช้ห้องประชุมให้เป็นที่เรียบร้อย \tเมื่อใช้ห้องเสร็จแล้วให้แจ้งเจ้าหน้าที่เพื่อปิดระบบภายใน้ห้องประชุม"
               ),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
           new Paragraph({
             children: [
-              new TextRun("หมายเหตุ: "),
               new TextRun(
-                "\t 2.ผู้ยืม(หน่วยงานที่ขอใช้ห้องประชุม)เมื่อใช้ห้องเสร็จเรียบรัอยแล้ว ให้แจ้งเจ้าหน้าที่เพื่อปิดระบบภายในห้องประชุม เพื่อปัองกันระบบขัดข้องในวันถัดไป"
+                "\t 2.ผู้ยืม(หน่วยงานที่ขอใช้ห้องประชุม)เมื่อใช้ห้องเสร็จเรียบรัอยแล้ว \tให้แจ้งเจ้าหน้าที่เพื่อปิดระบบภายในห้องประชุม เพื่อปัองกันระบบขัดข้องในวันถัดไป"
               ),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],

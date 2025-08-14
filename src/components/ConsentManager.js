@@ -36,7 +36,12 @@ export default function ConsentManager() {
     <>
       <div className="modal-backdrop" onClick={handleSave}></div>
       <div className="modal-container">
-        <p>เว็บไซต์นี้ใช้คุกกี้เพื่อพัฒนาประสบการณ์การใช้งานของคุณ</p>
+        <p>
+          เว็บไซต์นี้ มีการใช้งานเทคโนโลยีคุกกี้ หรือ
+          เทคโนโลยีอื่นที่มีลักษณะใกล้เคียงกันกับคุกกี้ บนเว็บไซด์ของเรา
+          โปรดศึกษา นโยบายการใช้คุกกี้ และนโยบายความเป็นส่วนตัวของข้อมูล
+          ก่อนใช้บริการเว็บไซด์ [ประกาศนโยบายคุ้มครองส่วนบุคคล]
+        </p>
 
         <div className="modal-checkboxes">
           {["analytics", "marketing"].map((key) => (

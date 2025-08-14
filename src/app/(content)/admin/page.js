@@ -129,7 +129,7 @@ export default function AdminMeetsPage() {
     });
   };
 
-  // ✅ จัดการ input ทั่วไป
+  // ✅ จัดการ input ทั่วไป แบบเดิมใช้ได้แค่ไม่ได้เปลี่ยนวันแบบอันโนมัติ
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -137,6 +137,25 @@ export default function AdminMeetsPage() {
       [name]: value,
     }));
   };
+
+  // ✅ จัดการ input ทั่วไป + อัปเดต dateChange อัตโนมัติเมื่อ dateUse เปลี่ยน
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   // ถ้าเป็นการเปลี่ยน dateUse ให้แปลงเป็น dd-MMMM-yyyy → yyyy-MM-dd
+  //   if (name === "dateUse") {
+  //     setForm((prevForm) => ({
+  //       ...prevForm,
+  //       [name]: value, // dateUse สำหรับ input type="date"
+  //       dateChange: revertDateFormat(formatToDDMMMYYYY(value)), // แปลงแล้วอัปเดต dateChange
+  //     }));
+  //   } else {
+  //     setForm((prevForm) => ({
+  //       ...prevForm,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
 
   // ✅ เมื่อกด Edit → เติมข้อมูลเข้า form
   const handleEdit = (item) => {
@@ -160,7 +179,11 @@ export default function AdminMeetsPage() {
         : "", //approvedDate: item.approvedDate || "",
       operation: item.operation || "",
       resultOperation: item.resultOperation || "",
-      dateChange: item.dateChange || "",
+      dateChange: item.dateChange
+        ? revertDateFormat(item.dateChange)
+        : item.dateUse
+        ? revertDateFormat(item.dateUse)
+        : "",
     });
   };
 
@@ -214,33 +237,33 @@ export default function AdminMeetsPage() {
     router.push("/"); // กลับไปหน้า Login
   };
   //Pdf
-  const exportToPDF = (item) => {
-    const docDefinition = {
-      content: [
-        { text: "แบบฟอร์มจองห้องประชุม", style: "header" },
-        { text: `ชื่อผู้ขอใช้: ${item.nameUse}` },
-        { text: `ตำแหน่ง: ${item.statusUse}` },
-        { text: `หน่วยงาน: ${item.agencyUse}` },
-        { text: `วันที่ใช้: ${item.dateUse}` },
-        { text: `เวลา: ${item.beginTime} - ${item.toTime}` },
-        {
-          text: `อุปกรณ์: ${
-            Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""
-          }`,
-        },
-        { text: `ผลดำเนินการ: ${item.resultText}` },
-      ],
-      styles: {
-        header: { fontSize: 18, bold: true, marginBottom: 10 },
-      },
-      defaultStyle: {
-        font: "Roboto",
-      },
-      pageSize: "A4",
-    };
+  // const exportToPDF = (item) => {
+  //   const docDefinition = {
+  //     content: [
+  //       { text: "แบบฟอร์มจองห้องประชุม", style: "header" },
+  //       { text: `ชื่อผู้ขอใช้: ${item.nameUse}` },
+  //       { text: `ตำแหน่ง: ${item.statusUse}` },
+  //       { text: `หน่วยงาน: ${item.agencyUse}` },
+  //       { text: `วันที่ใช้: ${item.dateUse}` },
+  //       { text: `เวลา: ${item.beginTime} - ${item.toTime}` },
+  //       {
+  //         text: `อุปกรณ์: ${
+  //           Array.isArray(item.serviceUse) ? item.serviceUse.join(", ") : ""
+  //         }`,
+  //       },
+  //       { text: `ผลดำเนินการ: ${item.resultText}` },
+  //     ],
+  //     styles: {
+  //       header: { fontSize: 18, bold: true, marginBottom: 10 },
+  //     },
+  //     defaultStyle: {
+  //       font: "Roboto",
+  //     },
+  //     pageSize: "A4",
+  //   };
 
-    pdfMake.createPdf(docDefinition).download(`meet_${item.id || "data"}.pdf`);
-  };
+  //   pdfMake.createPdf(docDefinition).download(`meet_${item.id || "data"}.pdf`);
+  // };
 
   return (
     <>
@@ -313,14 +336,32 @@ export default function AdminMeetsPage() {
             />
           </div>
           <div className={styles.inlineField}>
-            <label htmlFor="forUse">ใช้เพื่อ :</label>
-            <input
-              name="forUse"
-              placeholder="ใช้เพื่อ"
-              value={form.forUse}
-              onChange={handleChange}
-              required
-            />
+            <label>ใช้เพื่อ :</label>
+            <div className={styles.radioGroup}>
+              {[
+                "ประชุม",
+                "ประชุมคณะ",
+                "ประชุมภาค",
+                "ประชุมย่อย",
+                "สัมมนา",
+                "บรรยายพิเศษ",
+                "กิจกรรม",
+                "ชมรม",
+                "อื่นๆ",
+              ].map((option) => (
+                <label key={option} className={styles.radioOption}>
+                  <input
+                    type="radio"
+                    name="forUse"
+                    value={option}
+                    checked={form.forUse === option}
+                    onChange={handleChange}
+                    required
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
           <div className={styles.inlineField}>
             <label htmlFor="subjectUse">เรื่อง :</label>
