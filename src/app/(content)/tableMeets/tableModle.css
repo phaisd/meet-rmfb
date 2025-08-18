@@ -207,3 +207,7 @@ h1 {
   white-space: nowrap;
   font-size: medium;
 }
+
+.short-cell {
+  text-align: center;
+}

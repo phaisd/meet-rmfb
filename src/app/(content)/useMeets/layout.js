@@ -14,11 +14,11 @@ export default function UseMeetsLayout({ meetToday, meetsAll }) {
 
   return (
     <>
-      {showToday ? (
+      {/* {showToday ? (
         <section id="archive-filter">{meetToday}</section>
-      ) : (
-        <section id="archive-latest">{meetsAll}</section>
-      )}
+      ) : ( */}
+      <section id="archive-latest">{meetsAll}</section>
+      {/* )} */}
     </>
   );
 }

@@ -111,6 +111,28 @@
   background-color: #1d4ed8;
 }
 
+/* ลิงก์ Privacy / Cookies */
+.modal-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.modal-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2563eb; /* น้ำเงิน */
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.modal-link:hover {
+  color: #1d4ed8; /* น้ำเงินเข้ม */
+  text-decoration: underline;
+}
+
 /* responsive มือถือ */
 @media (max-width: 480px) {
   .modal-container {

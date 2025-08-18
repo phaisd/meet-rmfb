@@ -20,15 +20,25 @@ export default function ConsentManager() {
   return (
     <>
       <div className="modal-backdrop"></div>
-      <div className="modal-container">
+      <div className="modal-links">
         <p>
           เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์ของคุณ
           โดยการใช้งานเว็บไซต์นี้ ถือว่าคุณยอมรับ{" "}
-          <a href="/privacy" className="modal-link" target="_blank">
+          <a
+            href="/privacy"
+            className="modal-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             นโยบายความเป็นส่วนตัว
           </a>{" "}
           และ{" "}
-          <a href="/cookies" className="modal-link" target="_blank">
+          <a
+            href="/cookies"
+            className="modal-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             นโยบายคุกกี้
           </a>
         </p>
