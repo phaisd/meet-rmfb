@@ -50,6 +50,16 @@
   font-weight: bold;
 }
 
+/* forgetpassword */
+.forget-pass {
+  margintop: "0.5rem";
+  background: "none";
+  border: "none";
+  color: "#0070f3";
+  textdecoration: "underline";
+  cursor: "pointer";
+}
+
 /* authall.module.css */
 /* .container {
   max-width: 400px;

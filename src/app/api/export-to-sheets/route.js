@@ -16,6 +16,7 @@ export async function POST(req) {
     const sheets = google.sheets({ version: "v4", auth });
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
+
     const range = "Sheet1!A1";
 
     const values = [
@@ -52,6 +53,46 @@ export async function POST(req) {
       range,
       valueInputOption: "RAW",
       requestBody: { values },
+    });
+
+    // 2) ตรวจสอบว่า Sheet2 มีหรือยัง
+    // =========================
+    const spreadsheet = await sheets.spreadsheets.get({
+      spreadsheetId,
+    });
+
+    const sheetExists = spreadsheet.data.sheets.some(
+      (s) => s.properties.title === "Sheet2"
+    );
+
+    if (!sheetExists) {
+      // ถ้าไม่มี Sheet2 → สร้างใหม่
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              addSheet: {
+                properties: {
+                  title: "Sheet2",
+                },
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    // =========================
+    // 3) ส่งข้อมูล forUse ไป Sheet2
+    // =========================
+    const valuesForUse = [["สำหรับ"], ...data.map((item) => [item.forUse])];
+
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: "Sheet2!A1",
+      valueInputOption: "RAW",
+      requestBody: { values: valuesForUse },
     });
 
     return new Response(

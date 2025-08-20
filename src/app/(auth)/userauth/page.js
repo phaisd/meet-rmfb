@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   OAuthProvider,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { get, ref, set } from "firebase/database";
 import styles from "@/app/(auth)/authall.module.css";
@@ -58,6 +59,20 @@ export default function AuthUserPage() {
       } catch (error) {
         setMessage(error.message);
       }
+    }
+  };
+
+  // Forgot Password
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setMessage("⚠️ กรุณากรอกอีเมลก่อนรีเซ็ตรหัสผ่าน");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage("📧 เราได้ส่งลิงก์รีเซ็ตรหัสผ่านไปที่อีเมลของคุณแล้ว");
+    } catch (error) {
+      setMessage(error.message);
     }
   };
 
@@ -118,11 +133,28 @@ export default function AuthUserPage() {
         <button type="submit">{isSignup ? "ลงทะเบียน" : "เข้าสู่ระบบ"}</button>
       </form>
 
+      {/* Forgot Password Button */}
+      {!isSignup && (
+        <button
+          onClick={handleForgotPassword}
+          style={{
+            marginTop: "0.2rem",
+            background: "none",
+            border: "none",
+            color: "#0070f3",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+        >
+          ลืมรหัสผ่าน?
+        </button>
+      )}
+
       {/* Toggle Signup/Login */}
       <button
         onClick={() => setIsSignup(!isSignup)}
         className={styles.toggle}
-        style={{ marginTop: "1rem" }}
+        style={{ marginTop: "0.3rem" }}
       >
         {isSignup
           ? "Already have an account? Sign In"

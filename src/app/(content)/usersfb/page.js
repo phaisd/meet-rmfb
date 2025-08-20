@@ -4,9 +4,13 @@ import styles from "./user.module.css";
 import { opreateMeets } from "./handle-form";
 import { useRouter } from "next/navigation";
 
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { app } from "@/lib/firebaseConfig"; // ✅ import firebase app
+
 export default function UsersFbMeetsPage() {
   const [meetsList, setMeetsList] = useState([]);
   const router = useRouter(); // ✅ ประกาศบนสุดของ Component
+  const [userEmail, setUserEmail] = useState(null); // ✅ state สำหรับเก็บอีเมล
   const [form, setForm] = useState({
     id: "",
     agencyUse: "",
@@ -33,6 +37,31 @@ export default function UsersFbMeetsPage() {
       .then((res) => res.json())
       .then(setMeetsList);
   }, []);
+
+  // ✅ ตรวจสอบ user ที่ล็อกอิน
+  useEffect(() => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserEmail(user.email); // ✅ set email
+      } else {
+        setUserEmail(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // ✅ logout function
+  const handleLogout = async () => {
+    const auth = getAuth(app);
+    try {
+      await signOut(auth);
+      setUserEmail(null);
+      router.push("/"); // กลับไปหน้าแรกหลัง logout
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   // ✅ จัดการ checkbox
   const handleCheckboxChange = (e) => {
@@ -80,6 +109,71 @@ export default function UsersFbMeetsPage() {
   return (
     <>
       <div className="container">
+        {/* ✅ แสดง email ด้านบนขวา
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px",
+          }}
+        >
+          {userEmail ? (
+            <span style={{ fontWeight: "bold", color: "blue" }}>
+              {userEmail}
+            </span>
+          ) : (
+            <span style={{ color: "red" }}>ยังไม่ได้ล็อกอิน</span>
+          )}
+        </div> */}
+
+        {/* ✅ Header แสดง email + logout */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            marginBottom: "10px",
+            padding: "8px 16px",
+            gap: "10px",
+          }}
+        >
+          {userEmail ? (
+            <>
+              <span
+                style={{
+                  backgroundColor: "#e0f2fe", // ฟ้าอ่อน
+                  color: "#0369a1", // ฟ้าเข้ม
+                  padding: "6px 12px",
+                  borderRadius: "9999px", // pill shape
+                  fontWeight: "bold",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {userEmail}
+              </span>
+              <button
+                onClick={handleLogout}
+                style={{
+                  backgroundColor: "#2563eb", // ฟ้าเข้ม
+                  color: "white",
+                  padding: "6px 12px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  transition: "background 0.3s",
+                }}
+                onMouseOver={(e) => (e.target.style.background = "#1e40af")}
+                onMouseOut={(e) => (e.target.style.background = "#2563eb")}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <span style={{ color: "red" }}>ยังไม่ได้ล็อกอิน</span>
+          )}
+        </div>
+
         <h1>ขอใช้ห้องประชุมและอุปกรณ์ ภายในคณะพุทธ</h1>
         <form
           action={async (formData) => {

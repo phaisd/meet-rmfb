@@ -20,7 +20,7 @@ function formatThaiDate(dateInput) {
 
   let dateStr = dateInput;
   if (dateInput instanceof Date) {
-    const year = dateInput.getFullYear();
+    const year = dateInput.getFullYear() + 543;
     const month = String(dateInput.getMonth() + 1).padStart(2, "0");
     const day = String(dateInput.getDate()).padStart(2, "0");
     dateStr = `${year}-${month}-${day}`;
@@ -78,6 +78,8 @@ function createCommentBoxTwoColumn(
       bottom: { style: BorderStyle.NONE },
       left: { style: BorderStyle.NONE },
       right: { style: BorderStyle.NONE },
+      insideHorizontal: { style: BorderStyle.NONE },
+      insideVertical: { style: BorderStyle.NONE },
     },
     rows: [
       new TableRow({
@@ -168,6 +170,25 @@ export async function exportToWord(item) {
   const doc = new Document({
     sections: [
       {
+        //ปรับขนาดขอบกระดาษ
+        properties: {
+          page: {
+            // ✅ กำหนดขนาดกระดาษ A4
+            size: {
+              width: 11906, // 210 มม. (A4 กว้าง) → 210 * 56.7
+              height: 16838, // 297 มม. (A4 สูง) → 297 * 56.7
+              orientation: "portrait", // หรือ "landscape"
+            },
+            // ✅ กำหนดระยะขอบ (margin) หน่วยเป็น twip (1 cm ≈ 567)
+            margin: {
+              top: 1417, // 1417 = 2.5 cm
+              right: 1134, // 2 cm
+              bottom: 1134, // 2 cm
+              left: 1134, // 2 cm
+            },
+          },
+        },
+
         children: [
           // โลโก้
           new Paragraph({
@@ -257,7 +278,7 @@ export async function exportToWord(item) {
           new Paragraph({
             children: [
               new TextRun(
-                "้\tประจำคณะพุทธศาสตร์ อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) โซน D อาคารเรียนรวม "
+                "\tประจำคณะพุทธศาสตร์ อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) โซน D อาคารเรียนรวม "
               ),
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
@@ -279,17 +300,6 @@ export async function exportToWord(item) {
             ],
             tabStops: [{ type: TabStopType.LEFT, position: 800 }],
           }),
-          // new Paragraph({
-          //   children: [
-          //     new TextRun("\t เรื่อง:"),
-          //     new TextRun({
-          //       text: `${item.subjectUse}`,
-          //       bold: true,
-          //       underline: UnderlineType.DOTDASH,
-          //     }),
-          //   ],
-          //   tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
-          // }),
 
           new Paragraph({
             children: [
@@ -315,17 +325,6 @@ export async function exportToWord(item) {
             tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
           }),
 
-          // new Paragraph({
-          //   children: [
-          //     new TextRun("\t มีจำนวนผู้เข้าใช้ : "),
-          //     new TextRun({
-          //       text: `${item.amountUse} รูป/คน`,
-          //       bold: true,
-          //       underline: UnderlineType.DOTDASH,
-          //     }),
-          //   ],
-          //   tabStops: [{ type: TabStopType.LEFT, position: 1000 }],
-          // }),
           new Paragraph({
             children: [
               new TextRun("ต้องการใช้อุปกรณ์ ดังนี้ : "),
@@ -350,7 +349,6 @@ export async function exportToWord(item) {
             ],
             tabStops: [{ type: TabStopType.CENTER, position: 3600 }],
           }),
-          new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun("\tผู้ประสานงาน:"),
@@ -390,7 +388,6 @@ export async function exportToWord(item) {
               "----------/--------------/--------------",
             ]
           ),
-          new Paragraph(""),
           new Paragraph({
             children: [
               new TextRun("หมายเหตุ: "),
