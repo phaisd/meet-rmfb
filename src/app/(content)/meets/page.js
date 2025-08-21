@@ -124,7 +124,9 @@ export default function MeetsPage() {
 
   return (
     <div className="carousel-container">
-      <h1 id="archive-text">การใช้ห้องประชุมประจำคณะ ประจำวัน</h1>
+      <h1 id="archive-text" style={{ textAlign: "center" }}>
+        การใช้ห้องประชุมประจำคณะ ประจำวัน
+      </h1>
       <p id="archive-text" style={{ textAlign: "center" }}>
         อาคารสมเด็จพระพุฒาจารย์ (เกี่ยว อุปเสนมหาเถระ) อาคารเรียนรวม โซน D
       </p>

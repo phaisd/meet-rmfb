@@ -197,7 +197,7 @@ export async function exportToWord(item) {
                 data: Uint8Array.from(atob(base64Image), (c) =>
                   c.charCodeAt(0)
                 ),
-                transformation: { width: 85, height: 85 },
+                transformation: { width: 105, height: 105 },
               }),
 
               // new ImageRun({

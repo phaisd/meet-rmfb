@@ -19,16 +19,16 @@ export default async function MeetRoomPage({ params }) {
   }
 
   return (
-    <div >
+    <div>
       <h1 hidden>{meetsId}</h1>
       <h3>รายละเอียดของการใช้ห้องประชุม : </h3>
       <article className="meets-article">
-        <header >
+        <header>
           <Image
             src={`/images/meets/${meetItem.forUse}.png`}
             alt={meetItem.forUse}
-            width={300} height={100}
-
+            width={400}
+            height={100}
           />
           <h3>เรื่อง :</h3>
           <h1>{meetItem.subjectUse || "ไม่มีหัวข้อ"}</h1>
