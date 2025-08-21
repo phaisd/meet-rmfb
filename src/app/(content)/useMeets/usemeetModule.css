@@ -1,0 +1,110 @@
+/* สำหรับประจำเดือน */
+.meets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 5px;
+}
+
+.meet-card {
+  display: flex;
+  width: 240px;
+  min-height: 50px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #222; /* default font color */
+}
+
+.meet-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.left-date {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.date-box {
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #007bff;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.right-info {
+  flex: 1;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.info-text {
+  font-size: 14px;
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+
+/* หัวข้อเดือน */
+.month-label {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: blue;
+  border-bottom: 2px solid #ccc;
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+/* 🎨 สีพื้นหลังตามประเภท forUse */
+.foruse-meeting {
+  background-color: #ff66b2; /* ชมพูแก่ */
+  color: #fff;
+}
+
+.foruse-faculty {
+  background-color: #ffd700; /* เหลืองทอง */
+  color: #222;
+}
+
+.foruse-department {
+  background-color: #66b2ff; /* ฟ้า */
+  color: #fff;
+}
+
+.foruse-submeeting {
+  background-color: #66cc66; /* เขียว */
+  color: #fff;
+}
+
+.foruse-seminar {
+  background-color: #ff9999; /* แดงอ่อน */
+  color: #fff;
+}
+
+.foruse-lecture {
+  background-color: #ff3333; /* แดง */
+  color: #fff;
+}
+
+.foruse-training {
+  background-color: #9933ff; /* ม่วง */
+  color: #fff;
+}

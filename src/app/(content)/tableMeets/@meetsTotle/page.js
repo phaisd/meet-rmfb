@@ -1,19 +1,37 @@
 "use client";
 
-import Link from "next/link";
 import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
-import "@/app/(content)/meets/meetsroom.css"; // Import CSS for styling
-import Image from "next/image";
+import "@/app/(content)/meets/meetsroom.css"; // ✅ css แยก
+import "@/app/(content)/useMeets/usemeetModule.css";
 
-const ITEMS_PER_PAGE = 4;
-const AUTO_ADVANCE_INTERVAL = 10000; // 10 วินาที
-
-export default function MeetsTotlePage() {
+export default function MeetsMonthPage() {
   const [meetsList, setMeetsList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [autoAdvance, setAutoAdvance] = useState(true);
+  const [currentMonth, setCurrentMonth] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
+
+  // 🟢 ฟังก์ชันแปลงเดือนเป็นภาษาไทย + ปี พ.ศ.
+  const formatThaiMonthYear = (dateString) => {
+    const date = new Date(dateString);
+    const monthsThai = [
+      "มกราคม",
+      "กุมภาพันธ์",
+      "มีนาคม",
+      "เมษายน",
+      "พฤษภาคม",
+      "มิถุนายน",
+      "กรกฎาคม",
+      "สิงหาคม",
+      "กันยายน",
+      "ตุลาคม",
+      "พฤศจิกายน",
+      "ธันวาคม",
+    ];
+    const month = monthsThai[date.getMonth()];
+    const year = date.getFullYear() + 543; // แปลง ค.ศ. → พ.ศ.
+    return `${month} ${year}`;
+  };
 
   // โหลดข้อมูล
   useEffect(() => {
@@ -21,14 +39,33 @@ export default function MeetsTotlePage() {
     const unsubscribe = onValue(meetsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const sorted = Object.entries(data)
-          .sort(([idA], [idB]) => idB.localeCompare(idA))
-          .map(([id, item]) => ({ id, ...item }));
-        setMeetsList(sorted);
+        const now = new Date();
+        const monthNow = now.toLocaleString("default", { month: "long" });
+        const yearNow = now.getFullYear();
 
-        // เริ่มต้นที่หน้าสุดท้าย
-        const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
-        setCurrentPage(totalPages - 1);
+        setCurrentMonth(monthNow);
+        setCurrentYear(yearNow);
+
+        const filtered = Object.entries(data)
+          .map(([id, item]) => ({ id, ...item }))
+          .filter((item) => {
+            const parts = item.dateUse.split("-");
+            if (parts.length !== 3) return false;
+            const [day, month, year] = parts;
+            return (
+              month.toLowerCase() === monthNow.toLowerCase() &&
+              parseInt(year) === yearNow
+            );
+          })
+          .sort((a, b) => {
+            const parseDate = (d) => {
+              const [day, month, year] = d.dateUse.split("-");
+              return new Date(`${month} ${day}, ${year}`);
+            };
+            return parseDate(a) - parseDate(b); // เรียงวันน้อย → มาก
+          });
+
+        setMeetsList(filtered);
       } else {
         setMeetsList([]);
       }
@@ -36,24 +73,26 @@ export default function MeetsTotlePage() {
     return () => unsubscribe();
   }, []);
 
-  // เลื่อนหน้าอัตโนมัติ
-  useEffect(() => {
-    if (!autoAdvance) return;
-    const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE) || 1;
-    const timer = setInterval(() => {
-      setCurrentPage((prev) => (prev + 1) % totalPages);
-    }, AUTO_ADVANCE_INTERVAL);
-
-    return () => clearInterval(timer);
-  }, [meetsList, autoAdvance]);
-
-  const totalPages = Math.ceil(meetsList.length / ITEMS_PER_PAGE) || 1;
-  const startIndex = currentPage * ITEMS_PER_PAGE;
-  const currentItems = meetsList.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    setAutoAdvance(false);
+  // ฟังก์ชันเลือกสีพื้นหลังตาม forUse
+  const getForUseClass = (forUse) => {
+    switch (forUse) {
+      case "ประชุม":
+        return "foruse-meeting";
+      case "ประชุมคณะ":
+        return "foruse-faculty";
+      case "ประชุมภาค":
+        return "foruse-department";
+      case "ประชุมย่อย":
+        return "foruse-submeeting";
+      case "สัมมนา":
+        return "foruse-seminar";
+      case "บรรยายพิเศษ":
+        return "foruse-lecture";
+      case "อบรม":
+        return "foruse-training";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -65,78 +104,41 @@ export default function MeetsTotlePage() {
         ระบบจองห้องประชุมประจำคณะพุทธศาสตร์ ออนไลน์
         สำหรับการใช้งานการให้บริการแก่คณาจารย์และบุคลากรของมหาวิทยาลัย
       </p>
-      <div className="carousel" style={{ textAlign: "center" }}>
-        <ul className="meets-list">
-          {currentItems.length > 0 ? (
-            currentItems.map((meetsItem) => (
-              <li key={meetsItem.id}>
-                <Link href={`/meets/${meetsItem.id}`}>
-                  <Image
-                    src={`/images/meets/${meetsItem.forUse}.png`}
-                    alt={meetsItem.dateUse}
-                    width={180}
-                    height={65}
-                  />
-                  <div className="card-body">
-                    <span>ส่วนงาน : {meetsItem.agencyUse}</span>
-                    <br />
-                    <span>วันที่ : {meetsItem.dateUse}</span>
-                    <br />
-                    <span>
-                      เวลา : {meetsItem.beginTime}-{meetsItem.toTime}
-                    </span>
-                    <br />
-                    <span className={`status-badge ${meetsItem.resultText}`}>
-                      ห้อง: {meetsItem.resultText}
-                    </span>
-                    <br />
-                    <span
-                      className={`re-operete-badge ${meetsItem.resultOperation}`}
-                    >
-                      ผลบริการ : {meetsItem.resultOperation}
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))
-          ) : (
-            <p>No Meeting available. Create a new Meet Room</p>
-          )}
-        </ul>
+
+      {/* 🟢 ตรงนี้คือหัวเดือนที่แสดงเป็นภาษาไทย */}
+      <div className="month-label">
+        {meetsList.length > 0
+          ? formatThaiMonthYear(meetsList[0].dateChange || meetsList[0].dateUse)
+          : ""}
       </div>
-      {/* Controls */}
-      <div className="controls">
-        <button
-          onClick={() =>
-            handlePageChange((currentPage - 1 + totalPages) % totalPages)
-          }
-        >
-          ◀
-        </button>
 
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            className={i === currentPage ? "active" : ""}
-            onClick={() => handlePageChange(i)}
-          >
-            {i + 1}
-          </button>
-        ))}
-
-        <button
-          onClick={() => handlePageChange((currentPage + 1) % totalPages)}
-        >
-          ▶
-        </button>
-
-        {/* Play / Pause toggle */}
-        <button
-          onClick={() => setAutoAdvance((prev) => !prev)}
-          className="playpause"
-        >
-          {autoAdvance ? "⏸ Pause" : "▶ Play"}
-        </button>
+      <div className="meets-grid">
+        {meetsList.length > 0 ? (
+          meetsList.map((meetsItem) => {
+            const day = meetsItem.dateUse.split("-")[0];
+            return (
+              <div
+                key={meetsItem.id}
+                className={`meet-card ${getForUseClass(meetsItem.forUse)}`}
+              >
+                {/* Row ซ้าย */}
+                <div className="left-date">
+                  <div className="date-box">{day}</div>
+                </div>
+                {/* Row ขวา */}
+                <div className="right-info">
+                  <div className="info-text">{meetsItem.forUse}</div>
+                  <div className="info-text">{meetsItem.agencyUse}</div>
+                  <div className="info-text">
+                    {meetsItem.beginTime} - {meetsItem.toTime} น.
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No Meeting available this month.</p>
+        )}
       </div>
     </div>
   );

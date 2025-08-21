@@ -16,10 +16,10 @@ export default function MainHeader() {
         <nav>
           <ul>
             <li>
-              <NavLink href="/meets">Meets</NavLink>
+              <NavLink href="/meets">MeetToday</NavLink>
             </li>
             <li>
-              <NavLink href="/tableMeets">Table</NavLink>
+              <NavLink href="/tableMeets">Preview</NavLink>
             </li>
             <li>
               <NavLink href="/useMeets">Use</NavLink>
