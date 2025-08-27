@@ -16,16 +16,16 @@ export default function MainHeader() {
         <nav>
           <ul>
             <li>
-              <NavLink href="/meets">MeetToday</NavLink>
+              <NavLink href="/meets">ประชุมวันนี้</NavLink>
             </li>
             <li>
-              <NavLink href="/tableMeets">Preview</NavLink>
+              <NavLink href="/tableMeets">รวมแสดงผล</NavLink>
             </li>
             <li>
-              <NavLink href="/useMeets">Use</NavLink>
+              <NavLink href="/useMeets">ขอใช้บริการ</NavLink>
             </li>
             <li>
-              <NavLink href="/userauth">Service</NavLink>
+              <NavLink href="/userauth">ลงทะเบียน</NavLink>
             </li>
           </ul>
         </nav>

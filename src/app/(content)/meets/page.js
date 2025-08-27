@@ -124,7 +124,7 @@ export default function MeetsPage() {
 
   return (
     <div className="carousel-container">
-      <h1 id="archive-text" style={{ textAlign: "center" }}>
+      <h1 className="archive-title-text" style={{ textAlign: "center" }}>
         การใช้ห้องประชุมประจำคณะ ประจำวัน
       </h1>
       <p id="archive-text" style={{ textAlign: "center" }}>

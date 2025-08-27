@@ -3,6 +3,7 @@
 import { db } from "@/lib/firebaseConfig";
 import { ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
+import "@/app/(content)/tableMeets/tableModle.css";
 
 import {
   BarChart,
@@ -171,7 +172,7 @@ export default function MonthlySummaryAllViews() {
 
   return (
     <div>
-      <h1>สรุปการขอใช้ห้องประชุมประจำคณะพุทธศาสตร์</h1>
+      <h1 className="title-meet">สรุปการขอใช้ห้องประชุมประจำคณะพุทธศาสตร์</h1>
       <p style={{ textAlign: "center" }}>
         ตารางและกราฟแท่งจาก วันใช้งาน, กราฟวงกลมจาก ใช่สำหรับ
       </p>

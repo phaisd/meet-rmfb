@@ -1,7 +1,11 @@
 {
+  "/icon.png/route": "app/icon.png/route.js",
+  "/api/export-to-sheets/route": "app/api/export-to-sheets/route.js",
+  "/(auth)/userauth/page": "app/(auth)/userauth/page.js",
+  "/(meeting)/page": "app/(meeting)/page.js",
   "/(content)/meets/page": "app/(content)/meets/page.js",
+  "/(content)/tableMeets/@tableMeetResult/page": "app/(content)/tableMeets/@tableMeetResult/page.js",
   "/(content)/tableMeets/@meetCurrent/page": "app/(content)/tableMeets/@meetCurrent/page.js",
-  "/(content)/tableMeets/@meetsTotle/page": "app/(content)/tableMeets/@meetsTotle/page.js",
-  "/(content)/tableMeets/@tableMeetAll/page": "app/(content)/tableMeets/@tableMeetAll/page.js",
-  "/(content)/tableMeets/@tableMeetResult/page": "app/(content)/tableMeets/@tableMeetResult/page.js"
+  "/(content)/useMeets/@meetsAll/page": "app/(content)/useMeets/@meetsAll/page.js",
+  "/(content)/useMeets/@meetsMonth/page": "app/(content)/useMeets/@meetsMonth/page.js"
 }
